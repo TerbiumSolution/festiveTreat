@@ -1,0 +1,17 @@
+.background_select{
+    background: #fff;
+    border: 1px solid #004C8F;
+    border-radius: 8px;
+}
+.background_select>svg{
+    stroke:#004C8F;
+    stroke-width: 3px!important;
+}
+.background_select>span{
+    color: #004C8F;
+    font-size: calc(16px * var(--font-scale-multiplier, 1));
+    font-weight: 600;
+}
+.background_select:focus-visible{
+    box-shadow: none;
+}

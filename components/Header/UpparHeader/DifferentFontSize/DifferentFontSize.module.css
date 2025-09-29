@@ -1,0 +1,6 @@
+.font_wrapper{
+    display: flex;
+    gap: 8px;
+    color: #fff;
+    cursor: pointer;
+}

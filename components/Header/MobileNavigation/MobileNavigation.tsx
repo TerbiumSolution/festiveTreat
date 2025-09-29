@@ -1,0 +1,180 @@
+"use client"
+
+import * as React from "react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTrigger,
+  SheetClose,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
+import { ServiceType } from "@/model/serviceType";
+import { ServiceConstant } from "@/lib/constants/constants";
+import { Menu, X, ChevronDown } from "lucide-react";
+import Link from "next/link";
+
+type MenuItem = {
+  label: string;
+  href?: string; // direct link
+  children?: { label: string; href: string }[]; // dropdown items
+};
+
+const buildMenuItems = (services: ServiceType[]): MenuItem[] => {
+  return [
+    {
+      label: "Online Bill Payment",
+      href: "/online-recharge-bill-payments",
+    },
+    {
+      label: "Recharge and Bill Payments",
+      children: services
+        .filter(
+          (s) =>
+            s.serviceType === ServiceConstant.RECHARGE_SERVICE ||
+            s.serviceType === ServiceConstant.UTILITY_SERVICE
+        )
+        .map((s) => ({
+          label: s.name,
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${s.slug ?? "#"}`,
+        })),
+    },
+    {
+      label: "Financial and Other Services",
+      children: services
+        .filter((s) =>
+          s.serviceType === ServiceConstant.FINANCIAL_SERVICE ||
+          s.serviceType === ServiceConstant.OTHER_SERVICE
+        )
+        .map((s) => ({
+          label: s.name,
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${s.slug ?? "#"}`,
+        })),
+    },
+    { label: "What Users Say", href: "#" },
+    { label: "Help Center", href: "#" },
+  ];
+};
+
+type HdfcLogoProps = React.SVGProps<SVGSVGElement> & {
+  size?: number
+  strokeWidth?: number
+}
+const HdfcLogo = ({
+  size = 178,
+  strokeWidth = 1.5,
+  width=178,
+  height=35,
+  ...props
+}: HdfcLogoProps) => {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="none"
+      focusable="false"
+      height={height || size}
+      width={width || size}
+      role="presentation"
+      viewBox="0 0 178 35"
+      {...props}
+    >
+    <g clipPath="url(#clip0_86_1232)">
+        <path d="M3 1.5H1.5V3V31.6689V33.1689H3H175H176.5V31.6689V3V1.5H175H3Z" fill="#004C8F" stroke="white" strokeWidth={strokeWidth}/>
+        <path d="M31.668 3H175V31.6689H31.668V3Z" fill="#004C8F"/>
+        <path d="M40.7812 24.116V10.5511H45.2432V15.1295H49.4244V10.5511H53.8929V24.116H49.4244V18.8529H45.2432V24.116H40.7812ZM60.9539 13.9217H62.1106C62.9432 13.9217 63.5524 14.008 63.9418 14.1811C64.2299 14.3069 64.4642 14.495 64.6697 14.776C64.8572 15.0534 65.0087 15.4033 65.1201 15.843C65.2214 16.2792 65.2752 16.7405 65.2752 17.2269C65.2752 18.0202 65.1674 18.6834 64.9326 19.2208C64.7056 19.7576 64.3779 20.1434 63.9562 20.3812C63.5345 20.6233 62.9074 20.7383 62.0784 20.7383L60.9539 20.7455V13.9217ZM62.6768 24.116C63.7292 24.116 64.6013 24.0298 65.3147 23.8386C66.0323 23.6547 66.6157 23.4097 67.0626 23.1173C67.5172 22.8178 67.9276 22.4146 68.3061 21.9131C68.6811 21.3943 69.0095 20.7419 69.2646 19.9421C69.5282 19.1453 69.6539 18.2472 69.6539 17.2311C69.6539 15.7388 69.3694 14.4771 68.7931 13.4244C68.2091 12.3934 67.416 11.6469 66.4031 11.2078C65.3944 10.7674 64.1904 10.5511 62.7917 10.5511H56.5891V24.116H62.6768ZM71.6984 24.116V10.5511H82.2798V13.8965H76.1023V16.0701H81.044V19.325H76.1023V24.116H71.6984ZM97.2226 15.7388H93.0097C92.93 15.0642 92.6851 14.531 92.2778 14.1488C91.8669 13.7737 91.3517 13.5898 90.7174 13.5898C89.9278 13.5898 89.2864 13.8965 88.7928 14.5022C88.2956 15.1151 88.0464 16.106 88.0464 17.469C88.0464 18.4204 88.1585 19.1345 88.3638 19.621C88.5765 20.1218 88.8754 20.4825 89.2467 20.7239C89.6289 20.9654 90.0937 21.0774 90.6664 21.0774C91.3516 21.0774 91.8992 20.9036 92.2994 20.5076C92.7103 20.1362 92.9481 19.5814 93.0278 18.8385H97.3165C97.2225 19.6821 97.053 20.3884 96.808 20.9654C96.5744 21.5387 96.1558 22.1084 95.5903 22.6812C95.0097 23.2664 94.312 23.7224 93.5429 24.019C92.7533 24.3323 91.8417 24.4803 90.7965 24.4803C89.7662 24.4803 88.8035 24.3323 87.9349 24.0298C87.0556 23.7194 86.3129 23.2797 85.7217 22.7279C85.1197 22.1552 84.6512 21.5135 84.3163 20.7886C83.833 19.7689 83.606 18.6474 83.606 17.3965C83.606 16.3511 83.7755 15.3595 84.1182 14.4519C84.4602 13.5503 84.9328 12.7828 85.5342 12.1627C86.1398 11.5457 86.7992 11.0843 87.5348 10.7746C88.4644 10.378 89.4881 10.1875 90.6233 10.1875C91.611 10.1875 92.5263 10.3313 93.3913 10.623C94.2526 10.9154 94.9595 11.3408 95.5105 11.9069C96.0653 12.4657 96.5029 13.1297 96.7973 13.86C97.0135 14.3758 97.1507 14.9995 97.2226 15.7388ZM111.514 13.6048C112.144 13.6048 112.552 13.6335 112.753 13.691C113.002 13.7618 113.222 13.9079 113.384 14.1092C113.542 14.3111 113.626 14.5454 113.626 14.8162C113.626 15.1618 113.488 15.4464 113.226 15.6627C112.944 15.8903 112.465 15.9946 111.776 15.9946H110.097V13.6042L111.514 13.6048ZM112.634 24.116C113.69 24.116 114.433 24.0657 114.869 23.9723C115.324 23.861 115.768 23.7038 116.192 23.5032C116.631 23.2725 116.97 23.0562 117.193 22.8184C117.54 22.4973 117.795 22.1084 117.983 21.6393C118.17 21.1673 118.264 20.634 118.264 20.0607C118.264 19.2423 118.062 18.5683 117.652 18.0202C117.241 17.469 116.689 17.1047 115.994 16.9064C117.172 16.1635 117.759 15.205 117.759 14.0367C117.759 12.8295 117.241 11.9069 116.213 11.2797C115.42 10.7962 114.184 10.5511 112.508 10.5511H105.779V24.116H112.634ZM111.917 18.4347C112.8 18.4347 113.373 18.5426 113.662 18.7702C113.928 18.9901 114.073 19.2927 114.073 19.7C114.073 20.111 113.928 20.4357 113.636 20.6628C113.358 20.9042 112.779 21.0049 111.917 21.0049H110.097V18.4347H111.917ZM128.064 19.5563H125.227L126.626 14.6209L128.064 19.5563ZM123.894 24.116L124.409 22.3355H128.849L129.369 24.116H133.806L128.94 10.5511H124.409L119.54 24.116H123.894ZM135.679 24.116V10.5511H139.835L144.524 17.8147V10.5511H148.799V24.116H144.553L139.964 17.0328V24.116H135.679ZM151.772 24.116V10.5511H156.094V15.0246L160.127 10.5511H165.367L160.397 15.6591L165.883 24.116H160.542L157.279 18.7121L156.093 19.884V24.116H151.772Z" fill="white"/>
+        <path d="M3 3H31.6642V31.6689H3V3Z" fill="#ED232A"/>
+        <path d="M8.01562 8.01758H26.6495V26.6545H8.01562V8.01758Z" fill="white"/>
+        <path d="M15.9023 3H18.768V31.6689H15.9023V3Z" fill="white"/>
+        <path d="M3 15.9062H31.6642V18.7724H3V15.9062Z" fill="white"/>
+        <path d="M13.0312 13.0352H21.6306V21.6365H13.0312V13.0352Z" fill="#004C8F"/>
+    </g>
+    <defs>
+        <clipPath id="clip0_86_1232">
+            <rect width="178" height="35" fill="white"/>
+        </clipPath>
+    </defs>
+</svg>
+  )
+}
+export default function MobileNavigation({ services }: { services: ServiceType[] }) {
+  const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
+
+  const menuItems = React.useMemo(() => buildMenuItems(services), [services]);
+
+  const toggleDropdown = (menu: string) => {
+    setOpenDropdown(openDropdown === menu ? null : menu);
+  };
+
+  return (
+    <Sheet>
+      <SheetTrigger>
+        <Menu className="w-6 h-6" stroke="#fff" />
+      </SheetTrigger>
+      <SheetContent className="w-full [&>button]:hidden p-0 flex flex-col h-full gap-0">
+        {/* Header with logo + close */}
+        <div className="w-full px-3 py-4 bg-[#004C8F] relative flex-shrink-0">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            {/* Logo placeholder */}
+            <HdfcLogo strokeWidth={2.5} className="flex items-center"/>
+            <SheetClose className="absolute right-4 top-4 rounded-sm transition hover:opacity-100">
+              <X className="h-6 w-6 stroke-white" strokeWidth={2.5} />
+              <span className="sr-only">Close</span>
+            </SheetClose>
+          </div>
+        </div>
+
+        {/* Menu List */}
+        <div className="flex-1 overflow-y-auto">
+          <SheetHeader className="pt-0 px-0">
+            <VisuallyHidden>
+              <SheetTitle>Navigation Menu</SheetTitle>
+            </VisuallyHidden>
+            <nav className="mt-0 space-y-3">
+              {menuItems.map((item) => (
+                <div key={item.label} className={`${openDropdown === item.label ? "bg-[#eff8ff]" : ""} border-t border-[#e5e5e5] py-5 rounded-[0] mb-0`}>
+                  {item.children ? (
+                    <>
+                      <button
+                        onClick={() => toggleDropdown(item.label)}
+                        className={`flex items-center justify-between w-full text-[#636363] text-[15px] font-bold px-3 ${openDropdown === item.label ? "bg-[#eff8ff] !text-[#004c8f]" : ""}`}
+                      >
+                        {item.label}
+                        <ChevronDown
+                          className={`w-5 h-5 transition-transform ${
+                            openDropdown === item.label ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+
+                      {openDropdown === item.label && (
+                        <div className="mt-2 ml-0 flex flex-col space-y-2 pt-2 pl-8 pb-3">
+                          {item.children.map((child) => (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              className="text-[#004c8f] block text-[15px] font-bold"
+                            >
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Link
+                      href={item.href!}
+                      className="text-[#636363] block text-[15px] font-bold px-3"
+                    >
+                      {item.label}
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </nav>
+          </SheetHeader>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}

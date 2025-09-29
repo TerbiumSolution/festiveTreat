@@ -1,0 +1,13 @@
+.navigation_menu{
+    background: transparent;
+    color: #fff;
+    font-size: calc(16px * var(--font-scale-multiplier, 1));
+    font-weight: 600;
+}
+.upper_sub_menu{
+    border-right: 1px solid #fff;
+}
+.navigation_subMenu ul li{
+    font-size: calc(16px * var(--font-scale-multiplier, 1));
+    font-weight: 600;
+}

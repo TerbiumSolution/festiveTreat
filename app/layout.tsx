@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { fontSans } from "@/config/fonts";
+import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
 
 
 export const metadata: Metadata = {
@@ -16,10 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${fontSans.variable} font-sans antialiased`}
-      >
+      <body className={`${fontSans.variable} font-sans antialiased`}>
+        <Header/>
         {children}
+        <Footer/>
       </body>
     </html>
   );

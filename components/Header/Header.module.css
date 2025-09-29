@@ -1,0 +1,49 @@
+.button_border{
+    border: 1px solid #fff;
+    width: 61px;
+    border-radius: 3100px;
+    background: transparent !important;
+    height: 28px;
+    justify-content: space-around;
+}
+.button_borderhover{
+    background: transparent!important;
+}
+.white_mode{
+    background: #fff;
+    border-radius: 50%;
+    padding: 3px;
+}
+.dark_mode{
+    background: transparent;
+    border-radius: 50%;
+    padding: 3px;
+}
+.dark_mode_svg{
+    width: 21px;
+    height: 21px;
+}
+.unfixed_header{
+    box-shadow: 8px 3px 24px 0px rgba(137, 143, 150, 0.2);
+}
+@media (max-width: 1300px) and (min-width: 1200px){
+    .header_upper_section_wrapper{
+        margin: 0 20px 0 0;
+    }
+}
+@media (max-width: 1200px) and (min-width: 1024px){
+    .header_upper_section_wrapper{
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+@media(max-width: 1024px){
+    .hdfc_logo{
+        width: 150px!important;;
+    }
+}
+@media(max-width: 992px){
+    .mobile_hamburger .login_class{
+        padding: 5px 3px 5px 14px;
+    }
+}

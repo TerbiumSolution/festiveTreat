@@ -1,0 +1,14 @@
+.login_button{
+    background: #ED232A;
+    height: 100%;
+    margin-left: 20px;
+    padding: 10px 3px 10px 14px;
+}
+.login_button span{
+    color: #fff;
+    font-size: calc(14px * var(--font-scale-multiplier, 1));
+}
+.login_button svg{
+    stroke: #fff;
+    stroke-width: 2.5px;
+}

@@ -1,0 +1,14 @@
+.breadcrumb_text{
+    color: var(--card-foreground);
+    font-weight: 400;
+    font-size: calc(14px * var(--font-scale-multiplier, 1));
+}
+.seperator,.seperator svg{
+    height: 22px;
+    width: 19px;
+}
+/* @media (max-width: 1300px){
+    .breadcrumb_wrapper{
+        margin-left: 24px;
+    }
+} */

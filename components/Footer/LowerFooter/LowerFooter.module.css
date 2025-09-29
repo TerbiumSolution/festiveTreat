@@ -1,0 +1,74 @@
+.unordered_list{
+    text-align: left;
+    gap: 5px;
+}
+.list_item:not(:last-child):after {
+    content: '|';
+    padding: 0 2px 0 5px;
+    color: var(--footer-color);
+}
+.list_item a{
+    font-size: calc(14px * var(--font-scale-multiplier, 1));
+    font-weight: 400;
+    color: var(--footer-color);
+}
+/* .image_wrapper{
+    width: 70px;
+    height: 70px;
+} */
+.logo_text{
+    color: var(--footer-upper-foreground);
+}
+@media (min-width: 1025px){
+    .lower_left_wrapper{
+        display: flex;
+        flex: auto;
+        align-items: center;
+        justify-content: end;
+    }
+}
+@media (max-width: 1024px){
+    .lower_footer_wrapper{
+        flex-direction: column;
+        gap: 25px;
+        align-items: normal;
+    }
+    .hdfc_logo{
+        width: 200px;
+        height: 50px;
+    }
+    .commercial_logo{
+        flex-direction: column-reverse;
+        gap: 25px;
+    }
+}
+@media (max-width: 768px){
+    .logo_text{
+        font-size: calc(14px * var(--font-scale-multiplier, 1));
+    }
+}
+.floatCta{
+    background: var(--lower-footer);
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    left: 0;
+    z-index: 999;
+    transition: all 0.4s ease-in-out;
+    opacity: 0;
+    transform: translateY(40px);
+    pointer-events: none;
+    text-align: center;
+    padding: 8px 0px;
+}
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.hidden {
+  opacity: 0;
+  transform: translateY(40px);
+  pointer-events: none;
+}
