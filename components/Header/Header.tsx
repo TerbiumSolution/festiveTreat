@@ -1,12 +1,7 @@
 'use client'
-import { useState, useEffect } from 'react';
-// import { DesktopNavigation } from "@/components/Header/DesktopNavigation/DesktopNavigation";
 import UpparHeader from "@/components/Header/UpparHeader/UpparHeader";
-import styles from "@/components/Header/Header.module.css"
-// import SearchBox from "./DesktopNavigation/SearchBox/SearchBox";
-// import { Login } from "./DesktopNavigation/Login/Login";
-// import MobileNavigation from "./MobileNavigation/MobileNavigation";
-// src/components/Header/Header.tsx
+import styles from "@/components/Header/Header.module.css";
+import MobileNavigation from "./MobileNavigation/MobileNavigation";
 type HdfcLogoProps = React.SVGProps<SVGSVGElement> & {
   size?: number
   strokeWidth?: number
@@ -82,7 +77,7 @@ export default function Header({}) {
         <div className="lg:hidden flex justify-between p-4 fixed top-0 left-0 right-0 z-50 bg-[#004C8F]">
           <HdfcLogo strokeWidth={2.5} height={30} width={100} className={`${styles.hdfc_logo}`}/>
           <div className="flex gap-3 items-center">
-            {/* <MobileNavigation services={services}/> */}
+            <MobileNavigation/>
           </div>
         </div>
     </header>

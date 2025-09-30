@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import Link from "next/link"
-import Image from "next/image"
 import styles from "@/components/Header/DesktopNavigation/DesktopNavigation.module.css"
 import {
   NavigationMenu,
@@ -13,7 +12,6 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { use } from "react";
 const otherServices: { title: string; href: string; icon: string }[] = [
   {
     title: "Credit Card Bill Payment",
@@ -151,7 +149,6 @@ function ListItem({
     <li {...props}>
       <NavigationMenuLink asChild>
         <Link href={href} className="flex flex-row items-center gap-2">
-          {/* <Image src={icon} alt={title} width={20} height={20} className="h-4 w-4" /> */}
           <div className="text-sm leading-none font-medium">{title}</div>
         </Link>
       </NavigationMenuLink>

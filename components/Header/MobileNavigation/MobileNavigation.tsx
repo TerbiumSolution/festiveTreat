@@ -6,12 +6,8 @@ import {
   SheetContent,
   SheetHeader,
   SheetTrigger,
-  SheetClose,
-  SheetTitle,
+  SheetClose
 } from "@/components/ui/sheet";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
-import { ServiceType } from "@/model/serviceType";
-import { ServiceConstant } from "@/lib/constants/constants";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
 
@@ -21,42 +17,37 @@ type MenuItem = {
   children?: { label: string; href: string }[]; // dropdown items
 };
 
-const buildMenuItems = (services: ServiceType[]): MenuItem[] => {
-  return [
-    {
-      label: "Online Bill Payment",
-      href: "/online-recharge-bill-payments",
-    },
-    {
-      label: "Recharge and Bill Payments",
-      children: services
-        .filter(
-          (s) =>
-            s.serviceType === ServiceConstant.RECHARGE_SERVICE ||
-            s.serviceType === ServiceConstant.UTILITY_SERVICE
-        )
-        .map((s) => ({
-          label: s.name,
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${s.slug ?? "#"}`,
-        })),
-    },
-    {
-      label: "Financial and Other Services",
-      children: services
-        .filter((s) =>
-          s.serviceType === ServiceConstant.FINANCIAL_SERVICE ||
-          s.serviceType === ServiceConstant.OTHER_SERVICE
-        )
-        .map((s) => ({
-          label: s.name,
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${s.slug ?? "#"}`,
-        })),
-    },
-    { label: "What Users Say", href: "#" },
-    { label: "Help Center", href: "#" },
-  ];
-};
-
+const menuItems: MenuItem[] = [
+  { label: "Online Bill Payment", href: "/online-recharge-bill-payments" }, // ✅ just add here, no code changes
+  {
+    label: "Recharge and Bill Payments",
+    children: [
+      { label: "Mobile Recharge", href: "/mobile-recharge" },
+      { label: "Gas Cylinder", href: "/gas-cylinder" },
+      { label: "Piped Gas", href: "/piped-gas" },
+    ],
+  },
+  {
+    label: "Financial and Other Services",
+    children: [
+      { label: "Credit Card Bill Payment", href: "/credit-card-bill-payment" },
+      { label: "Housing Society", href: "/housing-society" },
+      { label: "Clubs and Association", href: "/clubs-and-association" },
+      { label: "Hospital", href: "/hospital" },
+      { label: "Donation", href: "/donation" },
+      { label: "Hospital and Pathology", href: "/hospital-and-pathology" },
+      { label: "Recurring Deposit", href: "/recurring-deposit" },
+      { label: "Municipal Services", href: "/municipal-services" },
+      { label: "Municipal Tax", href: "/municipal-tax" },
+      { label: "Loan", href: "/loan" },
+      { label: "Insurance", href: "/insurance" },
+      { label: "Mutual Funds", href: "/mutual-funds" },
+      { label: "Subscription", href: "/subscription" },
+    ],
+  },
+  { label: "What Users Say", href: "#" }, // ✅ just add here, no code changes
+  { label: "Help Center", href: "#" }, // ✅ just add here, no code changes
+];
 type HdfcLogoProps = React.SVGProps<SVGSVGElement> & {
   size?: number
   strokeWidth?: number
@@ -97,10 +88,8 @@ const HdfcLogo = ({
 </svg>
   )
 }
-export default function MobileNavigation({ services }: { services: ServiceType[] }) {
+export default function MobileNavigation() {
   const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
-
-  const menuItems = React.useMemo(() => buildMenuItems(services), [services]);
 
   const toggleDropdown = (menu: string) => {
     setOpenDropdown(openDropdown === menu ? null : menu);
@@ -127,9 +116,6 @@ export default function MobileNavigation({ services }: { services: ServiceType[]
         {/* Menu List */}
         <div className="flex-1 overflow-y-auto">
           <SheetHeader className="pt-0 px-0">
-            <VisuallyHidden>
-              <SheetTitle>Navigation Menu</SheetTitle>
-            </VisuallyHidden>
             <nav className="mt-0 space-y-3">
               {menuItems.map((item) => (
                 <div key={item.label} className={`${openDropdown === item.label ? "bg-[#eff8ff]" : ""} border-t border-[#e5e5e5] py-5 rounded-[0] mb-0`}>

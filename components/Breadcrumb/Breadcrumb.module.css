@@ -1,5 +1,5 @@
 .breadcrumb_text{
-    color: var(--card-foreground);
+    /* color: var(--card-foreground); */
     font-weight: 400;
     font-size: calc(14px * var(--font-scale-multiplier, 1));
 }

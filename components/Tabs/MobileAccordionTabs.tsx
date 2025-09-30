@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { ChevronRight, CircleQuestionMark } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import FAQSection from "../FAQ/FAQ";
 type MobileAccordionTabsProps = {
   className?: string;
@@ -17,42 +17,11 @@ export default function MobileAccordionTabs({className}:MobileAccordionTabsProps
     const cities = [
     "Mumbai","Pune","Bengalaru","Kolkata","Srinagar","Hyderabad", "Lucknow", "Patna", "Indore", "Thane", "Bhopal", "Patna", "Vadodara", "Ghaziabad","Agra","Nashik","Faridabad","Aurangabad"
 ];
-const faqs = [
-  {
-    question: 'What is a Credit Card?',
-    answer:
-      'A Credit Card is a financial instrument or facility provided by banks. It comes with a predetermined credit limit. You can utilise this credit limit to make cashless offline and online payments for products and services using your Credit Cards.',
-  },
-  {
-    question: 'What is the purpose of a Credit Card?',
-    answer:
-      'A Credit Card is a financial instrument or facility provided by banks. It comes with a predetermined credit limit. You can utilise this credit limit to make cashless offline and online payments for products and services using your Credit Cards.',
-  },
-  {
-    question: 'How does a Credit Card Work?',
-    answer:
-      'A Credit Card is a financial instrument or facility provided by banks. It comes with a predetermined credit limit. You can utilise this credit limit to make cashless offline and online payments for products and services using your Credit Cards.',
-  },
-  {
-    question: 'How to apply for a Credit Card?',
-    answer:
-      'A Credit Card is a financial instrument or facility provided by banks. It comes with a predetermined credit limit. You can utilise this credit limit to make cashless offline and online payments for products and services using your Credit Cards.',
-  },
-  {
-    question: 'How to check eligibility for an HDFC Bank Credit Card?',
-    answer:
-      'A Credit Card is a financial instrument or facility provided by banks. It comes with a predetermined credit limit. You can utilise this credit limit to make cashless offline and online payments for products and services using your Credit Cards.',
-  },
-  {
-    question: 'How to manage a Credit Card?',
-    answer:
-      'A Credit Card is a financial instrument or facility provided by banks. It comes with a predetermined credit limit. You can utilise this credit limit to make cashless offline and online payments for products and services using your Credit Cards.',
-  },
-];
+
 const [showAll, setShowAll] = useState(false);
 const displayedStates = showAll ? states : states.slice(0, 10);
 const displayedCities = showAll ? cities : cities.slice(0, 10);
-const displayedFaqs = showAll ? faqs : faqs.slice(0, 4);
+// const displayedFaqs = showAll ? faqs : faqs.slice(0, 4);
   return (
     <section>
         <Accordion type="single" collapsible className={`${className} md:pt-15 md:pb-15 md:px-16 px-4 py-10 w-full`}>

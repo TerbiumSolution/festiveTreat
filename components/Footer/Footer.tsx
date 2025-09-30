@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import UpperFooter from "@/components/Footer/UpperFooter/UpperFooter";
 import LowerFooter from "./LowerFooter/LowerFooter";
 import { Download } from "lucide-react";
+import BreadcrumbWrapper from "../Breadcrumb/Breadcrumb";
 // import DownloadPayzapp from "@/components/Dialog/DownloadPayzapp";
 
 export default function Footer(
@@ -25,6 +26,7 @@ export default function Footer(
 
   return (
     <>
+      <BreadcrumbWrapper className={`bg-[#fff] shadow-[0px_12px_19.2px_-1px_#0000001A]`}/>
       <div className="bg-[#1F2A37] md:pt-15 md:pb-15 md:px-16 px-4 py-10">
         <div className="max-w-7xl mx-auto text-center">
           <UpperFooter />
