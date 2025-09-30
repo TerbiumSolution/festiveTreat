@@ -109,8 +109,8 @@ export function DesktopNavigation() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger className="text-white hover:!text-white focus:!text-white">Financial and Other Services</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+          <NavigationMenuContent className="right-[-30px] left-auto">
+            <ul className="grid w-max gap-2 md:grid-cols-3">
               {otherServices.map((other) => (
                 <ListItem
                   key={other.title}
