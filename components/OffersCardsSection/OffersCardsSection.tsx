@@ -171,7 +171,7 @@ export default function OffersCardsSection() {
                                 href=""
                                 className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
                               >
-                              Apply Now
+                              Get Offer
                               </Link>
                           </div>
                       </div>

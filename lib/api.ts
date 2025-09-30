@@ -193,14 +193,6 @@ const categoryQuery = (page: number = 1, slug?: string) => qs.stringify({
                   },
                }
             },
-            merchants: {
-               filters: {
-                  isActive: {
-                     $eq: true,
-                  },
-               },
-               fields: '*',
-            }
          }
       }
    },

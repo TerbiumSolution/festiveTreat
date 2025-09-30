@@ -56,13 +56,12 @@ export async function generateMetadata({ params }: Props) {
 };
 
 export default async function Page({ params }: Props) {
-  const { layout, blocks, states, state, city } = await getPageBlocks();
-
+  const { layout, blocks, categories, states } = await getPageBlocks();
   if (layout === LayoutConstant.PAGE_NOT_FOUND) return notFound();
 
   return (
     blocks.map((block: any, index: number) =>
-      <div key={index}>{BlockRenderer(layout, block, states, state, city)}</div>
+      <div key={index}>{BlockRenderer(layout, block, categories, states)}</div>
     )
   );
 }

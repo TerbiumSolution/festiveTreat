@@ -50,45 +50,22 @@ export async function getSeoBlock(
          } else
             return { metaTitle: seoComponent?.metaTitle, metaDescription: seoComponent?.metaDescription, category, subcategory, state, city };
       case LayoutConstant.CATEGORY_STATE:
-         if (category?.categoryStateContent?.seo?.metaTitle && category?.categoryStateContent?.seo?.metaDescription) {
-            return { metaTitle: category.categoryStateContent.seo.metaTitle, metaDescription: category.categoryStateContent.seo.metaDescription, category, subcategory, state, city };
-         } else
-            return { metaTitle: seoComponent?.metaTitle, metaDescription: seoComponent?.metaDescription, category, subcategory, state, city };
       case LayoutConstant.CATEGORY_CITY:
-         if (category?.categoryCityContent?.seo?.metaTitle && category?.categoryCityContent?.seo?.metaDescription) {
-            return { metaTitle: category.categoryCityContent.seo.metaTitle, metaDescription: category.categoryCityContent.seo.metaDescription, category, subcategory, state, city };
-         } else
-            return { metaTitle: seoComponent?.metaTitle, metaDescription: seoComponent?.metaDescription, category, subcategory, state, city };
+      case LayoutConstant.SUBCATEGORY_STATE:
+      case LayoutConstant.SUBCATEGORY_CITY:
+      case LayoutConstant.MERCHANT_STATE:
+      case LayoutConstant.MERCHANT_CITY:
+         return { metaTitle: seoComponent?.metaTitle, metaDescription: seoComponent?.metaDescription, category, subcategory, state, city };
       case LayoutConstant.SUBCATEGORY:
          if (subcategory?.subcategoryContent?.seo?.metaTitle && subcategory?.subcategoryContent?.seo?.metaDescription) {
             return { metaTitle: subcategory.subcategoryContent.seo.metaTitle, metaDescription: subcategory.subcategoryContent.seo.metaDescription, category, subcategory, state, city };
          } else
             return { metaTitle: seoComponent?.metaTitle, metaDescription: seoComponent?.metaDescription, category, subcategory, state, city };
-      case LayoutConstant.SUBCATEGORY_STATE:
-         if (subcategory?.subcategoryStateContent?.seo?.metaTitle && subcategory?.subcategoryStateContent?.seo?.metaDescription) {
-            return { metaTitle: subcategory.subcategoryStateContent.seo.metaTitle, metaDescription: subcategory.subcategoryStateContent.seo.metaDescription, category, subcategory, state, city };
-         } else
-            return { metaTitle: seoComponent?.metaTitle, metaDescription: seoComponent?.metaDescription, category, subcategory, state, city };
-      case LayoutConstant.SUBCATEGORY_CITY:
-         if (subcategory?.subcategoryCityContent?.seo?.metaTitle && subcategory?.subcategoryCityContent?.seo?.metaDescription) {
-            return { metaTitle: subcategory.subcategoryCityContent.seo.metaTitle, metaDescription: subcategory.subcategoryCityContent.seo.metaDescription, category, subcategory, state, city };
-         } else
-            return { metaTitle: seoComponent?.metaTitle, metaDescription: seoComponent?.metaDescription, category, subcategory, state, city };
-      case LayoutConstant.MERCHANT:
-         if (merchant?.merchantContent?.seo?.metaTitle && merchant?.merchantContent?.seo?.metaDescription) {
-            return { metaTitle: merchant.merchantContent.seo.metaTitle, metaDescription: merchant.merchantContent.seo.metaDescription, category, subcategory, state, city, merchant };
-         } else
-            return { metaTitle: seoComponent?.metaTitle, metaDescription: seoComponent?.metaDescription, category, subcategory, state, city };
-      case LayoutConstant.MERCHANT_STATE:
-         if (merchant?.merchantStateContent?.seo?.metaTitle && merchant?.merchantStateContent?.seo?.metaDescription) {
-            return { metaTitle: merchant.merchantStateContent.seo.metaTitle, metaDescription: merchant.merchantStateContent.seo.metaDescription, category, subcategory, state, city, merchant };
-         } else
-            return { metaTitle: seoComponent?.metaTitle, metaDescription: seoComponent?.metaDescription, category, subcategory, state, city };
-      case LayoutConstant.MERCHANT_CITY:
-         if (merchant?.merchantCityContent?.seo?.metaTitle && merchant?.merchantCityContent?.seo?.metaDescription) {
-            return { metaTitle: merchant.merchantCityContent.seo.metaTitle, metaDescription: merchant.merchantCityContent.seo.metaDescription, category, subcategory, state, city, merchant };
-         } else
-            return { metaTitle: seoComponent?.metaTitle, metaDescription: seoComponent?.metaDescription, category, subcategory, state, city };
+      // case LayoutConstant.MERCHANT:
+      //    if (merchant?.merchantContent?.seo?.metaTitle && merchant?.merchantContent?.seo?.metaDescription) {
+      //       return { metaTitle: merchant.merchantContent.seo.metaTitle, metaDescription: merchant.merchantContent.seo.metaDescription, category, subcategory, state, city, merchant };
+      //    } else
+      //       return { metaTitle: seoComponent?.metaTitle, metaDescription: seoComponent?.metaDescription, category, subcategory, state, city };
       default:
          return { metaTitle: 'Festive Treats', metaDescription: '', category, state, city }
    }

@@ -21,7 +21,6 @@ export default function RootLayout({
       <body className={`${fontSans.variable} font-sans antialiased`}>
         {children}
         <ScrollToTop />
-        <Footer/>
       </body>
     </html>
   );

@@ -1,4 +1,7 @@
 import { ComponentPropsType } from "@/model/componentPropsType";
+import { CategoryType } from "@/model/categoryType";
+import { SubcategoryType } from "@/model/subcategoryType";
+import { MerchantType } from "@/model/merchantType";
 import { StateType } from "@/model/stateType";
 import { CityType } from "@/model/cityType";
 import dynamic from "next/dynamic";
@@ -15,11 +18,15 @@ const MobileAccordionTabs = dynamic(() => import('@/components/Tabs/MobileAccord
 export function BlockRenderer(
    layout: string,
    block: any,
+   categories: CategoryType[],
    states: StateType[],
+   category?: CategoryType,
+   subcategory?: SubcategoryType,
+   merchant?: MerchantType,
    state?: StateType,
-   city?: CityType
+   city?: CityType,
 ) {
-   const contextProps: ComponentPropsType = { layout, states, state, city };
+   const contextProps: ComponentPropsType = { layout, categories, states, category, subcategory, merchant, state, city };
 
    switch (block.__component) {
       case "shared.seo-header":
@@ -29,7 +36,7 @@ export function BlockRenderer(
       case "shared.hero-banner":
          return <HeroBanner />
       case "offer.category-tab":
-         return <OfferNavSection />
+         return <OfferNavSection context={contextProps} />
       case "offer.category-list":
          return <OffersSection />
       case "offer.interlink":
