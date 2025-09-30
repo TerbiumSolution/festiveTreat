@@ -26,7 +26,7 @@ export default function Footer(
 
   return (
     <>
-      <BreadcrumbWrapper className={`bg-[#fff] shadow-[0px_12px_19.2px_-1px_#0000001A]`}/>
+      <BreadcrumbWrapper className={`bg-[#fff] shadow-[inset_1px_8px_20px_4px_rgba(0,0,0,0.1)]`}/>
       <div className="bg-[#1F2A37] md:pt-15 md:pb-15 md:px-16 px-4 py-10">
         <div className="max-w-7xl mx-auto text-center">
           <UpperFooter />
@@ -35,10 +35,9 @@ export default function Footer(
       <LowerFooter className={`md:pb-10 md:px-16 px-4 py-4`} />
       {isVisible && (
         <div className="button_wrapper px-4 py-2">
-          <div className="animate_li">
+          {/* <div className="animate_li">
             <Download />
-            {/* <DownloadPayzapp className='miss_call' /> */}
-          </div>
+          </div> */}
         </div>
       )}
     </>
