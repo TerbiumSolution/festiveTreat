@@ -1,0 +1,27 @@
+.unordered_list{
+    text-align: left;
+    gap: 5px;
+}
+.list_item:not(:last-child):after {
+    content: '|';
+    padding: 0 2px 0 5px;
+    color: #fff;
+}
+.list_item a{
+    font-size: calc(14px * var(--font-scale-multiplier, 1));
+    font-weight: 400;
+    color: #f9fafb;
+}
+.popular_searches{
+    font-weight: 700;
+    font-size: calc(14px * var(--font-scale-multiplier, 1));
+    color: rgba(249, 250, 251, 1);
+    gap: 30px;
+}
+@media (max-width: 1024px){
+    .popular_searches{
+        flex-direction: column;
+        text-align: left;
+        gap: 15px;
+    }
+}

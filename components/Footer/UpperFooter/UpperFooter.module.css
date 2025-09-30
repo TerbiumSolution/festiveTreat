@@ -1,0 +1,30 @@
+.footer_heading{
+    font-size: calc(36px * var(--font-scale-multiplier, 1));
+    color: #fff;
+    font-weight: 600;
+}
+.phone_button button svg{
+    display: inline-block;
+    margin-right: 8px;
+}
+.phone_button button{
+    border: 1px solid #F9FAFB99;
+    border-radius: 8px;
+    padding: 10px 30px;
+    color: #fff;
+    font-size: calc(16px * var(--font-scale-multiplier, 1));
+    margin-right: 15px;
+    font-weight: 600;
+}
+.footer_interlinks h4,.footer_interlinks a{
+    font-size: calc(14px * var(--font-scale-multiplier, 1));
+}
+@media (max-width: 1024px){
+    .phone_button button:last-child{
+        margin-right: 0;
+        margin-top: 10px;
+    }
+    .footer_heading{
+        font-size: calc(28px * var(--font-scale-multiplier, 1));
+    }
+}

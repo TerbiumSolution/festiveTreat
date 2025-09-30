@@ -1,0 +1,34 @@
+.accordion_wrapper{
+    background: transparent;
+    color: #fff;
+    font-size: calc(16px * var(--font-scale-multiplier, 1));
+    font-weight: 600;
+}
+.accordion_wrapper[data-state="open"]{
+    background: #f9fafb!important;
+    color: #004c8f!important;
+    font-size: calc(16px * var(--font-scale-multiplier, 1));
+    font-weight: 600;
+}
+.link_wrapper{
+    color: #fff!important;
+    font-size: calc(14px * var(--font-scale-multiplier, 1));
+    font-weight: 400;
+}
+.accordion_wrapper svg{
+    width: 30px;
+    height: 30px;
+    stroke: #bebfc0;
+    stroke-width: 2px;
+}
+.accordion_wrapper[data-state="closed"] svg{
+    transform: rotate(270deg);
+}
+@media (max-width: 1024px){
+    .accordion_wrapper{
+        font-size: calc(14px * var(--font-scale-multiplier, 1))!important;
+    }
+    .link_wrapper{
+        font-size: calc(12px * var(--font-scale-multiplier, 1))!important;
+    }
+}
