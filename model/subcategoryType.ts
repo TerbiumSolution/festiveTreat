@@ -13,18 +13,4 @@ export type SubcategoryType = {
          metaDescription: string;
       },
    }
-   subcategoryStateContent?: {
-      h1: string;
-      seo: {
-         metaTitle: string;
-         metaDescription: string;
-      },
-   }
-   subcategoryCityContent?: {
-      h1: string;
-      seo: {
-         metaTitle: string;
-         metaDescription: string;
-      },
-   }
 }

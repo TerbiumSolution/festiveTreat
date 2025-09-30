@@ -19,18 +19,4 @@ export type CategoryType = {
          metaDescription: string;
       },
    }
-   categoryStateContent?: {
-      h1: string;
-      seo: {
-         metaTitle: string;
-         metaDescription: string;
-      },
-   }
-   categoryCityContent?: {
-      h1: string;
-      seo: {
-         metaTitle: string;
-         metaDescription: string;
-      },
-   }
 }

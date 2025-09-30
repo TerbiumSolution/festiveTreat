@@ -32,6 +32,25 @@ const homeQuery = () => qs.stringify({
                   }
                },
             },
+            "offer.category-tab": {
+               fields: '*'
+            },
+            "offer.category-list": {
+               fields: '*'
+            },
+            "offer.interlink": {
+               fields: '*',
+               populate: {
+                  faq: {
+                     fields: '*',
+                     populate: {
+                        items: {
+                           fields: '*'
+                        }
+                     }
+                  }
+               }
+            },
             "shared.seo-footer": {
                fields: '*'
             },
@@ -155,22 +174,6 @@ const categoryQuery = (page: number = 1, slug?: string) => qs.stringify({
             },
          }
       },
-      categoryStateContent: {
-         fields: '*',
-         populate: {
-            seo: {
-               fields: '*'
-            },
-         }
-      },
-      categoryCityContent: {
-         fields: '*',
-         populate: {
-            seo: {
-               fields: '*'
-            },
-         }
-      },
       subcategories: {
          filters: {
             isActive: {
@@ -190,22 +193,6 @@ const categoryQuery = (page: number = 1, slug?: string) => qs.stringify({
                   },
                }
             },
-            subcategoryStateContent: {
-               fields: '*',
-               populate: {
-                  seo: {
-                     fields: '*'
-                  },
-               }
-            },
-            subcategoryCityContent: {
-               fields: '*',
-               populate: {
-                  seo: {
-                     fields: '*'
-                  },
-               }
-            },
             merchants: {
                filters: {
                   isActive: {
@@ -213,32 +200,6 @@ const categoryQuery = (page: number = 1, slug?: string) => qs.stringify({
                   },
                },
                fields: '*',
-               populate: {
-                  merchantContent: {
-                     fields: '*',
-                     populate: {
-                        seo: {
-                           fields: '*'
-                        },
-                     }
-                  },
-                  merchantStateContent: {
-                     fields: '*',
-                     populate: {
-                        seo: {
-                           fields: '*'
-                        },
-                     }
-                  },
-                  merchantCityContent: {
-                     fields: '*',
-                     populate: {
-                        seo: {
-                           fields: '*'
-                        },
-                     }
-                  },
-               }
             }
          }
       }
@@ -293,9 +254,12 @@ const pageQuery = (layout?: string) => qs.stringify({
       blocks: {
          on: {
             "shared.seo": {
-               fields: '*',
+               fields: '*'
             },
             "shared.seo-header": {
+               fields: '*'
+            },
+            "shared.breadcrumb": {
                fields: '*'
             },
             "shared.hero-banner": {
@@ -313,8 +277,24 @@ const pageQuery = (layout?: string) => qs.stringify({
                   }
                },
             },
-            "shared.breadcrumb": {
+            "offer.category-tab": {
                fields: '*'
+            },
+            "offer.category-list": {
+               fields: '*'
+            },
+            "offer.interlink": {
+               fields: '*',
+               populate: {
+                  faq: {
+                     fields: '*',
+                     populate: {
+                        items: {
+                           fields: '*'
+                        }
+                     }
+                  }
+               }
             },
             "shared.seo-footer": {
                fields: '*'
