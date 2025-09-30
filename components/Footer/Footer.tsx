@@ -35,10 +35,9 @@ export default function Footer(
       <LowerFooter className={`md:pb-10 md:px-16 px-4 py-4`} />
       {isVisible && (
         <div className="button_wrapper px-4 py-2">
-          <div className="animate_li">
+          {/* <div className="animate_li">
             <Download />
-            {/* <DownloadPayzapp className='miss_call' /> */}
-          </div>
+          </div> */}
         </div>
       )}
     </>

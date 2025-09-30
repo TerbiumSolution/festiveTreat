@@ -19,7 +19,7 @@ export default function OffersCardsSection() {
     {
       id: 2,
       name: "Bose",
-      merchantLogo: "assets/images/bose_logo.jpg",
+      merchantLogo: "assets/images/bonito.jpg",
       endDate: "31-10-2025",
       details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
       image: "assets/images/reliance-digital-image.webp",
