@@ -1,6 +1,7 @@
 import { LayoutConstant } from "@/lib/constants/constants";
 import {
    getCategoryData,
+   getDealData,
    getHomePageData,
    getPageData,
    getStateData
@@ -10,9 +11,11 @@ import { StateType } from "@/model/stateType";
 import { CategoryType } from "@/model/categoryType";
 import { SubcategoryType } from "@/model/subcategoryType";
 import { MerchantType } from "@/model/merchantType";
+import { DealType } from "@/model/dealType";
 
 const getLayoutResponse = async (
    layout: string,
+   deals: DealType[],
    categories: CategoryType[],
    states: StateType[],
    extra: Partial<{ category: CategoryType, subcategory: SubcategoryType, state: StateType; city: CityType; merchant: MerchantType }> = {}
@@ -20,6 +23,7 @@ const getLayoutResponse = async (
    const pageLayout = await getPageData(layout);
    return {
       layout: pageLayout[0]?.layout || LayoutConstant.PAGE_NOT_FOUND,
+      deals,
       categories,
       states,
       blocks: pageLayout[0]?.blocks || [],
@@ -77,6 +81,7 @@ export async function getPageBlocks(
 ): Promise<{
    layout: string;
    blocks: any;
+   deals: DealType[];
    categories: CategoryType[];
    states: StateType[];
    category?: CategoryType;
@@ -86,66 +91,70 @@ export async function getPageBlocks(
    merchant?: MerchantType;
 }> {
    if (!slug) {
-      const [homePage, categories, states] = await Promise.all([
+      const [homePage, categories, states, deals] = await Promise.all([
          getHomePageData(),
          getCategoryData(),
          getStateData(),
+         getDealData()
       ]);
       return {
          layout: LayoutConstant.HOME,
          blocks: homePage.blocks,
          categories,
          states,
+         deals,
       };
    }
 
-   const [categories, states] = await Promise.all([
+   const [categories, states, deals] = await Promise.all([
       getCategoryData(),
       getStateData(),
+      getDealData()
    ]);
-
    const category = categories.find((category) => category.slug === slug);
    if (category) {
       if (subSlug) {
          const subcategory = category.subcategories.find((sub) => sub.slug === subSlug);
          if (subcategory) {
-            return getLayoutResponse(LayoutConstant.SUBCATEGORY, categories, states, { category, subcategory });
+            return getLayoutResponse(LayoutConstant.SUBCATEGORY, deals, categories, states, { category, subcategory });
          }
          const state = states.find((state) => state.slug === subSlug);
          if (state) {
-            return getLayoutResponse(LayoutConstant.CATEGORY_STATE, categories, states, { category, state });
+            return getLayoutResponse(LayoutConstant.CATEGORY_STATE, deals, categories, states, { category, state });
          }
          const city = states.flatMap(state => state.cities).find((city) => city.slug === subSlug);
          if (city) {
-            return getLayoutResponse(LayoutConstant.CATEGORY_CITY, categories, states, { category, city });
+            return getLayoutResponse(LayoutConstant.CATEGORY_CITY, deals, categories, states, { category, state: city.state, city });
          }
          return {
             layout: LayoutConstant.PAGE_NOT_FOUND,
             blocks: [],
+            deals: [],
             categories: [],
             states: [],
          };
       }
-      return getLayoutResponse(LayoutConstant.CATEGORY, categories, states, { category });
+      return getLayoutResponse(LayoutConstant.CATEGORY, deals, categories, states, { category });
    }
    const subcategory = categories.flatMap(category => category.subcategories).find((sub) => sub.slug === slug);
    if (subcategory) {
       if (subSlug) {
          const merchant = subcategory.merchants?.find((mer) => mer.slug === subSlug);
          if (merchant) {
-            return getLayoutResponse(LayoutConstant.MERCHANT, categories, states, { category: subcategory.category, subcategory, merchant });
+            return getLayoutResponse(LayoutConstant.MERCHANT, deals, categories, states, { category: subcategory.category, subcategory, merchant });
          }
          const state = states.find((state) => state.slug === subSlug);
          if (state) {
-            return getLayoutResponse(LayoutConstant.SUBCATEGORY_STATE, categories, states, { category: subcategory.category, subcategory, state });
+            return getLayoutResponse(LayoutConstant.SUBCATEGORY_STATE, deals, categories, states, { category: subcategory.category, subcategory, state });
          }
          const city = states.flatMap(state => state.cities).find((city) => city.slug === subSlug);
          if (city) {
-            return getLayoutResponse(LayoutConstant.SUBCATEGORY_CITY, categories, states, { category: subcategory.category, subcategory, state: city.state, city });
+            return getLayoutResponse(LayoutConstant.SUBCATEGORY_CITY, deals, categories, states, { category: subcategory.category, subcategory, state: city.state, city });
          }
          return {
             layout: LayoutConstant.PAGE_NOT_FOUND,
             blocks: [],
+            deals: [],
             categories: [],
             states: [],
          };
@@ -155,17 +164,18 @@ export async function getPageBlocks(
    if (merchant) {
       const state = states.find((state) => state.slug === subSlug);
       if (state) {
-         return getLayoutResponse(LayoutConstant.MERCHANT_STATE, categories, states, { state, merchant });
+         return getLayoutResponse(LayoutConstant.MERCHANT_STATE, deals, categories, states, { state, merchant });
       }
       const city = states.flatMap(state => state.cities).find((city) => city.slug === subSlug);
       if (city) {
-         return getLayoutResponse(LayoutConstant.MERCHANT_CITY, categories, states, { state: city.state, city, merchant });
+         return getLayoutResponse(LayoutConstant.MERCHANT_CITY, deals, categories, states, { state: city.state, city, merchant });
       }
    }
 
    return {
       layout: LayoutConstant.PAGE_NOT_FOUND,
       blocks: [],
+      deals: [],
       categories: [],
       states: [],
    };

@@ -1,198 +1,250 @@
 'use client'
 import { useMemo, useState } from 'react';
+import Link from "next/link";
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
 import { CircleCheck, ChevronRight } from 'lucide-react';
-import Link from "next/link";
+import { ComponentPropsType } from "@/model/componentPropsType";
+import { LayoutConstant } from '@/lib/constants/constants';
+import { resolvePlaceHolder } from '@/lib/resolvePlaceHolder';
+import { DealType } from '@/model/dealType';
 
-export default function OffersCardsSection() {
-  const offers = [
-    {
-      id: 1,
-      name: "Bose",
-      merchantLogo: "assets/images/bose_logo.jpg",
-      endDate: "31-10-2025",
-      details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
-      image: "assets/images/reliance-digital-image.webp",
-    },
-    {
-      id: 2,
-      name: "Bose",
-      merchantLogo: "assets/images/bonito.jpg",
-      endDate: "31-10-2025",
-      details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
-      image: "assets/images/reliance-digital-image.webp",
-    },
-    {
-      id: 3,
-      name: "Bose",
-      merchantLogo: "assets/images/bose_logo.jpg",
-      endDate: "31-10-2025",
-      details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
-      image: "assets/images/reliance-digital-image.webp",
-    },
-    {
-      id: 4,
-      name: "Bose",
-      merchantLogo: "assets/images/bose_logo.jpg",
-      endDate: "31-10-2025",
-      details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
-      image: "assets/images/reliance-digital-image.webp",
-    },
-    {
-      id: 5,
-      name: "Bose",
-      merchantLogo: "assets/images/bose_logo.jpg",
-      endDate: "31-10-2025",
-      details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
-      image: "assets/images/reliance-digital-image.webp",
-    },
-    {
-      id: 6,
-      name: "Bose",
-      merchantLogo: "assets/images/bose_logo.jpg",
-      endDate: "31-10-2025",
-      details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
-      image: "assets/images/reliance-digital-image.webp",
-    },
-    {
-      id: 7,
-      name: "Bose",
-      merchantLogo: "assets/images/bose_logo.jpg",
-      endDate: "31-10-2025",
-      details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
-      image: "assets/images/reliance-digital-image.webp",
-    },
-    {
-      id: 8,
-      name: "Bose",
-      merchantLogo: "assets/images/bose_logo.jpg",
-      endDate: "31-10-2025",
-      details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
-      image: "assets/images/reliance-digital-image.webp",
-    },
-    {
-      id: 9,
-      name: "Bose",
-      merchantLogo: "assets/images/bose_logo.jpg",
-      endDate: "31-10-2025",
-      details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
-      image: "assets/images/reliance-digital-image.webp",
-    },
-    {
-      id: 10,
-      name: "Bose",
-      merchantLogo: "assets/images/bose_logo.jpg",
-      endDate: "31-10-2025",
-      details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
-      image: "assets/images/reliance-digital-image.webp",
-    },
-    {
-      id: 11,
-      name: "Bose",
-      merchantLogo: "assets/images/bose_logo.jpg",
-      endDate: "31-10-2025",
-      details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
-      image: "assets/images/reliance-digital-image.webp",
-    },
-    {
-      id: 12,
-      name: "Bose",
-      merchantLogo: "assets/images/bose_logo.jpg",
-      endDate: "31-10-2025",
-      details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
-      image: "assets/images/reliance-digital-image.webp",
-    },
-  ]
+function getH1(layout: string, title: string, categoryTitle?: string, subcategoryTitle?: string, merchantName?: string, stateName?: string, cityName?: string): string {
+   switch (layout) {
+      case LayoutConstant.HOME:
+         return title || 'Festive Treats Offers by HDFC Bank';
+      case LayoutConstant.CATEGORY:
+         return categoryTitle ? categoryTitle : resolvePlaceHolder(title, categoryTitle);
+      case LayoutConstant.CATEGORY_STATE:
+      case LayoutConstant.CATEGORY_CITY:
+         return resolvePlaceHolder(title, categoryTitle, '', '', stateName, cityName);
+      default:
+         return 'Festive Treats Offers by HDFC Bank';
+   }
+}
 
-  // Card load more and less
-  const [showAll, setShowAll] = useState(false);
-  const visibleCards = useMemo(() => {
-    return showAll ? offers : offers.slice(0, 10);
-  }, [showAll, offers]);
+function getDeals(layout: string, deals: DealType[], categorySlug?: string, subcategorySlug?: string, merchantSlug?: string, stateSlug?: string, citySlug?: string): DealType[] {
+   switch (layout) {
+      case LayoutConstant.HOME:
+         return deals;
+      case LayoutConstant.CATEGORY:
+      case LayoutConstant.CATEGORY_STATE:
+      case LayoutConstant.CATEGORY_CITY:
+         // return deals.filter(deal => deal.subcategoryMerchants.flatMap((subMer) => subMer?.subcategory?.category?.slug === categorySlug));
+         return deals.filter(deal =>
+            deal.subcategoryMerchants.some(
+               subMer => subMer?.subcategory?.category?.slug === categorySlug
+            )
+         );
+      default:
+         return deals;
+   }
+}
 
-  const shouldShowToggle = offers && offers.length > 10;
+export default function OffersCardsSection({ context, deals }: { context: ComponentPropsType, deals: DealType[] }) {
+   const { layout, title, categories, states, category, subcategory, merchant, state, city } = context;
+   // const offers = [
+   //    {
+   //       id: 1,
+   //       name: "Bose",
+   //       merchantLogo: "assets/images/bose_logo.jpg",
+   //       endDate: "31-10-2025",
+   //       details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
+   //       image: "assets/images/reliance-digital-image.webp",
+   //    },
+   //    {
+   //       id: 2,
+   //       name: "Bose",
+   //       merchantLogo: "assets/images/bonito.jpg",
+   //       endDate: "31-10-2025",
+   //       details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
+   //       image: "assets/images/reliance-digital-image.webp",
+   //    },
+   //    {
+   //       id: 3,
+   //       name: "Bose",
+   //       merchantLogo: "assets/images/bose_logo.jpg",
+   //       endDate: "31-10-2025",
+   //       details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
+   //       image: "assets/images/reliance-digital-image.webp",
+   //    },
+   //    {
+   //       id: 4,
+   //       name: "Bose",
+   //       merchantLogo: "assets/images/bose_logo.jpg",
+   //       endDate: "31-10-2025",
+   //       details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
+   //       image: "assets/images/reliance-digital-image.webp",
+   //    },
+   //    {
+   //       id: 5,
+   //       name: "Bose",
+   //       merchantLogo: "assets/images/bose_logo.jpg",
+   //       endDate: "31-10-2025",
+   //       details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
+   //       image: "assets/images/reliance-digital-image.webp",
+   //    },
+   //    {
+   //       id: 6,
+   //       name: "Bose",
+   //       merchantLogo: "assets/images/bose_logo.jpg",
+   //       endDate: "31-10-2025",
+   //       details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
+   //       image: "assets/images/reliance-digital-image.webp",
+   //    },
+   //    {
+   //       id: 7,
+   //       name: "Bose",
+   //       merchantLogo: "assets/images/bose_logo.jpg",
+   //       endDate: "31-10-2025",
+   //       details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
+   //       image: "assets/images/reliance-digital-image.webp",
+   //    },
+   //    {
+   //       id: 8,
+   //       name: "Bose",
+   //       merchantLogo: "assets/images/bose_logo.jpg",
+   //       endDate: "31-10-2025",
+   //       details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
+   //       image: "assets/images/reliance-digital-image.webp",
+   //    },
+   //    {
+   //       id: 9,
+   //       name: "Bose",
+   //       merchantLogo: "assets/images/bose_logo.jpg",
+   //       endDate: "31-10-2025",
+   //       details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
+   //       image: "assets/images/reliance-digital-image.webp",
+   //    },
+   //    {
+   //       id: 10,
+   //       name: "Bose",
+   //       merchantLogo: "assets/images/bose_logo.jpg",
+   //       endDate: "31-10-2025",
+   //       details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
+   //       image: "assets/images/reliance-digital-image.webp",
+   //    },
+   //    {
+   //       id: 11,
+   //       name: "Bose",
+   //       merchantLogo: "assets/images/bose_logo.jpg",
+   //       endDate: "31-10-2025",
+   //       details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
+   //       image: "assets/images/reliance-digital-image.webp",
+   //    },
+   //    {
+   //       id: 12,
+   //       name: "Bose",
+   //       merchantLogo: "assets/images/bose_logo.jpg",
+   //       endDate: "31-10-2025",
+   //       details: "Get up to Rs 5,000 on Speakers with EASYEMI on HDFC Bank Credit Cards",
+   //       image: "assets/images/reliance-digital-image.webp",
+   //    },
+   // ]
 
-  return (
-    <section className="px-4 py-6">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-6 pb-2 inline-block border-b">Offers on Electronics</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {visibleCards.map((offer) => (
-            <Card key={offer.id} className="rounded-2xl shadow-md p-0">
-                <CardContent className="p-4">
-                <div className="flex flex-col sm:flex-row gap-4">
-                    <div className="sm:w-[40%] w-full">
-                      <Image
-                      src={`${process.env.NEXT_PUBLIC_APP_BASE_URL}${offer.image}`}
-                      alt={offer.name}
-                      width={200}
-                      height={200}
-                      className="rounded-xl object-cover w-full h-full"
-                      />
-                    </div>
-                    <div className="flex flex-col sm:w-[60%] w-full flex-auto">
-                      <div className="flex justify-between">
-                          <div>
-                            <p className="text-sm font-bold mb-2">Merchant Name</p>
-                            <Image
-                            src={`${process.env.NEXT_PUBLIC_APP_BASE_URL}${offer.merchantLogo}`}
-                            alt={offer.name}
-                            width={100}
-                            height={100}
-                            />
-                          </div>
-                          <div>
-                            <p className="text-sm font-bold mb-2">End Date</p>
-                            <p className="text-[12px] font-medium text-[#6B6B6B]">{offer.endDate}</p>
-                          </div>
-                      </div>
-                      <div className="mt-3">
-                        <p className="text-sm font-bold mb-2">Offer Details</p>
-                        <ul>
-                          <li className="flex gap-1">
-                            <CircleCheck color="#fff" fill="#00bc19" size={24}/>
-                            <span className="text-[12px] text-[#6B6B6B] font-semibold">{offer.details}</span>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="flex justify-end gap-3 mt-4">
-                          <div className="group inline-flex items-center justify-center gap-2 bg-transparent border border-[#004c8f] rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-[#004c8f] hover:text-[#fff] relative">
-                              <Link
-                                href=""
-                                className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
-                              >
-                              Know more
-                              </Link>
-                          </div>
-                          <div className="group inline-flex items-center justify-center gap-2 bg-[#004c8f] border border-[#004c8f] text-white rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-transparent hover:text-[#292929] relative">
-                              <Link
-                                href=""
-                                className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
-                              >
-                              Get Offer
-                              </Link>
-                          </div>
-                      </div>
-                    </div>
-                </div>
-                </CardContent>
-            </Card>
-            ))}
-        </div>
-      </div>
-      {shouldShowToggle && (
-          <div className="text-center">
-              <div className="group inline-flex items-center justify-center gap-2 bg-[#004c8f] border border-[#004c8f] text-white rounded-lg cursor-pointer px-[12px] py-[13px]  transition-all duration-300 ease-in-out hover:bg-transparent hover:text-[#004c8f] mt-6"
-              onClick={() => setShowAll(prev => !prev)}>
-                  <Button 
-                  className={`!bg-[transparent] !p-0 !text-inherit !font-inherit !h-auto hover:cursor-pointer hover:!bg-[transparent] hover:!text-inherit !shadow-none font-semibold`}>
-                      {showAll ? 'View Less' : 'View More'} <ChevronRight />
-                  </Button>
-              </div>
-          </div>
-      )}
-    </section>
-  )
+   // Card load more and less
+
+   const offerDeals = useMemo(
+      () => getDeals(layout, deals, category?.slug, subcategory?.slug, merchant?.slug, state?.slug, city?.slug),
+      [layout, deals, category, subcategory, merchant, state, city]
+   );
+
+   const [showAll, setShowAll] = useState(false);
+   const visibleCards = useMemo(() => {
+      return showAll ? offerDeals : offerDeals.slice(0, 10);
+   }, [showAll, offerDeals]);
+
+   const shouldShowToggle = offerDeals && offerDeals.length > 10;
+
+   return (
+      <section className="px-4 py-6">
+         <div className="max-w-7xl mx-auto">
+            <h2 className="text-2xl font-semibold mb-6 pb-2 inline-block border-b">{getH1(layout, title, category?.categoryContent?.h1, subcategory?.subcategoryContent?.h1, merchant?.name, state?.name, city?.name)}</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+               {visibleCards.map((offer, index) => (
+                  <Card key={`${offer.name}-${index}`} className="rounded-2xl shadow-md p-0">
+                     <CardContent className="h-full p-4">
+                        <div className="flex flex-col h-full sm:flex-row gap-4">
+                           <div className="sm:w-[40%] w-full">
+                              <Image
+                                 src={offer.image ? offer.image.url : `${process.env.NEXT_PUBLIC_APP_BASE_URL}${offer.image}`}
+                                 alt={offer.name}
+                                 width={200}
+                                 height={200}
+                                 className="rounded-xl object-cover w-full h-full"
+                                 style={{ border: '1px solid #F5F5F5' }}
+                              />
+                           </div>
+                           <div className="flex flex-col sm:w-[60%] w-full flex-auto  justify-between">
+                              <div >
+                                 <div className="flex justify-between">
+                                    <div>
+                                       <p className="text-sm font-bold mb-2">Merchant Name</p>
+                                       <Image
+                                          src={offer.subcategoryMerchants[0]?.merchant?.image?.url || `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/bose_logo.jpg`}
+                                          alt={offer.name}
+                                          width={100}
+                                          height={100}
+                                       />
+                                    </div>
+                                    <div>
+                                       <p className="text-sm font-bold mb-2">End Date</p>
+                                       <p className="text-[12px] font-medium text-[#6B6B6B]">{offer.endDate}</p>
+                                    </div>
+                                 </div>
+                                 {offer.details && (
+                                    offer.details.map((detail, index) => (
+                                       <div className="mt-3" key={`${detail.content}-${index}`}>
+                                          <p className="text-sm font-bold mb-2">Offer Details</p>
+                                          <ul>
+                                             <li className="flex gap-1">
+                                                <CircleCheck color="#fff" fill="#00bc19" width={24} />
+                                                <span className="text-[12px] text-[#6B6B6B] font-semibold" dangerouslySetInnerHTML={{ __html: detail.content }}></span>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    ))
+                                 )}
+                              </div>
+                              <div className="flex justify-end gap-3 mt-4">
+                                 <div className="group inline-flex items-center justify-center gap-2 bg-transparent border border-[#004c8f] rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-[#004c8f] hover:text-[#fff] relative">
+                                    <Link
+                                       href={`${process.env.NEXT_PUBLIC_APP_BASE_URL}${offer.subcategoryMerchants[0]?.subcategory?.slug}/${offer.subcategoryMerchants[0]?.merchant?.slug}`}
+                                       className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
+                                    >
+                                       Know more
+                                    </Link>
+                                 </div>
+                                 <div className="group inline-flex items-center justify-center gap-2 bg-[#004c8f] border border-[#004c8f] text-white rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-transparent hover:text-[#292929] relative">
+                                    <Link
+                                       href=""
+                                       className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
+                                    >
+                                       Get Offer
+                                    </Link>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </CardContent>
+                  </Card>
+               ))}
+            </div>
+         </div>
+         {
+            shouldShowToggle && (
+               <div className="text-center">
+                  <div className="group inline-flex items-center justify-center gap-2 bg-[#004c8f] border border-[#004c8f] text-white rounded-lg cursor-pointer px-[12px] py-[13px]  transition-all duration-300 ease-in-out hover:bg-transparent hover:text-[#004c8f] mt-6"
+                     onClick={() => setShowAll(prev => !prev)}>
+                     <Button
+                        className={`!bg-[transparent] !p-0 !text-inherit !font-inherit !h-auto hover:cursor-pointer hover:!bg-[transparent] hover:!text-inherit !shadow-none font-semibold`}>
+                        {showAll ? 'View Less' : 'View More'} <ChevronRight />
+                     </Button>
+                  </div>
+               </div>
+            )
+         }
+      </section >
+   )
 }

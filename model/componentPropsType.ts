@@ -6,6 +6,7 @@ import { CityType } from "@/model/cityType";
 
 export type ComponentPropsType = {
    layout: string;
+   title: string;
    categories: CategoryType[],
    states: StateType[],
    category?: CategoryType,

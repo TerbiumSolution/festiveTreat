@@ -26,7 +26,6 @@ export default function Footer(
 
   return (
     <>
-      <BreadcrumbWrapper className={`bg-[#fff] shadow-[inset_1px_8px_20px_4px_rgba(0,0,0,0.1)]`}/>
       <div className="bg-[#1F2A37] md:pt-15 md:pb-15 md:px-16 px-4 py-10">
         <div className="max-w-7xl mx-auto text-center">
           <UpperFooter />

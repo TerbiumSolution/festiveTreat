@@ -62,13 +62,14 @@ export default async function Page({ params }: Props) {
    const slug = slugArray?.[0] || '';
    const subSlug = slugArray?.[1] || '';
 
-   const { layout, blocks, categories, states, category, subcategory, merchant, state, city } = await getPageBlocks(slug, subSlug);
+   const { layout, blocks, deals, categories, states, category, subcategory, merchant, state, city } = await getPageBlocks(slug, subSlug);
 
    if (layout === LayoutConstant.PAGE_NOT_FOUND) return notFound();
 
+   const heroBannerComponent = blocks?.find((block: any) => block.__component === 'shared.hero-banner');
    return (
       blocks.map((block: any, index: number) =>
-         <div key={index}>{BlockRenderer(layout, block, categories, states, category, subcategory, merchant, state, city)}</div>
+         <div key={index}>{BlockRenderer(layout, block, heroBannerComponent?.title, deals, categories, states, category, subcategory, merchant, state, city)}</div>
       )
    );
 }

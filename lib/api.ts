@@ -3,6 +3,7 @@ import { RedirectionDataType } from "@/model/redirectionDataType";
 import { StateType } from "@/model/stateType";
 import { CacheConstant } from "./constants/constants";
 import { CategoryType } from "@/model/categoryType";
+import { DealType } from "@/model/dealType";
 
 const homeQuery = () => qs.stringify({
    populate: {
@@ -103,6 +104,10 @@ const stateQuery = (slug?: string, page: number = 1) => qs.stringify({
       cities: {
          filters: {
             isActive: { $eq: true }
+         },
+         fields: '*',
+         populate: {
+            state: { fields: ['name', 'slug'] }
          }
       }
    },
@@ -229,6 +234,80 @@ export const getCategoryData = async (slug?: string) => {
          }
       }
       return categories;
+   } catch (error) {
+      console.error(error);
+      throw error;
+   }
+};
+
+const dealQuery = (page: number = 1) => qs.stringify({
+   filters: {
+      endDate: {
+         $gt: new Date().toISOString()
+      }
+   },
+   fields: '*',
+   populate: {
+      image: {
+         fields: ["url", "alternativeText"],
+      },
+      subcategoryMerchants: {
+         populate: {
+            subcategory: {
+               fields: ['name', 'slug'],
+               populate: {
+                  category: {
+                     fields: ['name', 'slug'],
+                  }
+               }
+            },
+            merchant: {
+               fields: ['name', 'slug'],
+               populate: {
+                  image: {
+                     fields: ['url', 'alternativeText'],
+                  }
+               }
+            }
+         }
+      },
+      details: {
+         fields: ['content']
+      }
+   },
+   pagination: {
+      pageSize: 100,
+      page: page,
+   },
+   status: process.env.NEXT_PUBLIC_CMS_QUERY_STATUS
+});
+
+export const getDealData = async () => {
+   const deals: DealType[] = [];
+   let page = 1;
+   try {
+      while (page > 0) {
+         const url = new URL(`${process.env.NEXT_PUBLIC_CMS_URL}api/offer-deals`);
+         url.search = dealQuery(page);
+         const response = await fetch(url, {
+            headers: {
+               "Content-Type": 'application/json',
+               "Authorization": `Bearer ${process.env.NEXT_PUBLIC_CMS_TOKEN}`,
+            },
+            next: {
+               revalidate: parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
+               tags: [CacheConstant.revalidateTag]
+            }
+         });
+         const res = await response.json();
+         if (res && res.data && res.data.length > 0) {
+            deals.push(...res.data);
+            page++;
+         } else {
+            page = 0;
+         }
+      }
+      return deals;
    } catch (error) {
       console.error(error);
       throw error;
