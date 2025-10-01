@@ -16,9 +16,9 @@ export async function generateMetadata({ params }: Props) {
    const slug = slugArray?.[0] || '';
    const subSlug = slugArray?.[1] || '';
 
-   const { metaTitle, metaDescription, category, subcategory, state, city } = await getSeoBlock(slug, subSlug)
-   const seoTitle = resolvePlaceHolder(metaTitle, category?.name, subcategory?.name, '', state?.name, city?.name);
-   const seoDescription = resolvePlaceHolder(metaDescription, category?.name, subcategory?.name, '', state?.name, city?.name);
+   const { metaTitle, metaDescription, category, subcategory, merchant, state, city } = await getSeoBlock(slug, subSlug)
+   const seoTitle = resolvePlaceHolder(metaTitle, category?.name, subcategory?.name, merchant?.name, state?.name, city?.name);
+   const seoDescription = resolvePlaceHolder(metaDescription, category?.name, subcategory?.name, merchant?.name, state?.name, city?.name);
    const canonicalUrl = process.env.NEXT_PUBLIC_APP_BASE_URL + (subSlug ? `${slug}/${subSlug}` : slug)
 
    return {

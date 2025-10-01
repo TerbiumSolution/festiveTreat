@@ -59,6 +59,98 @@ const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: Su
         isClickable: false
       });
       break;
+    case LayoutConstant.SUBCATEGORY:
+      breadCrumbData.push({
+        text: category?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}`,
+        isClickable: true
+      });
+      breadCrumbData.push({
+        text: subcategory?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}/${subcategory?.slug}`,
+        isClickable: false
+      });
+      break;
+    case LayoutConstant.SUBCATEGORY_STATE:
+      breadCrumbData.push({
+        text: category?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}`,
+        isClickable: true
+      });
+      breadCrumbData.push({
+        text: subcategory?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}/${subcategory?.slug}`,
+        isClickable: true
+      });
+      breadCrumbData.push({
+        text: state?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${subcategory?.slug}/${state?.slug}`,
+        isClickable: false
+      });
+      break;
+    case LayoutConstant.SUBCATEGORY_CITY:
+      breadCrumbData.push({
+        text: category?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}`,
+        isClickable: true
+      });
+      breadCrumbData.push({
+        text: subcategory?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}/${subcategory?.slug}`,
+        isClickable: true
+      });
+      breadCrumbData.push({
+        text: state?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${subcategory?.slug}/${state?.slug}`,
+        isClickable: true
+      });
+      breadCrumbData.push({
+        text: city?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${subcategory?.slug}/${city?.slug}`,
+        isClickable: false
+      });
+      break;
+    case LayoutConstant.MERCHANT:
+      breadCrumbData.push({
+        text: category?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}`,
+        isClickable: true
+      });
+      breadCrumbData.push({
+        text: subcategory?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}/${subcategory?.slug}`,
+        isClickable: true
+      });
+      breadCrumbData.push({
+        text: merchant?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${subcategory?.slug}/${merchant?.slug}`,
+        isClickable: false
+      });
+      break;
+    case LayoutConstant.MERCHANT_STATE:
+      breadCrumbData.push({
+        text: merchant?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${subcategory?.slug}/${merchant?.slug}`,
+        isClickable: true
+      });
+      breadCrumbData.push({
+        text: state?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${merchant?.slug}/${state?.slug}`,
+        isClickable: false
+      });
+      break;
+    case LayoutConstant.MERCHANT_CITY:
+      breadCrumbData.push({
+        text: merchant?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${subcategory?.slug}/${merchant?.slug}`,
+        isClickable: true
+      });
+      breadCrumbData.push({
+        text: city?.name || '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${merchant?.slug}/${city?.slug}`,
+        isClickable: false
+      });
+      break;
     default:
       break;
   }

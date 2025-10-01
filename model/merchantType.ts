@@ -7,5 +7,12 @@ export type MerchantType = {
       url: string,
       alternativeText: string
    };
+   merchantContent?: {
+      h1?: string;
+      seo?: {
+         metaTitle: string;
+         metaDescription: string;
+      };
+   };
    subcategory?: SubcategoryType;
 }

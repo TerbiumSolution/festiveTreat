@@ -1,17 +1,13 @@
-import { MerchantType } from "./merchantType";
-import { SubcategoryType } from "./subcategoryType"
+import { SubcategoryMerchantType } from "./subcategoryMerchantType";
 
 export type DealType = {
    name: string;
-   image?:{
+   image?: {
       url: string,
       alternativeText: string
    };
-   subcategoryMerchants:{
-      subcategory: SubcategoryType;
-      merchant: MerchantType;
-   }[],
-   details:{
+   subcategoryMerchants: SubcategoryMerchantType[],
+   details: {
       content: string
    }[]
    endDate: string;
