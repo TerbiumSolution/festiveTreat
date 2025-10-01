@@ -9,6 +9,7 @@ import { ComponentPropsType } from "@/model/componentPropsType";
 import { LayoutConstant } from '@/lib/constants/constants';
 import { resolvePlaceHolder } from '@/lib/resolvePlaceHolder';
 import { DealType } from '@/model/dealType';
+import GeneralInformation from '../GeneralInformation/GeneralInformation';
 
 function getH1(layout: string, title: string, categoryTitle?: string, subcategoryTitle?: string, merchantTitle?: string, categoryName?: string, subcategoryName?: string, merchantName?: string, stateName?: string, cityName?: string): string {
    switch (layout) {
@@ -82,14 +83,15 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
    const shouldShowToggle = offerDeals && offerDeals.length > 10;
 
    return (
+      <>
       <section className="px-4 py-6">
          <div className="max-w-7xl mx-auto">
             <h2 className="text-2xl font-semibold mb-6 pb-2 inline-block border-b">{getH1(layout, title, category?.categoryContent?.h1, subcategory?.subcategoryContent?.h1, merchant?.merchantContent?.h1, category?.name, subcategory?.name, merchant?.name, state?.name, city?.name)}</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className={`grid ${visibleCards.length > 1 ? 'grid-cols-1 lg:grid-cols-2 gap-6' : 'grid-cols-1'}`}>
                {visibleCards.map((offer, index) => (
                   <Card key={`${offer.name}-${index}`} className="rounded-2xl shadow-md p-0">
-                     <CardContent className="h-full p-4">
-                        <div className="flex flex-col h-full sm:flex-row gap-4">
+                     <CardContent className={visibleCards.length > 1 ? 'h-full p-4' : 'md:p-8 p-6'}>
+                        <div className={`${visibleCards.length > 1 ? ' gap-4' : 'md:gap-8 gap-6' } flex flex-col h-full sm:flex-row`}>
                            <div className="sm:w-[40%] w-full">
                               <Image
                                  src={offer.image ? offer.image.url : `${process.env.NEXT_PUBLIC_APP_BASE_URL}${offer.image}`}
@@ -104,7 +106,7 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
                               <div >
                                  <div className="flex justify-between">
                                     <div>
-                                       <p className="text-sm font-bold mb-2">Merchant Name - {offer.subcategoryMerchants[0]?.merchant?.name || ''}</p>
+                                       <p className={`${visibleCards.length > 1 ? 'text-sm mb-2' : 'text-xl mb-4' } font-bold`}>Merchant Name</p>
                                        <Image
                                           src={offer.subcategoryMerchants[0]?.merchant?.image?.url || `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/bose_logo.jpg`}
                                           alt={offer.name}
@@ -113,18 +115,18 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
                                        />
                                     </div>
                                     <div>
-                                       <p className="text-sm font-bold mb-2">End Date</p>
-                                       <p className="text-[12px] font-medium text-[#6B6B6B]">{offer.endDate}</p>
+                                       <p className={`${visibleCards.length > 1 ? 'text-sm mb-2' : 'text-xl mb-4'} font-bold `}>End Date</p>
+                                       <p className={`${visibleCards.length > 1 ? 'text-[12px]' : 'text-xl'} font-medium text-[#6B6B6B]`}>{offer.endDate}</p>
                                     </div>
                                  </div>
                                  {offer.details && (
                                     offer.details.map((detail, index) => (
-                                       <div className="mt-3" key={`${detail.content}-${index}`}>
-                                          <p className="text-sm font-bold mb-2">Offer Details</p>
+                                       <div className={visibleCards.length > 1 ? 'mt-3' : 'mt-6'} key={`${detail.content}-${index}`}>
+                                          <p className={`${visibleCards.length > 1 ? 'text-sm mb-2' : 'text-lg mb-6'} font-bold `}>Offer Details</p>
                                           <ul>
                                              <li className="flex gap-1">
-                                                <CircleCheck color="#fff" fill="#00bc19" width={24} />
-                                                <span className="text-[12px] text-[#6B6B6B] font-semibold" dangerouslySetInnerHTML={{ __html: detail.content }}></span>
+                                                <CircleCheck color="#fff" fill="#00bc19" size={20} className={visibleCards.length > 1 ? 'w-[6%] mt-[-1px]' : 'w-[4%] mt-[3px]'}/>
+                                                <span className={`${visibleCards.length > 1 ? 'w-[94%] text-[12px]' : 'w-[96%] md:text-[20px] text-[16px]'} text-[#6B6B6B] font-semibold`} dangerouslySetInnerHTML={{ __html: detail.content }}></span>
                                              </li>
                                           </ul>
                                        </div>
@@ -137,7 +139,7 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
                                        href={`${process.env.NEXT_PUBLIC_APP_BASE_URL}${offer.subcategoryMerchants[0]?.subcategory?.slug}/${offer.subcategoryMerchants[0]?.merchant?.slug}`}
                                        className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
                                     >
-                                       Know more
+                                       Get Offer
                                     </Link>
                                  </div>
                                  <div className="group inline-flex items-center justify-center gap-2 bg-[#004c8f] border border-[#004c8f] text-white rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-transparent hover:text-[#292929] relative">
@@ -145,7 +147,7 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
                                        href=""
                                        className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
                                     >
-                                       Get Offer
+                                       Apply Now
                                     </Link>
                                  </div>
                               </div>
@@ -170,5 +172,7 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
             )
          }
       </section >
+      <GeneralInformation/>
+      </>
    )
 }
