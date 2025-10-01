@@ -9,34 +9,29 @@ type FAQSectionProps = {
 };
 const faqs = [
   {
-    question: 'What is a Credit Card?',
+    question: 'What are HDFC Bank Festive Treats Offers?',
     answer:
-      'A Credit Card is a financial instrument or facility provided by banks. It comes with a predetermined credit limit. You can utilise this credit limit to make cashless offline and online payments for products and services using your Credit Cards.',
+      'Festive Treats Offers by HDFC Bank are special seasonal promotions that provide customers with exclusive discounts, cashback, and EMI benefits on shopping, travel, dining, and more during the festive season.',
   },
   {
-    question: 'What is the purpose of a Credit Card?',
+    question: 'How can I avail HDFC Bank Festive Treats Offers?',
     answer:
-      'A Credit Card is a financial instrument or facility provided by banks. It comes with a predetermined credit limit. You can utilise this credit limit to make cashless offline and online payments for products and services using your Credit Cards.',
+      'You can avail the offers by shopping online or offline using HDFC Bank Credit Cards, Debit Cards, EasyEMI, or PayZapp. Simply select an eligible deal and complete your transaction to enjoy the benefits.',
   },
   {
-    question: 'How does a Credit Card Work?',
+    question: 'Which categories are covered under Festive Treats Offers?',
     answer:
-      'A Credit Card is a financial instrument or facility provided by banks. It comes with a predetermined credit limit. You can utilise this credit limit to make cashless offline and online payments for products and services using your Credit Cards.',
+      'Festive Treats include a wide range of categories such as mobiles, laptops, home appliances, fashion, jewelry, travel, dining, and online shopping.',
   },
   {
-    question: 'How to apply for a Credit Card?',
+    question: 'Are these offers available on both online and offline purchases?',
     answer:
-      'A Credit Card is a financial instrument or facility provided by banks. It comes with a predetermined credit limit. You can utilise this credit limit to make cashless offline and online payments for products and services using your Credit Cards.',
+      'Yes, Festive Treats Offers are available on leading e-commerce platforms, retail outlets, and partner merchants across India.',
   },
   {
-    question: 'How to check eligibility for an HDFC Bank Credit Card?',
+    question: 'Can I convert my purchases into EMI under Festive Treats Offers?',
     answer:
-      'A Credit Card is a financial instrument or facility provided by banks. It comes with a predetermined credit limit. You can utilise this credit limit to make cashless offline and online payments for products and services using your Credit Cards.',
-  },
-  {
-    question: 'How to manage a Credit Card?',
-    answer:
-      'A Credit Card is a financial instrument or facility provided by banks. It comes with a predetermined credit limit. You can utilise this credit limit to make cashless offline and online payments for products and services using your Credit Cards.',
+      'Absolutely. Many offers under Festive Treats allow you to convert purchases into No Cost EMI or EasyEMI using HDFC Bank Credit and Debit Cards.',
   },
 ];
 export default function FAQSection({className,className2}:FAQSectionProps) {
