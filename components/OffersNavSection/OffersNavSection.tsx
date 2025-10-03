@@ -14,7 +14,7 @@ export default function OfferNavSection({ context }: { context: ComponentPropsTy
         <div className={`${styles.scroll_bar} flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth px-4`} >
           {categories.map((cat, index) => (
             <Link
-              key={cat.slug}
+              key={`${cat.slug}-${index}`}
               href={`${process.env.NEXT_PUBLIC_APP_BASE_URL}${cat.slug}`}
               className={`group p-3 flex flex-col basis-[130px] grow-0 shrink-0 items-center justify-start text-center cursor-pointer transition-colors duration-300 rounded-lg 
                 ${category?.slug === cat.slug ? "bg-[#004c8f] text-white" : "hover:bg-[#004c8f] hover:text-[#fff] "}`}

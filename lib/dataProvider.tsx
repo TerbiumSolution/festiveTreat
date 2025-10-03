@@ -15,7 +15,6 @@ const Breadcrumb = dynamic(() => import("@/components/Breadcrumb/Breadcrumb"));
 const OfferNavSection = dynamic(() => import('@/components/OffersNavSection/OffersNavSection'));
 const OffersSection = dynamic(() => import('@/components/OffersCardsSection/OffersCardsSection'));
 const AllTabs = dynamic(() => import('@/components/Tabs/AllTabs'));
-const MobileAccordionTabs = dynamic(() => import('@/components/Tabs/MobileAccordionTabs'));
 
 export function BlockRenderer(
    layout: string,
@@ -36,7 +35,7 @@ export function BlockRenderer(
       case "shared.seo-header":
          return <Header />
       case "shared.breadcrumb":
-         return <Breadcrumb className={`bg-[#fff] shadow-[inset_1px_8px_20px_4px_rgba(0,0,0,0.1)]`} context={contextProps} />
+         return <Breadcrumb context={contextProps} />
       case "shared.hero-banner":
          return <HeroBanner />
       case "offer.category-tab":
@@ -44,9 +43,7 @@ export function BlockRenderer(
       case "offer.category-list":
          return <OffersSection context={contextProps} deals={deals} />
       case "offer.interlink":
-         return <> <AllTabs context={contextProps} />
-            <MobileAccordionTabs className={`block md:hidden`} />
-         </>
+         return <AllTabs context={contextProps} />
       case "shared.seo-footer":
          return <Footer />
       default:

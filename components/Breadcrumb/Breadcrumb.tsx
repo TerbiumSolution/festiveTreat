@@ -18,11 +18,6 @@ import { StateType } from '@/model/stateType';
 import { LayoutConstant } from '@/lib/constants/constants';
 import styles from "@/components/Breadcrumb/Breadcrumb.module.css"
 
-type Props = {
-  className: string;
-  context: ComponentPropsType
-}
-
 const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: SubcategoryType, merchant?: MerchantType, state?: StateType, city?: CityType): BreadCrumbType[] => {
   const breadCrumbData: BreadCrumbType[] = [];
   breadCrumbData.push({ text: "Home", href: 'https://www.hdfcbank.com/', isClickable: true });
@@ -158,7 +153,7 @@ const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: Su
   return breadCrumbData;
 }
 
-export default function BreadcrumbWrapper({ className, context }: Props) {
+export default function BreadcrumbWrapper({ context }: { context: ComponentPropsType }) {
   const { layout, category, subcategory, merchant, city, state } = context;
   const breadCrumbData = getBreadcrumb(layout, category, subcategory, merchant, state, city);
   const itemListElement = breadCrumbData.map((data, index) => ({
@@ -174,7 +169,7 @@ export default function BreadcrumbWrapper({ className, context }: Props) {
   };
 
   return (
-    <Breadcrumb className={`${className} ${styles.breadcrumb_wrapper} md:px-16 px-4 `}>
+    <Breadcrumb className={`${styles.breadcrumb_wrapper} bg-[var(--bg-grey)] md:px-16 px-4 `}>
       <script
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(createBreadCrumbObj) }}

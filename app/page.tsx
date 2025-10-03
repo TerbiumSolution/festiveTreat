@@ -1,4 +1,3 @@
-import { headers } from 'next/headers';
 import { notFound } from "next/navigation";
 import { BlockRenderer } from "@/lib/dataProvider";
 import { getPageBlocks } from "@/lib/dataLayer";
@@ -12,11 +11,11 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
 
-  const { blocks, state, city } = await getPageBlocks();
+  const { blocks } = await getPageBlocks();
 
   const seoComponent = blocks?.find((block: any) => block.__component === 'shared.seo');
-  const seoTitle = resolvePlaceHolder(seoComponent?.metaTitle, '', '', '', state?.name);
-  const seoDescription = resolvePlaceHolder(seoComponent?.metaDescription, '', '', '', state?.name);
+  const seoTitle = seoComponent?.metaTitle;
+  const seoDescription = seoComponent?.metaDescription;
   const canonicalUrl = process.env.NEXT_PUBLIC_APP_BASE_URL;
 
   return {

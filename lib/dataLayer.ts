@@ -15,13 +15,42 @@ import { SubcategoryType } from "@/model/subcategoryType";
 import { MerchantType } from "@/model/merchantType";
 import { DealType } from "@/model/dealType";
 
+type LayoutExtra = Partial<{
+   category: CategoryType;
+   subcategory: SubcategoryType;
+   state: StateType;
+   city: CityType;
+   merchant: MerchantType;
+}>;
+
+type LayoutResponse = {
+   layout: string;
+   blocks: any[];
+   deals: DealType[];
+   categories: CategoryType[];
+   states: StateType[];
+} & LayoutExtra;
+
+type SeoBlock = {
+   metaTitle: string;
+   metaDescription: string;
+} & LayoutExtra;
+
+const NOT_FOUND_RESPONSE: LayoutResponse = {
+   layout: LayoutConstant.PAGE_NOT_FOUND,
+   blocks: [],
+   deals: [],
+   categories: [],
+   states: [],
+};
+
 const getLayoutResponse = async (
    layout: string,
    deals: DealType[],
    categories: CategoryType[],
    states: StateType[],
-   extra: Partial<{ category: CategoryType, subcategory: SubcategoryType, state: StateType; city: CityType; merchant: MerchantType }> = {}
-) => {
+   extra: LayoutExtra = {}
+): Promise<LayoutResponse> => {
    const pageLayout = await getPageData(layout);
    return {
       layout: pageLayout[0]?.layout || LayoutConstant.PAGE_NOT_FOUND,
@@ -33,66 +62,46 @@ const getLayoutResponse = async (
    };
 };
 
+const getSeoFromContent = (content?: { seo?: { metaTitle: string; metaDescription: string } }) =>
+   content?.seo?.metaTitle && content?.seo?.metaDescription ? content.seo : null;
+
+const findCityWithState = (states: StateType[], citySlug: string) => {
+   for (const state of states) {
+      const city = state.cities.find(c => c.slug === citySlug);
+      if (city) return { city, state };
+   }
+   return null;
+};
+
 export async function getSeoBlock(
    slug: string = "",
    subSlug: string = "",
-): Promise<{
-   metaTitle: string;
-   metaDescription: string;
-   category?: CategoryType,
-   subcategory?: SubcategoryType,
-   state?: StateType;
-   city?: CityType
-   merchant?: MerchantType;
-}> {
+): Promise<SeoBlock> {
    const { layout, blocks, category, subcategory, state, city, merchant } = await getPageBlocks(slug, subSlug);
-   console.log('merchant seo', layout, merchant)
    const seoComponent = blocks?.find((block: any) => block.__component === 'shared.seo');
+   const defaultSeo = {
+      metaTitle: seoComponent?.metaTitle || 'Festive Treats',
+      metaDescription: seoComponent?.metaDescription || ''
+   };
 
-   switch (layout) {
-      case LayoutConstant.HOME:
-      case LayoutConstant.CATEGORY:
-         if (category?.categoryContent?.seo?.metaTitle && category?.categoryContent?.seo?.metaDescription) {
-            return { metaTitle: category.categoryContent.seo.metaTitle, metaDescription: category.categoryContent.seo.metaDescription, category, subcategory, state, city };
-         } else
-            return { metaTitle: seoComponent?.metaTitle, metaDescription: seoComponent?.metaDescription, category, subcategory, state, city };
-      case LayoutConstant.CATEGORY_STATE:
-      case LayoutConstant.CATEGORY_CITY:
-      case LayoutConstant.SUBCATEGORY_STATE:
-      case LayoutConstant.SUBCATEGORY_CITY:
-      case LayoutConstant.MERCHANT_STATE:
-      case LayoutConstant.MERCHANT_CITY:
-         return { metaTitle: seoComponent?.metaTitle, metaDescription: seoComponent?.metaDescription, category, subcategory, state, city, merchant };
-      case LayoutConstant.SUBCATEGORY:
-         if (subcategory?.subcategoryContent?.seo?.metaTitle && subcategory?.subcategoryContent?.seo?.metaDescription) {
-            return { metaTitle: subcategory.subcategoryContent.seo.metaTitle, metaDescription: subcategory.subcategoryContent.seo.metaDescription, category, subcategory, state, city };
-         } else
-            return { metaTitle: seoComponent?.metaTitle, metaDescription: seoComponent?.metaDescription, category, subcategory, state, city };
-      case LayoutConstant.MERCHANT:
-         if (merchant?.merchantContent?.seo?.metaTitle && merchant?.merchantContent?.seo?.metaDescription) {
-            return { metaTitle: merchant.merchantContent.seo.metaTitle, metaDescription: merchant.merchantContent.seo.metaDescription, category, subcategory, state, city, merchant };
-         } else
-            return { metaTitle: seoComponent?.metaTitle, metaDescription: seoComponent?.metaDescription, category, subcategory, state, city };
-      default:
-         return { metaTitle: 'Festive Treats', metaDescription: '', category, state, city }
-   }
+   const extras = { category, subcategory, state, city, merchant };
+
+   const contentSeo =
+      layout === LayoutConstant.HOME || layout === LayoutConstant.CATEGORY
+         ? getSeoFromContent(category?.categoryContent)
+         : layout === LayoutConstant.SUBCATEGORY
+            ? getSeoFromContent(subcategory?.subcategoryContent)
+            : layout === LayoutConstant.MERCHANT
+               ? getSeoFromContent(merchant?.merchantContent)
+               : null;
+
+   return { ...(contentSeo || defaultSeo), ...extras };
 }
 
 export async function getPageBlocks(
    slug: string = "",
    subSlug: string = "",
-): Promise<{
-   layout: string;
-   blocks: any;
-   deals: DealType[];
-   categories: CategoryType[];
-   states: StateType[];
-   category?: CategoryType;
-   subcategory?: SubcategoryType;
-   state?: StateType;
-   city?: CityType;
-   merchant?: MerchantType;
-}> {
+): Promise<LayoutResponse> {
    if (!slug) {
       const [homePage, categories, states, deals] = await Promise.all([
          getHomePageData(),
@@ -116,88 +125,112 @@ export async function getPageBlocks(
       getDealData(),
       getSubcategoryMerchantData()
    ]);
-   
-   const category = categories.find((category) => category.slug === slug);
+
+   const categoryMap = new Map(categories.map(c => [c.slug, c]));
+   const merchantMap = new Map(merchants.map(m => [m.slug, m]));
+   const stateMap = new Map(states.map(s => [s.slug, s]));
+
+   const subcategoryMap = new Map(
+      categories.flatMap(cat => cat.subcategories.map(sub => [sub.slug, { sub, cat }]))
+   );
+
+   const category = categoryMap.get(slug);
+   const subcategory = subcategoryMap.get(slug);
+   const merchant = merchantMap.get(slug);
+
    if (category) {
-      if (subSlug) {
-         const subcategory = category.subcategories.find((sub) => sub.slug === subSlug);
-         if (subcategory) {
-            return getLayoutResponse(LayoutConstant.SUBCATEGORY, deals, categories, states, { category, subcategory });
-         }
-         const state = states.find((state) => state.slug === subSlug);
-         if (state) {
-            return getLayoutResponse(LayoutConstant.CATEGORY_STATE, deals, categories, states, { category, state });
-         }
-         const city = states.flatMap(state => state.cities).find((city) => city.slug === subSlug);
-         if (city) {
-            return getLayoutResponse(LayoutConstant.CATEGORY_CITY, deals, categories, states, { category, state: city.state, city });
-         }
-         return {
-            layout: LayoutConstant.PAGE_NOT_FOUND,
-            blocks: [],
-            deals: [],
-            categories: [],
-            states: [],
-         };
+      if (!subSlug) {
+         return getLayoutResponse(LayoutConstant.CATEGORY, deals, categories, states, { category });
       }
-      return getLayoutResponse(LayoutConstant.CATEGORY, deals, categories, states, { category });
+
+      const sub = category.subcategories.find(s => s.slug === subSlug);
+      if (sub) {
+         return getLayoutResponse(LayoutConstant.SUBCATEGORY, deals, categories, states, { category, subcategory: sub });
+      }
+
+      const state = stateMap.get(subSlug);
+      if (state) {
+         return getLayoutResponse(LayoutConstant.CATEGORY_STATE, deals, categories, states, { category, state });
+      }
+
+      const cityData = findCityWithState(states, subSlug);
+      if (cityData) {
+         return getLayoutResponse(LayoutConstant.CATEGORY_CITY, deals, categories, states, {
+            category,
+            state: cityData.state,
+            city: cityData.city
+         });
+      }
+
+      return NOT_FOUND_RESPONSE;
    }
 
-   const subcategory = categories.flatMap(category => category.subcategories).find((sub) => sub.slug === slug);
    if (subcategory) {
-      if (subSlug) {
-         const state = states.find((state) => state.slug === subSlug);
-         if (state) {
-            return getLayoutResponse(LayoutConstant.SUBCATEGORY_STATE, deals, categories, states, { category: subcategory.category, subcategory, state });
-         }
-         const city = states.flatMap(state => state.cities).find((city) => city.slug === subSlug);
-         if (city) {
-            return getLayoutResponse(LayoutConstant.SUBCATEGORY_CITY, deals, categories, states, { category: subcategory.category, subcategory, state: city.state, city });
-         }
-         const subcategoryMerchant = subcategoryMerchants.filter((sm) => sm.subcategory.slug === slug && sm.merchant.slug === subSlug);
-         if (subcategoryMerchant.length > 0) {
-            const merchant = subcategoryMerchant[0].merchant;
-            merchant.merchantContent = subcategoryMerchant[0].merchantContent;
-            return getLayoutResponse(LayoutConstant.MERCHANT, deals, categories, states, { category: subcategory.category, subcategory, merchant });
-         }
-
-         return {
-            layout: LayoutConstant.PAGE_NOT_FOUND,
-            blocks: [],
-            deals: [],
-            categories: [],
-            states: [],
-         };
+      if (!subSlug) {
+         return NOT_FOUND_RESPONSE;
       }
+
+      const { sub, cat } = subcategory;
+      const state = stateMap.get(subSlug);
+      if (state) {
+         return getLayoutResponse(LayoutConstant.SUBCATEGORY_STATE, deals, categories, states, {
+            category: cat,
+            subcategory: sub,
+            state
+         });
+      }
+
+      const cityData = findCityWithState(states, subSlug);
+      if (cityData) {
+         return getLayoutResponse(LayoutConstant.SUBCATEGORY_CITY, deals, categories, states, {
+            category: cat,
+            subcategory: sub,
+            state: cityData.state,
+            city: cityData.city
+         });
+      }
+
+      const subcategoryMerchant = subcategoryMerchants.find(
+         sm => sm.subcategory.slug === slug && sm.merchant.slug === subSlug
+      );
+      if (subcategoryMerchant) {
+         const merchantWithContent = {
+            ...subcategoryMerchant.merchant,
+            merchantContent: subcategoryMerchant.merchantContent
+         };
+         return getLayoutResponse(LayoutConstant.MERCHANT, deals, categories, states, {
+            category: cat,
+            subcategory: sub,
+            merchant: merchantWithContent
+         });
+      }
+
+      return NOT_FOUND_RESPONSE;
    }
 
-   const merchant = merchants.find((mer) => mer.slug === slug);
    if (merchant) {
-      if (subSlug) {
-         const state = states.find((state) => state.slug === subSlug);
-         if (state) {
-            return getLayoutResponse(LayoutConstant.MERCHANT_STATE, deals, categories, states, { state, merchant });
-         }
-         const city = states.flatMap(state => state.cities).find((city) => city.slug === subSlug);
-         if (city) {
-            return getLayoutResponse(LayoutConstant.MERCHANT_CITY, deals, categories, states, { state: city.state, city, merchant });
-         }
-
-         return {
-            layout: LayoutConstant.PAGE_NOT_FOUND,
-            blocks: [],
-            deals: [],
-            categories: [],
-            states: [],
-         };
+      if (!subSlug) {
+         return NOT_FOUND_RESPONSE;
       }
+
+      // Check state
+      const state = stateMap.get(subSlug);
+      if (state) {
+         return getLayoutResponse(LayoutConstant.MERCHANT_STATE, deals, categories, states, { state, merchant });
+      }
+
+      // Check city
+      const cityData = findCityWithState(states, subSlug);
+      if (cityData) {
+         return getLayoutResponse(LayoutConstant.MERCHANT_CITY, deals, categories, states, {
+            state: cityData.state,
+            city: cityData.city,
+            merchant
+         });
+      }
+
+      return NOT_FOUND_RESPONSE;
    }
 
-   return {
-      layout: LayoutConstant.PAGE_NOT_FOUND,
-      blocks: [],
-      deals: [],
-      categories: [],
-      states: [],
-   };
+   return NOT_FOUND_RESPONSE;
 }

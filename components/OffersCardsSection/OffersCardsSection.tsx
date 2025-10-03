@@ -35,7 +35,7 @@ function getH1(layout: string, title: string, categoryTitle?: string, subcategor
    }
 }
 
-function getDeals(layout: string, deals: DealType[], categorySlug?: string, subcategorySlug?: string, merchantSlug?: string, stateSlug?: string, citySlug?: string): DealType[] {
+function getDeals(layout: string, deals: DealType[], categorySlug?: string, subcategorySlug?: string, merchantSlug?: string): DealType[] {
    switch (layout) {
       case LayoutConstant.HOME:
          return deals;
@@ -69,9 +69,9 @@ function getDeals(layout: string, deals: DealType[], categorySlug?: string, subc
 }
 
 export default function OffersCardsSection({ context, deals }: { context: ComponentPropsType, deals: DealType[] }) {
-   const { layout, title, categories, states, category, subcategory, merchant, state, city } = context;
+   const { layout, title, category, subcategory, merchant, state, city } = context;
    const offerDeals = useMemo(
-      () => getDeals(layout, deals, category?.slug, subcategory?.slug, merchant?.slug, state?.slug, city?.slug),
+      () => getDeals(layout, deals, category?.slug, subcategory?.slug, merchant?.slug),
       [layout, deals, category, subcategory, merchant, state, city]
    );
 
@@ -136,18 +136,19 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
                                  <div className="flex justify-end gap-3 mt-4">
                                     {visibleCards.length > 1 && (
                                        <div className="group inline-flex items-center justify-center gap-2 bg-transparent border border-[#004c8f] rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-[#004c8f] hover:text-[#fff] relative">
-                                         <Link
-                                           href={`${process.env.NEXT_PUBLIC_APP_BASE_URL}${offer.subcategoryMerchants[0]?.subcategory?.slug}/${offer.subcategoryMerchants[0]?.merchant?.slug}`}
-                                           className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
-                                         >
-                                           Get Offer
-                                         </Link>
+                                          <Link
+                                             href={`${process.env.NEXT_PUBLIC_APP_BASE_URL}${offer.subcategoryMerchants[0]?.subcategory?.slug}/${offer.subcategoryMerchants[0]?.merchant?.slug}`}
+                                             className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
+                                          >
+                                             Get Offer
+                                          </Link>
                                        </div>
                                     )}
                                     <div className="group inline-flex items-center justify-center gap-2 bg-[#004c8f] border border-[#004c8f] text-white rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-transparent hover:text-[#292929] relative">
                                        <Link
-                                          href=""
+                                          href={`https://applyonline.hdfcbank.com/cards/credit-cards.html?CHANNELSOURCE=Festive_Treats_Offer&LGCodeq=PSEO_Wrapper&mc_id=${offer.subcategoryMerchants[0]?.merchant?.name}`}
                                           className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
+                                          target='_blank'
                                        >
                                           Apply Now
                                        </Link>
