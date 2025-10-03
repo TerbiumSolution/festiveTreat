@@ -46,7 +46,6 @@ export async function getSeoBlock(
    merchant?: MerchantType;
 }> {
    const { layout, blocks, category, subcategory, state, city, merchant } = await getPageBlocks(slug, subSlug);
-   console.log('merchant seo', layout, merchant)
    const seoComponent = blocks?.find((block: any) => block.__component === 'shared.seo');
 
    switch (layout) {
