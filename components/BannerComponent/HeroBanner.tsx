@@ -14,48 +14,99 @@ type HeroBannerProps = {
 	description: string;
 };
 
-function getBanner(layout: string, props: HeroBannerProps, category?: CategoryType, subcategory?: SubcategoryType, merchant?: MerchantType): {
+function getBanner(
+	layout: string,
+	props: HeroBannerProps,
+	category?: CategoryType,
+	subcategory?: SubcategoryType,
+	merchant?: MerchantType
+): {
 	title: string;
 	desktopImage: string;
 	mobileImage: string;
 } {
+	const defaultDesktopImage = `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/banner_festive.webp`;
+	const defaultMobileImage = `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/mobile_festive_banner.webp`;
+
 	switch (layout) {
 		case LayoutConstant.HOME:
-			return { title: props.title, desktopImage: props.media.desktopImage.url, mobileImage: props.media.mobileImage.url };
+			return {
+				title: props.title,
+				desktopImage: props?.media?.desktopImage?.url || defaultDesktopImage,
+				mobileImage: props?.media?.mobileImage?.url || defaultMobileImage,
+			};
+
 		case LayoutConstant.CATEGORY:
 		case LayoutConstant.CATEGORY_STATE:
 		case LayoutConstant.CATEGORY_CITY:
 			return {
-				title: category?.name ? category.name : props.title, desktopImage: (category?.bannerImage?.desktopImage?.url ? category.bannerImage.desktopImage.url : `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/banner_festive.webp`), mobileImage: (category?.bannerImage?.mobileImage?.url ? category.bannerImage.mobileImage.url : `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/mobile_festive_banner.jpg`)
-			}
+				title: category?.name || props.title,
+				desktopImage: category?.bannerImage?.desktopImage?.url || defaultDesktopImage,
+				mobileImage: category?.bannerImage?.mobileImage?.url || defaultMobileImage,
+			};
+
 		case LayoutConstant.SUBCATEGORY:
 		case LayoutConstant.SUBCATEGORY_STATE:
 		case LayoutConstant.SUBCATEGORY_CITY:
 			return {
-				title: subcategory?.name ? subcategory.name : props.title, desktopImage: (subcategory?.bannerImage?.desktopImage?.url ? subcategory.bannerImage.desktopImage.url : `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/banner_festive.webp`), mobileImage: (subcategory?.bannerImage?.mobileImage?.url ? subcategory.bannerImage.mobileImage.url : `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/mobile_festive_banner.jpg`)
-			}
+				title: subcategory?.name || props.title,
+				desktopImage: subcategory?.bannerImage?.desktopImage?.url || defaultDesktopImage,
+				mobileImage: subcategory?.bannerImage?.mobileImage?.url || defaultMobileImage,
+			};
+
 		case LayoutConstant.MERCHANT:
 		case LayoutConstant.MERCHANT_STATE:
 		case LayoutConstant.MERCHANT_CITY:
 			return {
-				title: merchant?.name ? merchant.name : props.title, desktopImage: (merchant?.bannerImage?.desktopImage?.url ? merchant.bannerImage.desktopImage.url : `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/banner_festive.webp`), mobileImage: (merchant?.bannerImage?.mobileImage?.url ? merchant.bannerImage.mobileImage.url : `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/mobile_festive_banner.jpg`)
-			}
+				title: merchant?.name || props.title,
+				desktopImage: merchant?.bannerImage?.desktopImage?.url || defaultDesktopImage,
+				mobileImage: merchant?.bannerImage?.mobileImage?.url || defaultMobileImage,
+			};
+
 		default:
-			return { title: props.title, desktopImage: props.media.desktopImage.url, mobileImage: props.media.mobileImage.url };;
+			return {
+				title: props.title,
+				desktopImage: props.media.desktopImage.url,
+				mobileImage: props.media.mobileImage.url,
+			};
 	}
 }
 
-export default function HeroBanner({ context, props }: { context: ComponentPropsType, props: HeroBannerProps }) {
+export default function HeroBanner({
+	context,
+	props,
+}: {
+	context: ComponentPropsType;
+	props: HeroBannerProps;
+}) {
 	const { layout, category, subcategory, merchant } = context;
-	const { title, desktopImage, mobileImage } = getBanner(layout, props, category, subcategory, merchant);
-	
+	const { title, desktopImage, mobileImage } = getBanner(
+		layout,
+		props,
+		category,
+		subcategory,
+		merchant
+	);
+
 	return (
 		<>
 			{desktopImage && (
-				<Image src={desktopImage} alt={title} width={1440} height={333} className="hidden md:block w-full h-auto" />
+				<Image
+					src={desktopImage}
+					alt={title}
+					width={1440}
+					height={333}
+					className="hidden md:block w-full h-auto"
+				/>
 			)}
 			{mobileImage && (
-				<Image src={mobileImage} alt={title} width={425} height={425} className="block md:hidden w-full h-auto" />
+				<Image
+					src={mobileImage}
+					alt={title}
+					width={425}
+					height={425}
+					className="block md:hidden w-full h-auto"
+				/>
 			)}
 		</>
 	);
