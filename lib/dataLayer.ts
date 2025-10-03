@@ -196,7 +196,8 @@ export async function getPageBlocks(
       if (subcategoryMerchant) {
          const merchantWithContent = {
             ...subcategoryMerchant.merchant,
-            merchantContent: subcategoryMerchant.merchantContent
+            merchantContent: subcategoryMerchant.merchantContent,
+            bannerImage: subcategoryMerchant.bannerImage
          };
          return getLayoutResponse(LayoutConstant.MERCHANT, deals, categories, states, {
             category: cat,

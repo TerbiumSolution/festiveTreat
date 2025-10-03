@@ -106,7 +106,7 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
                                  <div >
                                     <div className="flex justify-between">
                                        <div>
-                                          <p className={`${visibleCards.length > 1 ? 'text-sm mb-2' : 'text-xl mb-4'} font-bold`}>Merchant Name</p>
+                                          <p className={`${visibleCards.length > 1 ? 'text-sm mb-2' : 'text-xl mb-4'} font-bold`}>{offer.subcategoryMerchants[0].merchant.name}</p>
                                           <Image
                                              src={offer.subcategoryMerchants[0]?.merchant?.image?.url || `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/bose_logo.jpg`}
                                              alt={offer.name}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ComponentPropsType } from "@/model/componentPropsType";
@@ -7,11 +8,39 @@ import styles from "@/components/OffersNavSection/OfferNavSection.module.css"
 
 export default function OfferNavSection({ context }: { context: ComponentPropsType }) {
   const { categories, category } = context;
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = (index: number) => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const tab = container.children[index] as HTMLElement;
+    const containerWidth = container.offsetWidth;
+    const tabOffsetLeft = tab.offsetLeft;
+    const tabWidth = tab.offsetWidth;
+
+    // Scroll the clicked tab to center
+    const scrollPosition = tabOffsetLeft - containerWidth / 2 + tabWidth / 2;
+
+    container.scrollTo({
+      left: scrollPosition,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    const activeIndex = categories.findIndex(cat => cat.slug === category?.slug);
+    if (activeIndex !== -1) {
+      handleScroll(activeIndex);
+    }
+  }, []); 
 
   return (
     <section className="px-4 py-4 border-b-2">
       <div className="max-w-7xl mx-auto flex justify-center">
-        <div className={`${styles.scroll_bar} flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth px-4`} >
+        <div
+          ref={scrollRef}
+          className={`${styles.scroll_bar} flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth px-4`} >
           {categories.map((cat, index) => (
             <Link
               key={`${cat.slug}-${index}`}

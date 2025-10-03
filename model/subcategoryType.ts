@@ -4,6 +4,16 @@ import { MerchantType } from "./merchantType";
 export type SubcategoryType = {
    name: string;
    slug: string;
+   bannerImage?: {
+      desktopImage: {
+         url: string;
+         alternativeText?: string
+      };
+      mobileImage?: {
+         url: string;
+         alternativeText?: string
+      };
+   };
    category: CategoryType;
    merchants?: MerchantType[];
    subcategoryContent?: {

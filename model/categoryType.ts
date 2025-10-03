@@ -3,6 +3,16 @@ import { SubcategoryType } from "./subcategoryType";
 export type CategoryType = {
    name: string;
    slug: string;
+   bannerImage?: {
+      desktopImage: {
+         url: string;
+         alternativeText?: string
+      };
+      mobileImage?: {
+         url: string;
+         alternativeText?: string
+      };
+   };
    subcategories: SubcategoryType[];
    icon?: {
       url: string;

@@ -173,6 +173,16 @@ const categoryQuery = (page: number = 1, slug?: string) => qs.stringify({
       iconWhite: {
          fields: ["url", "alternativeText"]
       },
+      bannerImage: {
+         populate: {
+            desktopImage: {
+               fields: ["url", "alternativeText"],
+            },
+            mobileImage: {
+               fields: ["url", "alternativeText"],
+            }
+         }
+      },
       categoryContent: {
          fields: '*',
          populate: {
@@ -189,6 +199,16 @@ const categoryQuery = (page: number = 1, slug?: string) => qs.stringify({
          },
          fields: '*',
          populate: {
+            bannerImage: {
+               populate: {
+                  desktopImage: {
+                     fields: ["url", "alternativeText"],
+                  },
+                  mobileImage: {
+                     fields: ["url", "alternativeText"],
+                  }
+               }
+            },
             category: {
                fields: ['name', 'slug']
             },
@@ -291,6 +311,16 @@ export const getMerchantData = async () => {
 const subcategoryMerchantQuery = (page: number = 1) => qs.stringify({
    fields: '*',
    populate: {
+      bannerImage: {
+         populate: {
+            desktopImage: {
+               fields: ["url", "alternativeText"],
+            },
+            mobileImage: {
+               fields: ["url", "alternativeText"],
+            }
+         }
+      },
       subcategory: {
          fields: ['name', 'slug'],
          populate: {

@@ -7,6 +7,16 @@ export type MerchantType = {
       url: string,
       alternativeText: string
    };
+   bannerImage?: {
+      desktopImage: {
+         url: string;
+         alternativeText?: string
+      };
+      mobileImage?: {
+         url: string;
+         alternativeText?: string
+      };
+   };
    merchantContent?: {
       h1?: string;
       seo?: {
