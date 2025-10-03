@@ -41,6 +41,9 @@ const homeQuery = () => qs.stringify({
             "offer.category-list": {
                fields: '*'
             },
+            "payzapp.general-information": {
+               fields: '*'
+            },
             "offer.interlink": {
                fields: '*',
                populate: {
@@ -478,6 +481,9 @@ const pageQuery = (layout?: string) => qs.stringify({
             "shared.breadcrumb": {
                fields: '*'
             },
+            "payzapp.general-information": {
+               fields: '*'
+            },
             "shared.hero-banner": {
                fields: '*',
                populate: {
@@ -494,6 +500,9 @@ const pageQuery = (layout?: string) => qs.stringify({
                },
             },
             "offer.category-tab": {
+               fields: '*'
+            },
+            "offer.other-merchant-list": {
                fields: '*'
             },
             "offer.category-list": {

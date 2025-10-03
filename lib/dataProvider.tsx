@@ -14,7 +14,9 @@ const HeroBanner = dynamic(() => import('@/components/BannerComponent/HeroBanner
 const Breadcrumb = dynamic(() => import("@/components/Breadcrumb/Breadcrumb"));
 const OfferNavSection = dynamic(() => import('@/components/OffersNavSection/OffersNavSection'));
 const OffersSection = dynamic(() => import('@/components/OffersCardsSection/OffersCardsSection'));
+const OtherMerchantSection = dynamic(() => import('@/components/OtherMerchantSection/OtherMerchantSection'));
 const AllTabs = dynamic(() => import('@/components/Tabs/AllTabs'));
+const GeneralInformation = dynamic(() => import("@/components/GeneralInformation/GeneralInformation"));
 
 export function BlockRenderer(
    layout: string,
@@ -33,7 +35,7 @@ export function BlockRenderer(
 
    switch (block.__component) {
       case "shared.seo-header":
-         return <Header />
+         return <Header context={contextProps} />
       case "shared.breadcrumb":
          return <Breadcrumb context={contextProps} />
       case "shared.hero-banner":
@@ -44,6 +46,10 @@ export function BlockRenderer(
          return <OffersSection context={contextProps} deals={deals} />
       case "offer.interlink":
          return <AllTabs context={contextProps} />
+      case "payzapp.general-information":
+         return <GeneralInformation props={block} context={contextProps} />
+      case "offer.other-merchant-list":
+         return <OtherMerchantSection context={contextProps} deals={deals} />
       case "shared.seo-footer":
          return <Footer />
       default:

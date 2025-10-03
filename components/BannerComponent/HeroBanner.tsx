@@ -7,6 +7,7 @@ import Image from "next/image";
 
 type HeroBannerProps = {
 	title: string;
+	link: string;
 	media: {
 		desktopImage: { url: string; alternativeText?: string };
 		mobileImage: { url: string; alternativeText?: string };
@@ -24,6 +25,7 @@ function getBanner(
 	title: string;
 	desktopImage: string;
 	mobileImage: string;
+	bannerLink: string;
 } {
 	const defaultDesktopImage = `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/banner_festive.webp`;
 	const defaultMobileImage = `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/mobile_festive_banner.webp`;
@@ -34,8 +36,8 @@ function getBanner(
 				title: props.title,
 				desktopImage: props?.media?.desktopImage?.url || defaultDesktopImage,
 				mobileImage: props?.media?.mobileImage?.url || defaultMobileImage,
+				bannerLink: props?.link || ''
 			};
-
 		case LayoutConstant.CATEGORY:
 		case LayoutConstant.CATEGORY_STATE:
 		case LayoutConstant.CATEGORY_CITY:
@@ -43,17 +45,17 @@ function getBanner(
 				title: category?.name || props.title,
 				desktopImage: category?.bannerImage?.desktopImage?.url || defaultDesktopImage,
 				mobileImage: category?.bannerImage?.mobileImage?.url || defaultMobileImage,
+				bannerLink: category?.bannerLink || ''
 			};
-
 		case LayoutConstant.SUBCATEGORY:
 		case LayoutConstant.SUBCATEGORY_STATE:
 		case LayoutConstant.SUBCATEGORY_CITY:
 			return {
 				title: subcategory?.name || props.title,
-				desktopImage: subcategory?.bannerImage?.desktopImage?.url || defaultDesktopImage,
+				desktopImage: (subcategory?.bannerImage?.desktopImage?.url ? subcategory?.bannerImage?.desktopImage?.url : category?.bannerImage?.desktopImage?.url) || defaultDesktopImage,
 				mobileImage: subcategory?.bannerImage?.mobileImage?.url || defaultMobileImage,
+				bannerLink: subcategory?.bannerLink ? subcategory?.bannerLink : category?.bannerLink || ''
 			};
-
 		case LayoutConstant.MERCHANT:
 		case LayoutConstant.MERCHANT_STATE:
 		case LayoutConstant.MERCHANT_CITY:
@@ -61,13 +63,14 @@ function getBanner(
 				title: merchant?.name || props.title,
 				desktopImage: merchant?.bannerImage?.desktopImage?.url || defaultDesktopImage,
 				mobileImage: merchant?.bannerImage?.mobileImage?.url || defaultMobileImage,
+				bannerLink: merchant?.bannerLink || ''
 			};
-
 		default:
 			return {
 				title: props.title,
 				desktopImage: props.media.desktopImage.url,
 				mobileImage: props.media.mobileImage.url,
+				bannerLink: ''
 			};
 	}
 }
@@ -80,7 +83,7 @@ export default function HeroBanner({
 	props: HeroBannerProps;
 }) {
 	const { layout, category, subcategory, merchant } = context;
-	const { title, desktopImage, mobileImage } = getBanner(
+	const { title, desktopImage, mobileImage, bannerLink } = getBanner(
 		layout,
 		props,
 		category,
@@ -88,7 +91,7 @@ export default function HeroBanner({
 		merchant
 	);
 
-	return (
+	const BannerContent = () => (
 		<>
 			{desktopImage && (
 				<Image
@@ -109,5 +112,15 @@ export default function HeroBanner({
 				/>
 			)}
 		</>
+	);
+
+	return bannerLink ? (
+		<a 
+		href={bannerLink}
+		target="_blank">
+			<BannerContent />
+		</a>
+	) : (
+		<BannerContent />
 	);
 }

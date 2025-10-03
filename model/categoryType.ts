@@ -3,6 +3,7 @@ import { SubcategoryType } from "./subcategoryType";
 export type CategoryType = {
    name: string;
    slug: string;
+   bannerLink?: string;
    bannerImage?: {
       desktopImage: {
          url: string;
@@ -24,6 +25,7 @@ export type CategoryType = {
    }
    categoryContent?: {
       h1: string;
+      content?: string
       seo: {
          metaTitle: string;
          metaDescription: string;

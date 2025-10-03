@@ -7,6 +7,7 @@ export type MerchantType = {
       url: string,
       alternativeText: string
    };
+   bannerLink?: string;
    bannerImage?: {
       desktopImage: {
          url: string;
@@ -19,6 +20,7 @@ export type MerchantType = {
    };
    merchantContent?: {
       h1?: string;
+      content?: string
       seo?: {
          metaTitle: string;
          metaDescription: string;
