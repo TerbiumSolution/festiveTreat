@@ -168,6 +168,7 @@ const categoryQuery = (page: number = 1, slug?: string) => qs.stringify({
          $eq: true
       }
    },
+   sort: ['sortOrder:asc'],
    fields: '*',
    populate: {
       icon: {

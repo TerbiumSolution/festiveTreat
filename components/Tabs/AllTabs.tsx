@@ -140,8 +140,8 @@ export default function AllTabs({ context }: { context: ComponentPropsType }) {
 
    return (
       <>
-         <DesktopInterlinkTabs stateInterlinks={stateInterlinks} cityInterlinks={cityInterlinks} />
-         <MobileAccordionTabs stateInterlinks={stateInterlinks} cityInterlinks={cityInterlinks} />
+         <DesktopInterlinkTabs layout={layout} stateInterlinks={stateInterlinks} cityInterlinks={cityInterlinks} />
+         <MobileAccordionTabs layout={layout} stateInterlinks={stateInterlinks} cityInterlinks={cityInterlinks} />
       </>
    )
 }
