@@ -28,7 +28,7 @@ function getBanner(
 	bannerLink: string;
 } {
 	const defaultDesktopImage = `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/banner_festive.webp`;
-	const defaultMobileImage = `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/mobile_festive_banner.webp`;
+	const defaultMobileImage = `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/mobile_festive_banner.jpg`;
 
 	switch (layout) {
 		case LayoutConstant.HOME:
@@ -100,6 +100,7 @@ export default function HeroBanner({
 					width={1440}
 					height={333}
 					className="hidden md:block w-full h-auto"
+					priority
 				/>
 			)}
 			{mobileImage && (
@@ -109,15 +110,16 @@ export default function HeroBanner({
 					width={425}
 					height={425}
 					className="block md:hidden w-full h-auto"
+					priority
 				/>
 			)}
 		</>
 	);
 
 	return bannerLink ? (
-		<a 
-		href={bannerLink}
-		target="_blank">
+		<a
+			href={bannerLink}
+			target="_blank">
 			<BannerContent />
 		</a>
 	) : (

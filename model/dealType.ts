@@ -10,5 +10,6 @@ export type DealType = {
    details: {
       content: string
    }[]
+   redeemType: "online" | "offline",
    endDate: string;
 }

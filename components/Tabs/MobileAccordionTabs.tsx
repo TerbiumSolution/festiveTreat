@@ -15,9 +15,9 @@ export default function MobileAccordionTabs({ layout, stateInterlinks, cityInter
    const displayedCities = showAll ? cityInterlinks : cityInterlinks.slice(0, 10);
 
    return (
-      <section>
+      <section className="block md:hidden ">
          {layout !== LayoutConstant.HOME ? (
-            <Accordion type="single" collapsible className={`block md:hidden md:pt-15 md:pb-15 md:px-16 px-4 py-10 w-full`}>
+            <Accordion type="single" collapsible className={`md:pt-15 md:pb-15 md:px-16 px-4 py-10 w-full`}>
                <AccordionItem value={`item-1`} className="border-b last:border-b-0">
                   <AccordionTrigger className="data-[state=open]:[&>svg]:text-[#fff] [&>svg]:text-[#004C8F] [&>svg]:stroke-3 [&>svg]:text-[16px] data-[state=open]:text-[#fff] text-[16px] cursor-pointer data-[state=open]:font-[600] hover:no-underline data-[state=open]:bg-[#004C8F] text-[#004C8F] px-3">
                      Offers in States
@@ -58,7 +58,9 @@ export default function MobileAccordionTabs({ layout, stateInterlinks, cityInter
                </AccordionItem>
             </Accordion>
          ) : (
-            <FAQSection className={`hidden`} className2="px-4 mt-4" />
+            <div className={`px-4 my-4`}>
+               <FAQSection className2="" />
+            </div>
          )}
 
       </section>

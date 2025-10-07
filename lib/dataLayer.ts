@@ -215,15 +215,19 @@ export async function getPageBlocks(
          return NOT_FOUND_RESPONSE;
       }
 
-      // Check state
       const state = stateMap.get(subSlug);
       if (state) {
+         const subcategoryMerchant = subcategoryMerchants.find(sm => sm.merchant.slug === merchant.slug);
+         merchant.subcategory = subcategoryMerchant?.subcategory;
+
          return getLayoutResponse(LayoutConstant.MERCHANT_STATE, deals, categories, states, { state, merchant });
       }
 
-      // Check city
       const cityData = findCityWithState(states, subSlug);
       if (cityData) {
+         const subcategoryMerchant = subcategoryMerchants.find(sm => sm.merchant.slug === merchant.slug);
+         merchant.subcategory = subcategoryMerchant?.subcategory;
+
          return getLayoutResponse(LayoutConstant.MERCHANT_CITY, deals, categories, states, {
             state: cityData.state,
             city: cityData.city,

@@ -6,7 +6,7 @@ import {
    TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Card, CardContent } from "@/components/ui/card"
-import { CircleCheck, MapPin, SquareArrowOutUpRight } from 'lucide-react';
+import { CircleCheck, MapPin } from 'lucide-react';
 import { LayoutConstant } from '@/lib/constants/constants';
 import { DealType } from '@/model/dealType';
 
@@ -14,6 +14,7 @@ export default function OffersCard({ layout, deal }: { layout: string, deal: Dea
    let isKnowMoreVisible = true;
    if (layout === LayoutConstant.MERCHANT || layout === LayoutConstant.MERCHANT_STATE || layout === LayoutConstant.MERCHANT_CITY)
       isKnowMoreVisible = false
+   const storeUrl = deal.subcategoryMerchants[0].merchant?.storeLocatorUrl;
 
    return (
       <Card className="rounded-2xl shadow-md p-0">
@@ -30,7 +31,7 @@ export default function OffersCard({ layout, deal }: { layout: string, deal: Dea
                   />
                </div>
                <div className="flex flex-col sm:w-[60%] w-full flex-auto  justify-between">
-                  <div >
+                  <div>
                      <div className="flex justify-between">
                         <div>
                            <p className={`${isKnowMoreVisible ? 'text-sm mb-2' : 'text-xl mb-4'} font-bold`}>{deal.subcategoryMerchants[0].merchant.name}</p>
@@ -67,16 +68,18 @@ export default function OffersCard({ layout, deal }: { layout: string, deal: Dea
                      )}
                   </div>
                   <div className="flex justify-end gap-3 mt-4">
-                     <div className="py-2">
+                     {(!isKnowMoreVisible && storeUrl) && <div className="py-2">
                         <Tooltip>
                            <TooltipTrigger asChild>
-                              <MapPin color="#004c8f" />
+                              <Link href={storeUrl}>
+                                 <MapPin color="#004c8f" />
+                              </Link>
                            </TooltipTrigger>
                            <TooltipContent>
-                              <p>Please visit the nearest store and use your HDFC bank credit card to avail the offer</p>
+                              <p>Please visit the nearest store and use your<br /> HDFC bank credit card to avail the offer</p>
                            </TooltipContent>
                         </Tooltip>
-                     </div>
+                     </div>}
                      {isKnowMoreVisible && (
                         <div className="group inline-flex items-center justify-center gap-2 bg-transparent border border-[#004c8f] rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-[#004c8f] hover:text-[#fff] relative">
                            <Link

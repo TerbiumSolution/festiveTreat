@@ -411,7 +411,7 @@ const dealQuery = (page: number = 1) => qs.stringify({
                }
             },
             merchant: {
-               fields: ['name', 'slug'],
+               fields: ['name', 'slug', 'storeLocatorUrl'],
                populate: {
                   image: {
                      fields: ['url', 'alternativeText'],

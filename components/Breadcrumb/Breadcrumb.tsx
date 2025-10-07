@@ -125,7 +125,7 @@ const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: Su
     case LayoutConstant.MERCHANT_STATE:
       breadCrumbData.push({
         text: merchant?.name || '',
-        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${subcategory?.slug}/${merchant?.slug}`,
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${merchant?.subcategory?.slug}/${merchant?.slug}`,
         isClickable: true
       });
       breadCrumbData.push({
@@ -137,7 +137,7 @@ const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: Su
     case LayoutConstant.MERCHANT_CITY:
       breadCrumbData.push({
         text: merchant?.name || '',
-        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${subcategory?.slug}/${merchant?.slug}`,
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${merchant?.subcategory?.slug}/${merchant?.slug}`,
         isClickable: true
       });
       breadCrumbData.push({
