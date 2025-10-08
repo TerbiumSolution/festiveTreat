@@ -77,9 +77,9 @@ export default function OffersCard({ layout, deal }: { layout: string, deal: Dea
                         {(!isKnowMoreVisible && storeUrl) && <div className="py-2">
                            <Tooltip>
                               <TooltipTrigger asChild>
-                                 <Link href={storeUrl}>
+                                  <Link href={storeUrl} target="_blank" rel="nofollow">
                                     <MapPin color="#004c8f" />
-                                 </Link>
+                                  </Link>
                               </TooltipTrigger>
                               <TooltipContent>
                                  <p>Please visit the nearest store and use your<br /> HDFC bank credit card to avail the offer</p>
