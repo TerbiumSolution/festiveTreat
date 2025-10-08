@@ -67,41 +67,62 @@ export default function OffersCard({ layout, deal }: { layout: string, deal: Dea
                         ))
                      )}
                   </div>
-                  <div className="flex justify-end gap-3 mt-4">
-                     {(!isKnowMoreVisible && storeUrl) && <div className="py-2">
-                        <Tooltip>
-                           <TooltipTrigger asChild>
-                              <Link href={storeUrl}>
-                                 <MapPin color="#004c8f" />
+                  <div className="mt-2">
+                     {!isKnowMoreVisible && (
+                     <div className="flex justify-end">
+                        <span className="text-[10px] font-bold text-center mb-2 mr-1"><em>Don’t have a card?<br></br> Apply in minutes!</em></span>
+                     </div>
+                     )}
+                     <div className="flex justify-end gap-3">
+                        {(!isKnowMoreVisible && storeUrl) && <div className="py-2">
+                           <Tooltip>
+                              <TooltipTrigger asChild>
+                                 <Link href={storeUrl}>
+                                    <MapPin color="#004c8f" />
+                                 </Link>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                 <p>Please visit the nearest store and use your<br /> HDFC bank credit card to avail the offer</p>
+                              </TooltipContent>
+                           </Tooltip>
+                        </div>}
+                        {isKnowMoreVisible && (
+                           <div className="group inline-flex items-center justify-center gap-2 bg-transparent border border-[#004c8f] rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-[#004c8f] hover:text-[#fff] relative">
+                              <Link
+                                 href={`${process.env.NEXT_PUBLIC_APP_BASE_URL}${deal.subcategoryMerchants[0]?.subcategory?.slug}/${deal.subcategoryMerchants[0]?.merchant?.slug}`}
+                                 className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
+                              >
+                                 Know more
                               </Link>
-                           </TooltipTrigger>
-                           <TooltipContent>
-                              <p>Please visit the nearest store and use your<br /> HDFC bank credit card to avail the offer</p>
-                           </TooltipContent>
-                        </Tooltip>
-                     </div>}
-                     {isKnowMoreVisible && (
+                           </div>
+                        )}
+                        {!isKnowMoreVisible && (
                         <div className="group inline-flex items-center justify-center gap-2 bg-transparent border border-[#004c8f] rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-[#004c8f] hover:text-[#fff] relative">
-                           <Link
-                              href={`${process.env.NEXT_PUBLIC_APP_BASE_URL}${deal.subcategoryMerchants[0]?.subcategory?.slug}/${deal.subcategoryMerchants[0]?.merchant?.slug}`}
+                           <a
+                              href='https://offers.smartbuy.hdfcbank.com/v2/foryou'
+                              target='_blank'
                               className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
                            >
-                              Know more
-                           </Link>
+                              Avail Offer
+                           </a>
                         </div>
-                     )}
-                     <div className="group inline-flex items-center justify-center gap-2 bg-[#004c8f] border border-[#004c8f] text-white rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-transparent hover:text-[#292929] relative">
-                        <Link
-                           href={`https://applyonline.hdfcbank.com/cards/credit-cards.html?CHANNELSOURCE=Festive_Treats_Offer&LGCodeq=PSEO_Wrapper&mc_id=${deal.subcategoryMerchants[0]?.merchant?.name}`}
-                           className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
-                           target='_blank'
-                        >
-                           Apply Now
-                        </Link>
+                        )}
+                        <div>
+                           <div className="group inline-flex items-center justify-center gap-2 bg-[#004c8f] border border-[#004c8f] text-white rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-transparent hover:text-[#292929] relative">
+                              <a
+                                 href={`https://applyonline.hdfcbank.com/cards/credit-cards.html?CHANNELSOURCE=Festive_Treats_Offer&LGCodeq=PSEO_Wrapper&mc_id=${deal.subcategoryMerchants[0]?.merchant?.name}`}
+                                 className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
+                                 target='_blank'
+                              >
+                                 Apply Now
+                              </a>
+                           </div>
+                        </div>
                      </div>
                   </div>
                </div>
             </div>
+            
          </CardContent>
       </Card>
    )
