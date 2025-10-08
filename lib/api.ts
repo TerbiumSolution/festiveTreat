@@ -116,7 +116,12 @@ const stateQuery = (slug?: string, page: number = 1) => qs.stringify({
          },
          fields: '*',
          populate: {
-            state: { fields: ['name', 'slug'] }
+            state: {
+               filters: {
+                  isActiveFestive: { $eq: true }
+               },
+               fields: ['name', 'slug']
+            }
          }
       }
    },
