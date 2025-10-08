@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
-import { getCategoryData, getStateData, getSubcategoryMerchantData } from '@/lib/api';
+import { getCategoryData, getDealData, getStateData, getSubcategoryMerchantData } from '@/lib/api';
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_BASE_URL || 'http://localhost:3000/';
 const SITEMAP_LIMIT = 50000;
@@ -54,15 +54,11 @@ async function writeSitemapFiles(urls: string[], currentDate: string): Promise<v
 async function generateUrlCombinations(): Promise<string[]> {
    const urls: string[] = [''];
 
-   const [categories, subcategoryMerchantMap, states] = await Promise.all([
+   const [categories, deals, states] = await Promise.all([
       getCategoryData(),
-      getSubcategoryMerchantData(),
+      getDealData(),
       getStateData()
    ]);
-
-   const merchantLookup = new Map(
-      subcategoryMerchantMap.map(item => [item.subcategory.slug, item.merchant])
-   );
 
    const stateConfigs = states.map(state => ({
       slug: state.slug,
@@ -80,28 +76,32 @@ async function generateUrlCombinations(): Promise<string[]> {
       }
 
       for (const subcategory of category.subcategories) {
-         const subSlug = subcategory.slug;
-         urls.push(`${category.slug}/${subSlug}`);
+         const subcategorySlug = subcategory.slug;
+         urls.push(`${category.slug}/${subcategorySlug}`);
 
          for (const { slug: stateSlug, citySlugs } of stateConfigs) {
-            urls.push(`${subSlug}/${stateSlug}`);
+            urls.push(`${subcategorySlug}/${stateSlug}`);
             for (const citySlug of citySlugs) {
-               urls.push(`${subSlug}/${citySlug}`);
+               urls.push(`${subcategorySlug}/${citySlug}`);
             }
          }
+      }
+   }
 
-         const merchant = merchantLookup.get(subSlug);
-         if (merchant) {
-            const merchSlug = merchant.slug;
-            urls.push(`${subSlug}/${merchSlug}`);
+   const processedMerchants = new Set<string>();
+   for (const deal of deals) {
+      const merchantSlug = deal.subcategoryMerchants[0].merchant.slug;
+      const subcategorySlug = deal.subcategoryMerchants[0].subcategory.slug;
+      urls.push(`${subcategorySlug}/${merchantSlug}`);
 
-            for (const { slug: stateSlug, citySlugs } of stateConfigs) {
-               urls.push(`${merchSlug}/${stateSlug}`);
-               for (const citySlug of citySlugs) {
-                  urls.push(`${merchSlug}/${citySlug}`);
-               }
+      if (!processedMerchants.has(merchantSlug)) {
+         for (const { slug: stateSlug, citySlugs } of stateConfigs) {
+            urls.push(`${merchantSlug}/${stateSlug}`);
+            for (const citySlug of citySlugs) {
+               urls.push(`${merchantSlug}/${citySlug}`);
             }
          }
+         processedMerchants.add(merchantSlug);
       }
    }
 
