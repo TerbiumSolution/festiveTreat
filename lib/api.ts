@@ -20,19 +20,23 @@ const homeQuery = () => qs.stringify({
             "shared.breadcrumb": {
                fields: '*'
             },
-            "shared.hero-banner": {
-               fields: '*',
+            "shared.hero-banner-carousal": {
                populate: {
-                  media: {
+                  items: {
+                     fields: ['title'],
                      populate: {
-                        desktopImage: {
-                           fields: ["url", "alternativeText"],
+                        media: {
+                           populate: {
+                              desktopImage: {
+                                 fields: ['url', 'alternativeText'],
+                              },
+                              mobileImage: {
+                                 fields: ['url', 'alternativeText'],
+                              },
+                           },
                         },
-                        mobileImage: {
-                           fields: ["url", "alternativeText"],
-                        }
-                     }
-                  }
+                     },
+                  },
                },
             },
             "offer.category-tab": {
@@ -96,11 +100,11 @@ const stateQuery = (slug?: string, page: number = 1) => qs.stringify({
       slug: {
          $eq: slug,
       },
-      isActive: {
+      isActiveFestive: {
          $eq: true
       }
    } : {
-      isActive: {
+      isActiveFestive: {
          $eq: true
       }
    },
@@ -108,7 +112,7 @@ const stateQuery = (slug?: string, page: number = 1) => qs.stringify({
    populate: {
       cities: {
          filters: {
-            isActive: { $eq: true }
+            isActiveFestive: { $eq: true }
          },
          fields: '*',
          populate: {
@@ -178,6 +182,7 @@ const categoryQuery = (page: number = 1, slug?: string) => qs.stringify({
          fields: ["url", "alternativeText"]
       },
       bannerImage: {
+         fields: '*',
          populate: {
             desktopImage: {
                fields: ["url", "alternativeText"],
@@ -204,6 +209,7 @@ const categoryQuery = (page: number = 1, slug?: string) => qs.stringify({
          fields: '*',
          populate: {
             bannerImage: {
+               fields: '*',
                populate: {
                   desktopImage: {
                      fields: ["url", "alternativeText"],
@@ -214,7 +220,20 @@ const categoryQuery = (page: number = 1, slug?: string) => qs.stringify({
                }
             },
             category: {
-               fields: ['name', 'slug']
+               fields: ['name', 'slug'],
+               populate: {
+                  bannerImage: {
+                     fields: '*',
+                     populate: {
+                        desktopImage: {
+                           fields: ["url", "alternativeText"],
+                        },
+                        mobileImage: {
+                           fields: ["url", "alternativeText"],
+                        }
+                     }
+                  },
+               },
             },
             subcategoryContent: {
                fields: '*',
@@ -316,6 +335,7 @@ const subcategoryMerchantQuery = (page: number = 1) => qs.stringify({
    fields: '*',
    populate: {
       bannerImage: {
+         fields: '*',
          populate: {
             desktopImage: {
                fields: ["url", "alternativeText"],
@@ -485,19 +505,23 @@ const pageQuery = (layout?: string) => qs.stringify({
             "payzapp.general-information": {
                fields: '*'
             },
-            "shared.hero-banner": {
-               fields: '*',
+            "shared.hero-banner-carousal": {
                populate: {
-                  media: {
+                  items: {
+                     fields: ['title'],
                      populate: {
-                        desktopImage: {
-                           fields: ["url", "alternativeText"],
+                        media: {
+                           populate: {
+                              desktopImage: {
+                                 fields: ['url', 'alternativeText'],
+                              },
+                              mobileImage: {
+                                 fields: ['url', 'alternativeText'],
+                              },
+                           },
                         },
-                        mobileImage: {
-                           fields: ["url", "alternativeText"],
-                        }
-                     }
-                  }
+                     },
+                  },
                },
             },
             "offer.category-tab": {

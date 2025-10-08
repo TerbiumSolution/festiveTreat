@@ -3,8 +3,8 @@ import { SubcategoryType } from "./subcategoryType";
 export type CategoryType = {
    name: string;
    slug: string;
-   bannerLink?: string;
    bannerImage?: {
+      bannerLink?: string;
       desktopImage: {
          url: string;
          alternativeText?: string
@@ -13,7 +13,7 @@ export type CategoryType = {
          url: string;
          alternativeText?: string
       };
-   };
+   }[];
    subcategories: SubcategoryType[];
    icon?: {
       url: string;

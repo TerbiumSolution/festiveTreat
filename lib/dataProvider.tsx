@@ -38,7 +38,7 @@ export function BlockRenderer(
          return <Header context={contextProps} />
       case "shared.breadcrumb":
          return <Breadcrumb context={contextProps} />
-      case "shared.hero-banner":
+      case "shared.hero-banner-carousal":
          return <HeroBanner context={contextProps} props={block} />
       case "offer.category-tab":
          return <OfferNavSection context={contextProps} />

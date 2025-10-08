@@ -7,8 +7,8 @@ export type MerchantType = {
       url: string,
       alternativeText: string
    };
-   bannerLink?: string;
    storeLocatorUrl: string;
+   bannerLink?: string;
    bannerImage?: {
       desktopImage: {
          url: string;
@@ -18,7 +18,7 @@ export type MerchantType = {
          url: string;
          alternativeText?: string
       };
-   };
+   }[];
    merchantContent?: {
       h1?: string;
       content?: string

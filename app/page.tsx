@@ -58,7 +58,7 @@ export default async function Page({ params }: Props) {
   const { layout, blocks, deals, categories, states } = await getPageBlocks();
   if (layout === LayoutConstant.PAGE_NOT_FOUND) return notFound();
 
-  const heroBannerComponent = blocks?.find((block: any) => block.__component === 'shared.hero-banner');
+  const heroBannerComponent = blocks?.find((block: any) => block.__component === 'shared.hero-banner-carousal');
   return (
     blocks.map((block: any, index: number) =>
       <div key={index}>{BlockRenderer(layout, block, heroBannerComponent?.title, deals, categories, states)}</div>

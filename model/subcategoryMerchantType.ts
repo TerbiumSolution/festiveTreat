@@ -4,8 +4,8 @@ import { SubcategoryType } from "./subcategoryType"
 export type SubcategoryMerchantType = {
    subcategory: SubcategoryType;
    merchant: MerchantType;
-   bannerLink?: string;
    bannerImage?: {
+      bannerLink?: string;
       desktopImage: {
          url: string;
          alternativeText?: string
@@ -14,7 +14,7 @@ export type SubcategoryMerchantType = {
          url: string;
          alternativeText?: string
       };
-   };
+   }[];
    merchantContent?: {
       h1: string;
       content?: string

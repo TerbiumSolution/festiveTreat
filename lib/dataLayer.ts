@@ -198,7 +198,6 @@ export async function getPageBlocks(
             ...subcategoryMerchant.merchant,
             merchantContent: subcategoryMerchant.merchantContent,
             bannerImage: subcategoryMerchant.bannerImage,
-            bannerLink: subcategoryMerchant.bannerLink
          };
          return getLayoutResponse(LayoutConstant.MERCHANT, deals, categories, states, {
             category: cat,
