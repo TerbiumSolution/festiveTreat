@@ -9,13 +9,16 @@ import { LayoutConstant } from '@/lib/constants/constants';
 import { resolvePlaceHolder } from '@/lib/resolvePlaceHolder';
 import { DealType } from '@/model/dealType';
 import { Card, CardContent } from "@/components/ui/card"
+import { formattedDate } from '@/lib/utils';
 
-function getH1(layout: string, title: string, categoryTitle?: string, subcategoryTitle?: string, merchantTitle?: string, categoryName?: string, subcategoryName?: string, merchantName?: string, stateName?: string, cityName?: string): string {
+function getH1(layout: string, subcategoryName?: string, merchantName?: string, stateName?: string, cityName?: string): string {
    switch (layout) {
       case LayoutConstant.MERCHANT:
-      case LayoutConstant.MERCHANT_STATE:
-      case LayoutConstant.MERCHANT_CITY:
          return resolvePlaceHolder('Other {subcategory} Offers', '', subcategoryName, merchantName, stateName, cityName);
+      case LayoutConstant.MERCHANT_STATE:
+         return resolvePlaceHolder('Other {subcategory} Offers in {state}', '', subcategoryName, merchantName, stateName, cityName);
+      case LayoutConstant.MERCHANT_CITY:
+         return resolvePlaceHolder('Other {subcategory} Offers in {city}', '', subcategoryName, merchantName, stateName, cityName);
       default:
          return 'Festive Treats Offers by HDFC Bank';
    }
@@ -37,7 +40,7 @@ function getDeals(layout: string, deals: DealType[], categorySlug?: string, subc
 }
 
 export default function OffersCardsSection({ context, deals }: { context: ComponentPropsType, deals: DealType[] }) {
-   const { layout, title, category, subcategory, merchant, state, city } = context;
+   const { layout, category, subcategory, merchant, state, city } = context;
    const offerDeals = useMemo(
       () => getDeals(layout, deals, category?.slug, subcategory?.slug, merchant?.slug),
       [layout, deals, category, subcategory, merchant, state, city]
@@ -53,7 +56,7 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
    return (
       <section className="px-4 py-6">
          <div className="max-w-7xl mx-auto">
-            <h2 className="text-2xl font-semibold mb-6 pb-2 inline-block border-b">{getH1(layout, title, category?.categoryContent?.h1, subcategory?.subcategoryContent?.h1, merchant?.merchantContent?.h1, category?.name, subcategory?.name, merchant?.name, state?.name, city?.name)}</h2>
+            <h2 className="text-2xl font-semibold mb-6 pb-2 inline-block border-b">{getH1(layout, subcategory?.name, merchant?.name, state?.name, city?.name)}</h2>
             <div className={`grid ${visibleCards.length > 1 ? 'grid-cols-1 lg:grid-cols-2 gap-6' : 'grid-cols-1'}`}>
                {visibleCards.map((offer, index) => (
                   <Card key={`${offer}-${index}`} className="rounded-2xl shadow-md p-0">
@@ -84,11 +87,7 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
                                     <div>
                                        <p className={`text-sm mb-2 font-bold `}>Offer End Date</p>
                                        <p className={`text-[12px] font-medium text-[#6B6B6B]`}>
-                                          {new Date(offer.endDate).toLocaleDateString('en-GB', {
-                                             day: '2-digit',
-                                             month: '2-digit',
-                                             year: 'numeric'
-                                          }).replace(/\//g, '-')}
+                                          {formattedDate(offer.endDate)}
                                        </p>
                                     </div>
                                  </div>
@@ -106,23 +105,28 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
                                     ))
                                  )}
                               </div>
-                              <div className="flex justify-end gap-3 mt-4">
-                                 <div className="group inline-flex items-center justify-center gap-2 bg-transparent border border-[#004c8f] rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-[#004c8f] hover:text-[#fff] relative">
-                                    <Link
-                                       href={`${process.env.NEXT_PUBLIC_APP_BASE_URL}${offer.subcategoryMerchants[0]?.subcategory?.slug}/${offer.subcategoryMerchants[0]?.merchant?.slug}`}
-                                       className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
-                                    >
-                                       Know more
-                                    </Link>
+                              <div className="mt-5">
+                                 <div className="flex justify-end">
+                                    <span className="text-[10px] font-bold text-center mb-2 mr-1"><em>Don’t have a card?<br></br> Apply in minutes!</em></span>
                                  </div>
-                                 <div className="group inline-flex items-center justify-center gap-2 bg-[#004c8f] border border-[#004c8f] text-white rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-transparent hover:text-[#292929] relative">
-                                    <Link
-                                       href={`https://applyonline.hdfcbank.com/cards/credit-cards.html?CHANNELSOURCE=Festive_Treats_Offer&LGCodeq=PSEO_Wrapper&mc_id=${offer.subcategoryMerchants[0]?.merchant?.name}`}
-                                       className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
-                                       target='_blank'
-                                    >
-                                       Apply Now
-                                    </Link>
+                                 <div className="flex justify-end gap-3">
+                                    <div className="group inline-flex items-center justify-center gap-2 bg-transparent border border-[#004c8f] rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-[#004c8f] hover:text-[#fff] relative">
+                                       <Link
+                                          href={`${process.env.NEXT_PUBLIC_APP_BASE_URL}${offer.subcategoryMerchants[0]?.subcategory?.slug}/${offer.subcategoryMerchants[0]?.merchant?.slug}`}
+                                          className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
+                                       >
+                                          Know more
+                                       </Link>
+                                    </div>
+                                    <div className="group inline-flex items-center justify-center gap-2 bg-[#004c8f] border border-[#004c8f] text-white rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-transparent hover:text-[#292929] relative">
+                                       <Link
+                                          href={`https://applyonline.hdfcbank.com/cards/credit-cards.html?CHANNELSOURCE=Festive_Treats_Offer&LGCodeq=PSEO_Wrapper&mc_id=${offer.subcategoryMerchants[0]?.merchant?.name}`}
+                                          className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
+                                          target='_blank'
+                                       >
+                                          Apply Now
+                                       </Link>
+                                    </div>
                                  </div>
                               </div>
                            </div>

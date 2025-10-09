@@ -7,6 +7,7 @@ import { LayoutConstant } from '@/lib/constants/constants';
 import { resolvePlaceHolder } from '@/lib/resolvePlaceHolder';
 import { DealType } from '@/model/dealType';
 import OffersCard from './OfferCard';
+import extractOffers from './OfferSchema';
 
 function getH1(layout: string, title: string, categoryTitle?: string, subcategoryTitle?: string, merchantTitle?: string, categoryName?: string, subcategoryName?: string, merchantName?: string, stateName?: string, cityName?: string): string {
    switch (layout) {
@@ -71,6 +72,7 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
       () => getDeals(layout, deals, category?.slug, subcategory?.slug, merchant?.slug),
       [layout, deals, category, subcategory, merchant, state, city]
    );
+   const offerStructureData = useMemo(() => extractOffers(offerDeals), [offerDeals]);
 
    const [showAll, setShowAll] = useState(false);
    const visibleCards = useMemo(() => {
@@ -81,6 +83,7 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
 
    return (
       <section className="px-4 py-6">
+         <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(offerStructureData) }}></script>
          <div className="max-w-7xl mx-auto">
             <h2 className="text-2xl font-semibold mb-6 pb-2 inline-block border-b">{getH1(layout, title, category?.categoryContent?.h1, subcategory?.subcategoryContent?.h1, merchant?.merchantContent?.h1, category?.name, subcategory?.name, merchant?.name, state?.name, city?.name)}</h2>
             <div className={`grid ${visibleCards.length > 1 ? 'grid-cols-1 lg:grid-cols-2 gap-6' : 'grid-cols-1'}`}>

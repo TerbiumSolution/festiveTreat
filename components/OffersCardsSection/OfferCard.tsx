@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { CircleCheck, MapPin } from 'lucide-react';
 import { LayoutConstant } from '@/lib/constants/constants';
 import { DealType } from '@/model/dealType';
+import { formattedDate } from "@/lib/utils";
 
 export default function OffersCard({ layout, deal }: { layout: string, deal: DealType }) {
    let isKnowMoreVisible = true;
@@ -45,11 +46,7 @@ export default function OffersCard({ layout, deal }: { layout: string, deal: Dea
                         <div>
                            <p className={`${isKnowMoreVisible ? 'text-sm mb-2' : 'text-xl mb-4'} font-bold `}>Offer End Date</p>
                            <p className={`${isKnowMoreVisible ? 'text-[12px]' : 'text-xl'} font-medium text-[#6B6B6B]`}>
-                              {new Date(deal.endDate).toLocaleDateString('en-GB', {
-                                 day: '2-digit',
-                                 month: '2-digit',
-                                 year: 'numeric'
-                              }).replace(/\//g, '-')}
+                              {formattedDate(deal.endDate)}
                            </p>
                         </div>
                      </div>
@@ -67,25 +64,23 @@ export default function OffersCard({ layout, deal }: { layout: string, deal: Dea
                         ))
                      )}
                   </div>
-                  <div className="mt-2">
-                     {!isKnowMoreVisible && (
+                  <div className="mt-5">
                      <div className="flex justify-end">
                         <span className="text-[10px] font-bold text-center mb-2 mr-1"><em>Don’t have a card?<br></br> Apply in minutes!</em></span>
                      </div>
-                     )}
                      <div className="flex justify-end gap-3">
-                        {(!isKnowMoreVisible && storeUrl) && <div className="py-2">
-                           <Tooltip>
-                              <TooltipTrigger asChild>
-                                  <Link href={storeUrl} target="_blank" rel="nofollow">
-                                    <MapPin color="#004c8f" />
-                                  </Link>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                 <p>Please visit the nearest store and use your<br /> HDFC bank credit card to avail the offer</p>
-                              </TooltipContent>
-                           </Tooltip>
-                        </div>}
+                        {(!isKnowMoreVisible && storeUrl) && (
+                           <div className="group inline-flex items-center justify-center gap-2 bg-transparent border border-[#004c8f] rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-[#004c8f] hover:text-[#fff] relative">
+                              <a
+                                 href={storeUrl}
+                                 target="_blank"
+                                 rel="nofollow"
+                                 className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
+                              >
+                                 Avail Offline
+                              </a>
+                           </div>
+                        )}
                         {isKnowMoreVisible && (
                            <div className="group inline-flex items-center justify-center gap-2 bg-transparent border border-[#004c8f] rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-[#004c8f] hover:text-[#fff] relative">
                               <Link
@@ -96,16 +91,16 @@ export default function OffersCard({ layout, deal }: { layout: string, deal: Dea
                               </Link>
                            </div>
                         )}
-                        {!isKnowMoreVisible && (
-                        <div className="group inline-flex items-center justify-center gap-2 bg-transparent border border-[#004c8f] rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-[#004c8f] hover:text-[#fff] relative">
-                           <a
-                              href='https://offers.smartbuy.hdfcbank.com/v2/foryou'
-                              target='_blank'
-                              className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
-                           >
-                              Avail Offer
-                           </a>
-                        </div>
+                        {!isKnowMoreVisible && !storeUrl && (
+                           <div className="group inline-flex items-center justify-center gap-2 bg-transparent border border-[#004c8f] rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-[#004c8f] hover:text-[#fff] relative">
+                              <a
+                                 href='https://offers.smartbuy.hdfcbank.com/v2/foryou'
+                                 target='_blank'
+                                 className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
+                              >
+                                 Avail Online
+                              </a>
+                           </div>
                         )}
                         <div>
                            <div className="group inline-flex items-center justify-center gap-2 bg-[#004c8f] border border-[#004c8f] text-white rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-transparent hover:text-[#292929] relative">
@@ -122,7 +117,7 @@ export default function OffersCard({ layout, deal }: { layout: string, deal: Dea
                   </div>
                </div>
             </div>
-            
+
          </CardContent>
       </Card>
    )
