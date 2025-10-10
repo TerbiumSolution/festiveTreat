@@ -11,6 +11,7 @@ import { InterlinkItemType } from "@/model/interlinkItemType";
 import { LayoutConstant } from "@/lib/constants/constants";
 import DesktopInterlinkTabs from "./DesktopInterlinkTabs";
 import MobileAccordionTabs from "./MobileAccordionTabs";
+import { FaqDataType } from "@/model/faqDataType";
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_BASE_URL;
 const getStateInterlinks = (layout: string, states: StateType[], category?: CategoryType, subcategory?: SubcategoryType, merchant?: MerchantType, state?: StateType): InterlinkItemType[] => {
@@ -125,10 +126,25 @@ const getCityInterlinks = (layout: string, states: StateType[], category?: Categ
    return items;
 };
 
-export default function AllTabs({ context }: { context: ComponentPropsType }) {
+const getFaqData = (layout: string, faqProps: any, category?: CategoryType, subcategory?: SubcategoryType, merchant?: MerchantType): FaqDataType|undefined =>{
+
+   switch (layout){
+      case LayoutConstant.HOME:
+         return faqProps;
+      case LayoutConstant.CATEGORY:
+         return category?.categoryContent?.faq;
+      case LayoutConstant.SUBCATEGORY:
+         return subcategory?.subcategoryContent?.faq;
+      case LayoutConstant.MERCHANT:
+         return merchant?.merchantContent?.faq;
+      default:
+         break;
+   }
+}
+
+export default function AllTabs({ context, props }: { context: ComponentPropsType, props: any }) {
 
    const { layout, states, category, subcategory, merchant, state, city } = context;
-
    const stateInterlinks = useMemo(
       () => getStateInterlinks(layout, states, category, subcategory, merchant, state).sort((a, b) => a.name.localeCompare(b.name)),
       [layout, states, category, subcategory, merchant, state]
@@ -138,10 +154,14 @@ export default function AllTabs({ context }: { context: ComponentPropsType }) {
       [layout, states, category, subcategory, merchant, state, city]
    );
 
+   const faqs = useMemo(
+      () => getFaqData(layout, props?.faq, category, subcategory, merchant), [layout, props, category, subcategory, merchant]
+   )
+
    return (
       <>
-         <DesktopInterlinkTabs layout={layout} stateInterlinks={stateInterlinks} cityInterlinks={cityInterlinks} />
-         <MobileAccordionTabs layout={layout} stateInterlinks={stateInterlinks} cityInterlinks={cityInterlinks} />
+         <DesktopInterlinkTabs layout={layout} stateInterlinks={stateInterlinks} cityInterlinks={cityInterlinks} faqs={faqs} />
+         <MobileAccordionTabs layout={layout} stateInterlinks={stateInterlinks} cityInterlinks={cityInterlinks} faqs={faqs} />
       </>
    )
 }

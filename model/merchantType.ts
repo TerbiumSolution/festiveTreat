@@ -1,4 +1,5 @@
 import { SubcategoryType } from "./subcategoryType";
+import { FaqDataType } from "./faqDataType";
 
 export type MerchantType = {
    name: string;
@@ -26,6 +27,7 @@ export type MerchantType = {
          metaTitle: string;
          metaDescription: string;
       };
+      faq?: FaqDataType;
    };
    subcategory?: SubcategoryType;
 }

@@ -45,7 +45,7 @@ export function BlockRenderer(
       case "offer.category-list":
          return <OffersSection context={contextProps} deals={deals} />
       case "offer.interlink":
-         return <AllTabs context={contextProps} />
+         return <AllTabs context={contextProps} props={block} />
       case "payzapp.general-information":
          return <GeneralInformation props={block} context={contextProps} />
       case "offer.other-merchant-list":

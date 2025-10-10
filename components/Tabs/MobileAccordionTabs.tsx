@@ -7,8 +7,9 @@ import { ChevronRight } from 'lucide-react';
 import FAQSection from "../FAQ/FAQ";
 import { InterlinkItemType } from "@/model/interlinkItemType";
 import { LayoutConstant } from "@/lib/constants/constants";
+import { FaqDataType } from "@/model/faqDataType";
 
-export default function MobileAccordionTabs({ layout, stateInterlinks, cityInterlinks }: { layout: string, stateInterlinks: InterlinkItemType[], cityInterlinks: InterlinkItemType[] }) {
+export default function MobileAccordionTabs({ layout, stateInterlinks, cityInterlinks, faqs }: { layout: string, stateInterlinks: InterlinkItemType[], cityInterlinks: InterlinkItemType[], faqs: FaqDataType|undefined }) {
 
    const [showAll, setShowAll] = useState(false);
    const displayedStates = showAll ? stateInterlinks : stateInterlinks.slice(0, 10);
@@ -48,19 +49,23 @@ export default function MobileAccordionTabs({ layout, stateInterlinks, cityInter
                      <button onClick={() => setShowAll(!showAll)} className="relative w-full text-right mt-4" > {showAll ? <span className="text-[#004C8F] cursor-pointer font-[700] text-[12px] flex justify-end items-center ">View Less<ChevronRight size={14} stroke="#004C8F" className="font-bold" /></span> : <span className="text-[#004C8F] cursor-pointer font-[700] text-[12px] flex justify-end items-center ">View More<ChevronRight size={14} stroke="#004C8F" className="font-bold" /></span>} </button>
                   </AccordionContent>
                </AccordionItem>
+               {faqs && faqs?.items.length > 0 && (
                <AccordionItem value={`item-3`} className="border-b last:border-b-0">
                   <AccordionTrigger className="data-[state=open]:[&>svg]:text-[#fff] [&>svg]:text-[#004C8F] [&>svg]:stroke-3 [&>svg]:text-[16px] data-[state=open]:text-[#fff] text-[16px] cursor-pointer data-[state=open]:font-[600] hover:no-underline data-[state=open]:bg-[#004C8F] text-[#004C8F] px-3">
                      Frequently Asked Questions
                   </AccordionTrigger>
                   <AccordionContent className="text-[#004C8F] font-[500]">
-                     <FAQSection className={`hidden`} className2="px-4 mt-4" />
+                     <FAQSection className={`hidden`} className2="px-4 mt-4" faqs={faqs}/>
                   </AccordionContent>
                </AccordionItem>
+               )}
             </Accordion>
          ) : (
+            faqs && faqs?.items.length > 0 && (
             <div className={`px-4 my-4`}>
-               <FAQSection className2="" />
+               <FAQSection className2="" faqs={faqs}/>
             </div>
+            )
          )}
 
       </section>

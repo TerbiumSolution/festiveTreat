@@ -8,6 +8,7 @@ import { resolvePlaceHolder } from '@/lib/resolvePlaceHolder';
 import { DealType } from '@/model/dealType';
 import OffersCard from './OfferCard';
 import extractOffers from './OfferSchema';
+import OtherMerchantCard from '../OtherMerchantSection/OtherMerchantCard';
 
 function getH1(layout: string, title: string, categoryTitle?: string, subcategoryTitle?: string, merchantTitle?: string, categoryName?: string, subcategoryName?: string, merchantName?: string, stateName?: string, cityName?: string): string {
    switch (layout) {
@@ -88,7 +89,9 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
             <h2 className="text-2xl font-semibold mb-6 pb-2 inline-block border-b">{getH1(layout, title, category?.categoryContent?.h1, subcategory?.subcategoryContent?.h1, merchant?.merchantContent?.h1, category?.name, subcategory?.name, merchant?.name, state?.name, city?.name)}</h2>
             <div className={`grid ${visibleCards.length > 1 ? 'grid-cols-1 lg:grid-cols-2 gap-6' : 'grid-cols-1'}`}>
                {visibleCards.map((offer, index) => (
-                  <OffersCard key={`${offer.name}-${index}`} deal={offer} layout={layout} />
+                  offerDeals.length > 1 && (layout === LayoutConstant.MERCHANT || layout === LayoutConstant.MERCHANT_STATE || layout === LayoutConstant.MERCHANT_CITY) ?
+                     <OtherMerchantCard key={`${offer.name}-${index}`} deal={offer} layout={layout} component="OfferCard" /> :
+                     <OffersCard key={`${offer.name}-${index}`} deal={offer} layout={layout} />
                ))}
             </div>
          </div>

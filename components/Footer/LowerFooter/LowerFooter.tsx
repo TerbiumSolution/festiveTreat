@@ -52,8 +52,8 @@ export default function LowerFooter({className}:Props) {
             <HdfcLogo className={`${styles.hdfc_logo}`} strokeWidth={2.5}/>
             <div className={`${styles.lower_left_wrapper}`}>
                 <div className="flex items-center mr-3">
-                    <Image className={`${styles.image_wrapper}`} src={`/assets/images/QR_Code.png`} alt="Qr Code" width={60} height={60} />
-                    <Image className={`${styles.image_wrapper} ml-2`} src={`/assets/images/DICGCLogo.png`} alt="DICGC Logo" width={60} height={60} />
+                    <Image className={`${styles.image_wrapper}`} src={`${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/QR_Code.png`} alt="Qr Code" width={60} height={60} />
+                    <Image className={`${styles.image_wrapper} ml-2`} src={`${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/DICGCLogo.png`} alt="DICGC Logo" width={60} height={60} />
                     <div className="ml-3">
                         <p className={`${styles.logo_text} text-start font-bold break-words`} style={{ fontSize: 'calc(16px * var(--font-scale-multiplier, 1))' }}>HDFC Bank is registered with DICGC</p>
                         <p className={`${styles.logo_text} text-start break-words`} style={{ fontSize: 'calc(14px * var(--font-scale-multiplier, 1))' }}>https://www.dicgc.org.in</p>

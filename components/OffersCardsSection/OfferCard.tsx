@@ -45,7 +45,7 @@ export default function OffersCard({ layout, deal }: { layout: string, deal: Dea
                         </div>
                         <div>
                            <p className={`${isKnowMoreVisible ? 'text-sm mb-2' : 'text-xl mb-4'} font-bold `}>Offer End Date</p>
-                           <p className={`${isKnowMoreVisible ? 'text-[12px]' : 'text-xl'} font-medium text-[#6B6B6B]`}>
+                           <p className={`${isKnowMoreVisible ? 'text-[12px]' : 'text-xl'} font-medium text-[#6B6B6B] whitespace-nowrap`}>
                               {formattedDate(deal.endDate)}
                            </p>
                         </div>
@@ -66,7 +66,7 @@ export default function OffersCard({ layout, deal }: { layout: string, deal: Dea
                   </div>
                   <div className="mt-5">
                      <div className="flex justify-end">
-                        <span className="text-[10px] font-bold text-center mb-2 mr-1"><em>Don’t have a card?<br></br> Apply in minutes!</em></span>
+                        <span className="text-[10px] font-bold text-center mb-2"><em>Dont have our card?<br></br> Apply in minutes!</em></span>
                      </div>
                      <div className="flex justify-end gap-3">
                         {(!isKnowMoreVisible && storeUrl) && (

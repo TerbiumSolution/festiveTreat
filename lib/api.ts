@@ -203,6 +203,14 @@ const categoryQuery = (page: number = 1, slug?: string) => qs.stringify({
             seo: {
                fields: '*'
             },
+            faq: {
+               fields: '*',
+               populate: {
+                  items: {
+                     fields: '*'
+                  }
+               }
+            },
          }
       },
       subcategories: {
@@ -245,6 +253,14 @@ const categoryQuery = (page: number = 1, slug?: string) => qs.stringify({
                populate: {
                   seo: {
                      fields: '*'
+                  },
+                  faq: {
+                     fields: '*',
+                     populate: {
+                        items: {
+                           fields: '*'
+                        }
+                     }
                   },
                }
             },
@@ -371,6 +387,14 @@ const subcategoryMerchantQuery = (page: number = 1) => qs.stringify({
          populate: {
             seo: {
                fields: '*'
+            },
+            faq: {
+               fields: '*',
+               populate: {
+                  items: {
+                     fields: '*'
+                  }
+               }
             },
          }
       }

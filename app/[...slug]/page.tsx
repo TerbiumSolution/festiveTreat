@@ -69,7 +69,7 @@ export default async function Page({ params }: Props) {
    const heroBannerComponent = blocks?.find((block: any) => block.__component === 'shared.hero-banner-carousal');
    return (
       blocks.map((block: any, index: number) =>
-         <div key={index}>{BlockRenderer(layout, block, heroBannerComponent?.title, deals, categories, states, category, subcategory, merchant, state, city)}</div>
+         <div key={index}>{BlockRenderer(layout, block, heroBannerComponent.items[0]?.title, deals, categories, states, category, subcategory, merchant, state, city)}</div>
       )
    );
 }
