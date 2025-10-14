@@ -67,7 +67,7 @@ function getDeals(layout: string, deals: DealType[], categorySlug?: string, subc
    }
 }
 
-export default function OffersCardsSection({ context, deals }: { context: ComponentPropsType, deals: DealType[] }) {
+export default function OffersCardsSection({ context, deals, }: Readonly<{ context: ComponentPropsType; deals: DealType[]; }>) {
    const { layout, title, category, subcategory, merchant, state, city } = context;
    const offerDeals = useMemo(
       () => getDeals(layout, deals, category?.slug, subcategory?.slug, merchant?.slug),

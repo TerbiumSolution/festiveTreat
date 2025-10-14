@@ -44,7 +44,7 @@ const HdfcLogo = ({
 </svg>
   )
 }
-export default function LowerFooter({className}:Props) {
+export default function LowerFooter({className}:Readonly<Props>) {
   return (
     <>
     <section className={`${className} bg-[var(--lower-footer)]`}>

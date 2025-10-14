@@ -46,7 +46,7 @@ const HdfcLogo = ({
   )
 }
 
-export default function Header({ context }: { context: ComponentPropsType }) {
+export default function Header({ context, }: Readonly<{ context: ComponentPropsType; }>) {
   const {categories} = context;
 
   return (

@@ -3,7 +3,7 @@ import styles from "@/components/Footer/UpperFooter/MobileLinksFooter/MobileLink
 type Props = {
     className?: string;
 }
-export function MobileLinksFooter({ className }: Props) {
+export function MobileLinksFooter({ className }: Readonly<Props>) {
   return (
     <>
         <Accordion type="single" collapsible className={`${className} w-full pt-10 pb-4`} defaultValue="item-1" >

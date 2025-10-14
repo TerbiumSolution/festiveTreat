@@ -142,7 +142,7 @@ const getFaqData = (layout: string, faqProps: any, category?: CategoryType, subc
    }
 }
 
-export default function AllTabs({ context, props }: { context: ComponentPropsType, props: any }) {
+export default function AllTabs({ context, props, }: Readonly<{ context: ComponentPropsType; props: any; }>) {
 
    const { layout, states, category, subcategory, merchant, state, city } = context;
    const stateInterlinks = useMemo(

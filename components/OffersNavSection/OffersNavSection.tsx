@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ComponentPropsType } from "@/model/componentPropsType";
 import styles from "@/components/OffersNavSection/OfferNavSection.module.css"
 
-export default function OfferNavSection({ context }: { context: ComponentPropsType }) {
+export default function OfferNavSection({ context, }: Readonly<{ context: ComponentPropsType; }>) {
   const { categories, category } = context;
   const scrollRef = useRef<HTMLDivElement>(null);
 

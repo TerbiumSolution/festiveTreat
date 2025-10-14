@@ -2,8 +2,7 @@ import { notFound } from "next/navigation";
 import { BlockRenderer } from "@/lib/dataProvider";
 import { getPageBlocks } from "@/lib/dataLayer";
 import { LayoutConstant } from "@/lib/constants/constants";
-import { resolvePlaceHolder } from "@/lib/resolvePlaceHolder";
-
+import { nanoid } from "nanoid";
 type Props = {
   params: Promise<{ slug?: string[] }>,
   // searchParams: Promise<{ [key: string]: string | string[] | undefined }>
@@ -60,8 +59,8 @@ export default async function Page({ params }: Props) {
 
   const heroBannerComponent = blocks?.find((block: any) => block.__component === 'shared.hero-banner-carousal');
   return (
-    blocks.map((block: any, index: number) =>
-      <div key={index}>{BlockRenderer(layout, block, heroBannerComponent?.title, deals, categories, states)}</div>
+    blocks.map((block: any) =>
+      <div key={`${block.id || block.documentId || block.__component}-${nanoid()}`}>{BlockRenderer(layout, block, heroBannerComponent?.title, deals, categories, states)}</div>
     )
   );
 }

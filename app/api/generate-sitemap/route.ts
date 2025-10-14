@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
-import { getCategoryData, getDealData, getStateData, getSubcategoryMerchantData } from '@/lib/api';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { getCategoryData, getDealData, getStateData } from '@/lib/api';
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_BASE_URL || 'http://localhost:3000/';
 const SITEMAP_LIMIT = 50000;

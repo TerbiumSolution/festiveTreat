@@ -36,7 +36,7 @@ const getContent = (layout: string, props?: any, category?: CategoryType, subcat
     }
 }
 
-export default function GeneralInformation({ props, context }: { context: ComponentPropsType; props: any; }) {
+export default function GeneralInformation({ props, context, }: Readonly<{ context: ComponentPropsType; props: any; }>) {
     const { layout, category, subcategory, merchant, city, state } = context;
     const content = getContent(layout, props, category, subcategory, merchant, state, city);
 

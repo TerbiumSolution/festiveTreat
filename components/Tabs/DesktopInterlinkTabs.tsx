@@ -9,7 +9,7 @@ import { InterlinkItemType } from "@/model/interlinkItemType";
 import { LayoutConstant } from "@/lib/constants/constants";
 import { FaqDataType } from "@/model/faqDataType";
 
-export default function DesktopInterlinkTabs({ layout, stateInterlinks, cityInterlinks, faqs}: { layout: string, stateInterlinks: InterlinkItemType[], cityInterlinks: InterlinkItemType[], faqs: FaqDataType|undefined }) {
+export default function DesktopInterlinkTabs({ layout, stateInterlinks, cityInterlinks, faqs, }: Readonly<{ layout: string; stateInterlinks: InterlinkItemType[]; cityInterlinks: InterlinkItemType[]; faqs: FaqDataType | undefined; }>) {
    const [showAll, setShowAll] = useState(false);
 
    const displayedStates = showAll ? stateInterlinks : stateInterlinks.slice(0, 10);

@@ -50,7 +50,7 @@ export default function QuickLinks() {
         <p className="text-[#fff] flex-shrink-0">Quick Links 1</p>
         <ul className={`${styles.unordered_list} flex flex-wrap items-center`}>
           {quickLinks1.map((link, i) => (
-            <li key={i} className={`${styles.list_item} inline-block`}>
+            <li key={`${link}-${i}`} className={`${styles.list_item} inline-block`}>
               <Link href="">{link}</Link>
             </li>
           ))}
@@ -62,7 +62,7 @@ export default function QuickLinks() {
         <p className="text-[#fff] flex-shrink-0">Quick Links 2</p>
         <ul className={`${styles.unordered_list} flex flex-wrap items-center`}>
           {quickLinks2.map((link, i) => (
-            <li key={i} className={`${styles.list_item} inline-block`}>
+            <li key={`${link}-${i}`} className={`${styles.list_item} inline-block`}>
               <Link href="">{link}</Link>
             </li>
           ))}
@@ -75,7 +75,7 @@ export default function QuickLinks() {
           <p className="text-[#fff] flex-shrink-0">Quick Links 3</p>
           <ul className={`${styles.unordered_list} flex flex-wrap items-center`}>
             {quickLinks3.map((link, i) => (
-              <li key={i} className={`${styles.list_item} inline-block`}>
+              <li key={`${link}-${i}`} className={`${styles.list_item} inline-block`}>
                 <Link href="">{link}</Link>
               </li>
             ))}

@@ -1,15 +1,11 @@
 'use client'
 import { useMemo, useState } from 'react';
-import { Button } from "@/components/ui/button"
-import Link from 'next/link';
-import Image from 'next/image';
-import { ChevronRight, CircleCheck } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { ChevronRight } from 'lucide-react';
 import { ComponentPropsType } from "@/model/componentPropsType";
 import { LayoutConstant } from '@/lib/constants/constants';
 import { resolvePlaceHolder } from '@/lib/resolvePlaceHolder';
 import { DealType } from '@/model/dealType';
-import { Card, CardContent } from "@/components/ui/card"
-import { formattedDate } from '@/lib/utils';
 import OtherMerchantCard from './OtherMerchantCard';
 
 function getH1(layout: string, subcategoryName?: string, merchantName?: string, stateName?: string, cityName?: string): string {

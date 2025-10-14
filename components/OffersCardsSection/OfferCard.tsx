@@ -1,17 +1,12 @@
 import Link from "next/link";
-import Image from "next/image"
-import {
-   Tooltip,
-   TooltipContent,
-   TooltipTrigger,
-} from "@/components/ui/tooltip"
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card"
-import { CircleCheck, MapPin } from 'lucide-react';
+import { CircleCheck } from 'lucide-react';
 import { LayoutConstant } from '@/lib/constants/constants';
 import { DealType } from '@/model/dealType';
 import { formattedDate } from "@/lib/utils";
 
-export default function OffersCard({ layout, deal }: { layout: string, deal: DealType }) {
+export default function OffersCard({ layout, deal, }: Readonly<{ layout: string; deal: DealType; }>) {
    let isKnowMoreVisible = true;
    if (layout === LayoutConstant.MERCHANT || layout === LayoutConstant.MERCHANT_STATE || layout === LayoutConstant.MERCHANT_CITY)
       isKnowMoreVisible = false

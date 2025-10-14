@@ -64,7 +64,7 @@ const HdfcLogo = ({
 // }
 
 
-export default function UpparHeader({ categories }: { categories: CategoryType[] }) {
+export default function UpparHeader({ categories, }: Readonly<{ categories: CategoryType[]; }>) {
   return (
     <div className="w-full px-6 py-4">
       <div className="max-w-7xl mx-auto flex items-center justify-between grid grid-cols-[auto_1fr] items-center gap-4">
