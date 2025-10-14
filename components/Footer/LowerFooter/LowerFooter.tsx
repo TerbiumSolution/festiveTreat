@@ -46,7 +46,7 @@ const HdfcLogo = ({
 }
 export default function LowerFooter({className}:Readonly<Props>) {
   return (
-    <>
+   
     <section className={`${className} bg-[var(--lower-footer)]`}>
         <div className={`pb-8 flex justify-between max-w-7xl mx-auto text-center border-b border-[#d9d9d9ff] items-center ${styles.lower_footer_wrapper}`}>
             <HdfcLogo className={`${styles.hdfc_logo}`} strokeWidth={2.5}/>
@@ -197,6 +197,6 @@ export default function LowerFooter({className}:Readonly<Props>) {
             </div>
         </div>
     </section>
-    </>
+   
   );
 }

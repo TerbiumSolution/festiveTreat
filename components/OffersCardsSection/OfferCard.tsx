@@ -45,8 +45,8 @@ export default function OffersCard({ layout, deal, }: Readonly<{ layout: string;
                            </p>
                         </div>
                      </div>
-                     {deal.details && (
-                        deal.details.map((detail, index) => (
+                     
+                        {deal.details?.map((detail, index) => (
                            <div className={isKnowMoreVisible ? 'mt-3' : 'mt-6'} key={`${detail.content}-${index}`}>
                               <p className={`${isKnowMoreVisible ? 'text-sm mb-2' : 'text-lg mb-6'} font-bold `}>Offer Details</p>
                               <ul>
@@ -56,8 +56,8 @@ export default function OffersCard({ layout, deal, }: Readonly<{ layout: string;
                                  </li>
                               </ul>
                            </div>
-                        ))
-                     )}
+                        ))}
+                    
                   </div>
                   <div className="mt-5">
                      <div className="flex justify-end">
