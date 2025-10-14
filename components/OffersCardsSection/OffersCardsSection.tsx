@@ -10,28 +10,28 @@ import OffersCard from './OfferCard';
 import extractOffers from './OfferSchema';
 import OtherMerchantCard from '../OtherMerchantSection/OtherMerchantCard';
 
-function getH1(layout: string, title: string, categoryTitle?: string, subcategoryTitle?: string, merchantTitle?: string, categoryName?: string, subcategoryName?: string, merchantName?: string, stateName?: string, cityName?: string): string {
+function getH1( layout: string, title: string, categoryTitle?: string, subcategoryTitle?: string, merchantTitle?: string, categoryName?: string, subcategoryName?: string, merchantName?: string, stateName?: string, cityName?: string ): string {
    switch (layout) {
-      case LayoutConstant.HOME:
-         return title || 'Festive Treats Offers by HDFC Bank';
-      case LayoutConstant.CATEGORY:
-         return categoryTitle ? categoryTitle : resolvePlaceHolder(title, categoryName);
-      case LayoutConstant.CATEGORY_STATE:
-      case LayoutConstant.CATEGORY_CITY:
-         return resolvePlaceHolder(title, categoryName, '', '', stateName, cityName);
-      case LayoutConstant.SUBCATEGORY:
-         return subcategoryTitle ? subcategoryTitle : resolvePlaceHolder(title, subcategoryName);
-      case LayoutConstant.SUBCATEGORY_STATE:
-      case LayoutConstant.SUBCATEGORY_CITY:
-         return resolvePlaceHolder(title, '', subcategoryName, '', stateName, cityName);
-      case LayoutConstant.MERCHANT:
-         return merchantTitle ? merchantTitle : resolvePlaceHolder(title, merchantName);
-      case LayoutConstant.MERCHANT_STATE:
-      case LayoutConstant.MERCHANT_CITY:
-         return resolvePlaceHolder(title, '', '', merchantName, stateName, cityName);
-      default:
-         return 'Festive Treats Offers by HDFC Bank';
-   }
+    case LayoutConstant.HOME:
+      return title || 'Festive Treats Offers by HDFC Bank';
+    case LayoutConstant.CATEGORY:
+      return categoryTitle ?? resolvePlaceHolder(title, categoryName);
+    case LayoutConstant.CATEGORY_STATE:
+    case LayoutConstant.CATEGORY_CITY:
+      return resolvePlaceHolder(title, categoryName, '', '', stateName, cityName);
+    case LayoutConstant.SUBCATEGORY:
+      return subcategoryTitle ?? resolvePlaceHolder(title, subcategoryName);
+    case LayoutConstant.SUBCATEGORY_STATE:
+    case LayoutConstant.SUBCATEGORY_CITY:
+      return resolvePlaceHolder(title, '', subcategoryName, '', stateName, cityName);
+    case LayoutConstant.MERCHANT:
+      return merchantTitle ?? resolvePlaceHolder(title, merchantName);
+    case LayoutConstant.MERCHANT_STATE:
+    case LayoutConstant.MERCHANT_CITY:
+      return resolvePlaceHolder(title, '', '', merchantName, stateName, cityName);
+    default:
+      return 'Festive Treats Offers by HDFC Bank';
+  }
 }
 
 function getDeals(layout: string, deals: DealType[], categorySlug?: string, subcategorySlug?: string, merchantSlug?: string): DealType[] {

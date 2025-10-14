@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props) {
   const seoTitle = seoComponent?.metaTitle;
   const seoDescription = seoComponent?.metaDescription;
   const canonicalUrl = process.env.NEXT_PUBLIC_APP_BASE_URL;
-
+  const isIndex = process.env.NEXT_PUBLIC_INDEX === 'true';
   return {
     title: seoTitle,
     description: seoDescription,
@@ -41,15 +41,15 @@ export async function generateMetadata({ params }: Props) {
       ]
     },
     robots: {
-      index: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
-      follow: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
+      index: isIndex,
+      follow: isIndex,
       nocache: false,
       googleBot: {
-        index: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
-        follow: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
-        noimageindex: false,
+         index: isIndex,
+         follow: isIndex,
+         noimageindex: false,
       }
-    },
+      },
   };
 };
 

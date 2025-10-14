@@ -20,6 +20,7 @@ export async function generateMetadata({ params }: Props) {
    const seoTitle = resolvePlaceHolder(metaTitle, category?.name, subcategory?.name, merchant?.name, state?.name, city?.name);
    const seoDescription = resolvePlaceHolder(metaDescription, category?.name, subcategory?.name, merchant?.name, state?.name, city?.name);
    const canonicalUrl = process.env.NEXT_PUBLIC_APP_BASE_URL + (subSlug ? `${slug}/${subSlug}` : slug)
+   const isIndex = process.env.NEXT_PUBLIC_INDEX === 'true';
 
    return {
       title: seoTitle,
@@ -45,14 +46,14 @@ export async function generateMetadata({ params }: Props) {
          ]
       },
       robots: {
-         index: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
-         follow: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
-         nocache: false,
-         googleBot: {
-            index: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
-            follow: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
-            noimageindex: false,
-         }
+      index: isIndex,
+      follow: isIndex,
+      nocache: false,
+      googleBot: {
+         index: isIndex,
+         follow: isIndex,
+         noimageindex: false,
+      }
       },
    };
 };

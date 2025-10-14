@@ -29,7 +29,7 @@ export default function DesktopInterlinkTabs({ layout, stateInterlinks, cityInte
                <TabsContent value="states" className="px-5 py-5 rounded-md border shadow-md relative mt-12">
                   <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 relative">
                      {displayedStates.map((state, i) => (
-                        <Link key={i} href={state.href} className="font-normal text-[16px] text-[#000]">
+                        <Link key={`${state.href}-${i}`} href={state.href} className="font-normal text-[16px] text-[#000]">
                            {state.name}
                         </Link>
                      ))}
@@ -39,7 +39,7 @@ export default function DesktopInterlinkTabs({ layout, stateInterlinks, cityInte
                <TabsContent value="cities" className="px-5 py-5 rounded-md border shadow-md relative mt-12">
                   <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 relative">
                      {displayedCities.map((city, i) => (
-                        <Link key={i} href={city.href} className="font-normal text-[16px] text-[#000]">
+                        <Link key={`${city.href}-${i}`} href={city.href} className="font-normal text-[16px] text-[#000]">
                            {city.name}
                         </Link>
                      ))}
