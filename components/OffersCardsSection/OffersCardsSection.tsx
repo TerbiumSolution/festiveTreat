@@ -73,7 +73,7 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
       () => getDeals(layout, deals, category?.slug, subcategory?.slug, merchant?.slug),
       [layout, deals, category, subcategory, merchant, state, city]
    );
-   const offerStructureData = useMemo(() => extractOffers(offerDeals), [offerDeals]);
+   const offerStructureData = useMemo(() => extractOffers(offerDeals, layout), [offerDeals]);
 
    const [showAll, setShowAll] = useState(false);
    const visibleCards = useMemo(() => {
@@ -84,9 +84,15 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
 
    return (
       <section className="px-4 py-6">
-         <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(offerStructureData) }}></script>
+         {offerStructureData && (
+            <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(offerStructureData) }}></script>
+         )}
+
          <div className="max-w-7xl mx-auto">
             <h2 className="text-2xl font-semibold mb-6 pb-2 inline-block border-b">{getH1(layout, title, category?.categoryContent?.h1, subcategory?.subcategoryContent?.h1, merchant?.merchantContent?.h1, category?.name, subcategory?.name, merchant?.name, state?.name, city?.name)}</h2>
+            {visibleCards.length == 0 &&(
+               <span className='block text-lg'>No offers available</span>
+            )}
             <div className={`grid ${visibleCards.length > 1 ? 'grid-cols-1 lg:grid-cols-2 gap-6' : 'grid-cols-1'}`}>
                {visibleCards.map((offer, index) => (
                   offerDeals.length > 1 && (layout === LayoutConstant.MERCHANT || layout === LayoutConstant.MERCHANT_STATE || layout === LayoutConstant.MERCHANT_CITY) ?
