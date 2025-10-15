@@ -25,12 +25,11 @@ const HdfcLogo = ({
 }: HdfcLogoProps) => {
   return (
     <svg
-      aria-hidden="true"
+      aria-label="HDFC Bank Logo"
       fill="none"
       focusable="false"
       height={height || size}
       width={width || size}
-      role="presentation"
       viewBox="0 0 178 35"
       {...props}
     >

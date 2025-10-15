@@ -14,16 +14,8 @@ const HdfcLogo = ({
   ...props
 }: HdfcLogoProps) => {
   return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      focusable="false"
-      height={height || size}
-      width={width || size}
-      role="presentation"
-      viewBox="0 0 178 35"
-      {...props}
-    >
+    <svg aria-label="HDFC Bank Logo"  fill="none" focusable="false" height={height || size} width={width || size} viewBox="0 0 178 35"
+      {...props} >
       <g clipPath="url(#clip0_86_1232)">
         <path d="M3 1.5H1.5V3V31.6689V33.1689H3H175H176.5V31.6689V3V1.5H175H3Z" fill="#004C8F" stroke="white" strokeWidth={strokeWidth} />
         <path d="M31.668 3H175V31.6689H31.668V3Z" fill="#004C8F" />
