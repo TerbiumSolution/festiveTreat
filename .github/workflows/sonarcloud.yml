@@ -1,0 +1,25 @@
+name: SonarCloud Scan
+
+on:
+  push:
+    branches: "error-solved"
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  sonar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          projectKey: ${{ secrets.PROJECT_KEY }}
+          organization: ${{ secrets.ORGANIZATION_NAME }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
