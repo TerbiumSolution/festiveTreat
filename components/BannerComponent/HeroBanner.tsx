@@ -39,7 +39,7 @@ function getBanner(
 }[] {
 
 	switch (layout) {
-		case LayoutConstant.HOME:
+		case LayoutConstant.HOME:{
 			const mappedItems = props.items
 				.map(item => item.media)
 				.filter((item): item is NonNullable<typeof item> => item !== undefined) || [{
@@ -48,7 +48,7 @@ function getBanner(
 					bannerLink: ''
 				}];
 			return mappedItems;
-
+		}
 		case LayoutConstant.CATEGORY:
 		case LayoutConstant.CATEGORY_STATE:
 		case LayoutConstant.CATEGORY_CITY: {
@@ -125,7 +125,7 @@ const BannerContent = ({ banner, priority = false }: BannerContentProps) => (
 		{banner.desktopImage?.url && (
 			<Image
 				src={banner.desktopImage.url}
-				alt={banner.desktopImage.alternativeText || ''}
+				alt={banner.desktopImage.alternativeText ?? ''}
 				width={1440}
 				height={333}
 				className="hidden md:block w-full h-auto"
@@ -135,7 +135,7 @@ const BannerContent = ({ banner, priority = false }: BannerContentProps) => (
 		{banner.mobileImage?.url && (
 			<Image
 				src={banner.mobileImage.url}
-				alt={banner.mobileImage.alternativeText || ''}
+				alt={banner.mobileImage.alternativeText ?? ''}
 				width={425}
 				height={425}
 				className="block md:hidden w-full h-auto"
@@ -199,7 +199,7 @@ export default function HeroBanner({
 			<div className="overflow-hidden" ref={emblaRef}>
 				<div className="flex">
 					    {banners.map((banner) => {
-							const key = banner.bannerLink || banner.desktopImage.url;
+							const key = banner.bannerLink ?? banner.desktopImage.url;
 							return (
 								<div key={key} className="flex-[0_0_100%] min-w-0">
 								{banner.bannerLink ? (
@@ -218,7 +218,7 @@ export default function HeroBanner({
 			{/* Dots Navigation */}
 			<div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
 				{banners.map((banner) => {
-					const key = banner.bannerLink || banner.desktopImage.url; // stable key
+					const key = banner.bannerLink ?? banner.desktopImage.url;
 					return (
 					<button
 						key={key}
