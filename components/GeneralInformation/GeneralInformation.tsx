@@ -9,32 +9,60 @@ import { MerchantType } from "@/model/merchantType";
 import { StateType } from "@/model/stateType";
 import { CityType } from "@/model/cityType";
 
-const getContent = (layout: string, props?: any, category?: CategoryType, subcategory?: SubcategoryType, merchant?: MerchantType, state?: StateType, city?: CityType): string => {
-    switch (layout) {
-        case LayoutConstant.HOME:
-            return props.content;
-        case LayoutConstant.CATEGORY:
-            return category?.categoryContent?.content || '';
-        case LayoutConstant.CATEGORY_STATE:
-            return resolvePlaceHolder(props?.content || '', category?.name, '', '', state?.name, '') || '';
-        case LayoutConstant.CATEGORY_CITY:
-            return resolvePlaceHolder(props?.content || '', category?.name, '', '', state?.name, city?.name) || '';
-        case LayoutConstant.SUBCATEGORY:
-            return subcategory?.subcategoryContent?.content || '';
-        case LayoutConstant.SUBCATEGORY_STATE:
-            return resolvePlaceHolder(props?.content || '', category?.name, subcategory?.name, '', state?.name, '') || '';
-        case LayoutConstant.CATEGORY_CITY:
-            return resolvePlaceHolder(props?.content || '', category?.name, subcategory?.name, '', state?.name, city?.name) || '';
-        case LayoutConstant.MERCHANT:
-            return merchant?.merchantContent?.content || '';
-        case LayoutConstant.MERCHANT_STATE:
-            return resolvePlaceHolder(props?.content || '', '', subcategory?.name, merchant?.name, state?.name, '') || '';
-        case LayoutConstant.MERCHANT_CITY:
-            return resolvePlaceHolder(props?.content || '', '', subcategory?.name, merchant?.name, state?.name, city?.name) || '';
-        default:
-            return "";
-    }
-}
+const getContent = (
+  layout: string,
+  props?: any,
+  category?: CategoryType,
+  subcategory?: SubcategoryType,
+  merchant?: MerchantType,
+  state?: StateType,
+  city?: CityType
+): string => {
+  const content = props?.content || '';
+
+  const applyPlaceholder = (
+    catName = '',
+    subcatName = '',
+    merchName = '',
+    stateName = '',
+    cityName = ''
+  ) => resolvePlaceHolder(content, catName, subcatName, merchName, stateName, cityName) || '';
+
+  switch (layout) {
+    case LayoutConstant.HOME:
+      return props?.content ?? '';
+
+    case LayoutConstant.CATEGORY:
+      return category?.categoryContent?.content ?? '';
+
+    case LayoutConstant.CATEGORY_STATE:
+      return applyPlaceholder(category?.name, '', '', state?.name);
+
+    case LayoutConstant.CATEGORY_CITY:
+      return applyPlaceholder(category?.name, '', '', state?.name, city?.name);
+
+    case LayoutConstant.SUBCATEGORY:
+      return subcategory?.subcategoryContent?.content ?? '';
+
+    case LayoutConstant.SUBCATEGORY_STATE:
+      return applyPlaceholder(category?.name, subcategory?.name, '', state?.name);
+
+    case LayoutConstant.SUBCATEGORY_CITY:
+      return applyPlaceholder(category?.name, subcategory?.name, '', state?.name, city?.name);
+
+    case LayoutConstant.MERCHANT:
+      return merchant?.merchantContent?.content ?? '';
+
+    case LayoutConstant.MERCHANT_STATE:
+      return applyPlaceholder('', subcategory?.name, merchant?.name, state?.name);
+
+    case LayoutConstant.MERCHANT_CITY:
+      return applyPlaceholder('', subcategory?.name, merchant?.name, state?.name, city?.name);
+
+    default:
+      return '';
+  }
+};
 
 export default function GeneralInformation({ props, context, }: Readonly<{ context: ComponentPropsType; props: any; }>) {
     const { layout, category, subcategory, merchant, city, state } = context;

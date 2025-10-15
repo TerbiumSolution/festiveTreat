@@ -60,7 +60,20 @@ export default async function Page({ params }: Props) {
   const heroBannerComponent = blocks?.find((block: any) => block.__component === 'shared.hero-banner-carousal');
   return (
     blocks.map((block: any) =>
-      <div key={`${block.id || block.documentId || block.__component}-${nanoid()}`}>{BlockRenderer(layout, block, heroBannerComponent?.title, deals, categories, states)}</div>
+      <div key={`${block.id || block.documentId || block.__component}-${nanoid()}`}>
+        {BlockRenderer(
+            {
+              layout,
+              title: heroBannerComponent.items[0]?.title ?? '',
+              categories,
+              states,
+            },
+            {
+              block,
+              deals
+            }
+        )}
+      </div>
     )
   );
 }

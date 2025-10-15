@@ -1,6 +1,5 @@
 'use client'
 import { useMemo, useState } from 'react';
-import { Button } from "@/components/ui/button"
 import { ChevronRight } from 'lucide-react';
 import { ComponentPropsType } from "@/model/componentPropsType";
 import { LayoutConstant } from '@/lib/constants/constants';
@@ -10,28 +9,57 @@ import OffersCard from './OfferCard';
 import extractOffers from './OfferSchema';
 import OtherMerchantCard from '../OtherMerchantSection/OtherMerchantCard';
 
-function getH1( layout: string, title: string, categoryTitle?: string, subcategoryTitle?: string, merchantTitle?: string, categoryName?: string, subcategoryName?: string, merchantName?: string, stateName?: string, cityName?: string ): string {
+type Titles = {
+   title: string;
+   categoryTitle?: string;
+   subcategoryTitle?: string;
+   merchantTitle?: string;
+};
+
+type Names = {
+   categoryName?: string;
+   subcategoryName?: string;
+   merchantName?: string;
+   stateName?: string;
+   cityName?: string;
+};
+
+function getH1(
+   layout: string,
+   titles: Titles,
+   names: Names
+): string {
+   const { title, categoryTitle, subcategoryTitle, merchantTitle } = titles;
+   const { categoryName, subcategoryName, merchantName, stateName, cityName } = names;
+
    switch (layout) {
-    case LayoutConstant.HOME:
-      return title || 'Festive Treats Offers by HDFC Bank';
-    case LayoutConstant.CATEGORY:
-      return categoryTitle ?? resolvePlaceHolder(title, categoryName);
-    case LayoutConstant.CATEGORY_STATE:
-    case LayoutConstant.CATEGORY_CITY:
-      return resolvePlaceHolder(title, categoryName, '', '', stateName, cityName);
-    case LayoutConstant.SUBCATEGORY:
-      return subcategoryTitle ?? resolvePlaceHolder(title, subcategoryName);
-    case LayoutConstant.SUBCATEGORY_STATE:
-    case LayoutConstant.SUBCATEGORY_CITY:
-      return resolvePlaceHolder(title, '', subcategoryName, '', stateName, cityName);
-    case LayoutConstant.MERCHANT:
-      return merchantTitle ?? resolvePlaceHolder(title, merchantName);
-    case LayoutConstant.MERCHANT_STATE:
-    case LayoutConstant.MERCHANT_CITY:
-      return resolvePlaceHolder(title, '', '', merchantName, stateName, cityName);
-    default:
-      return 'Festive Treats Offers by HDFC Bank';
-  }
+      case LayoutConstant.HOME:
+         return title || 'Festive Treats Offers by HDFC Bank';
+
+      case LayoutConstant.CATEGORY:
+         return categoryTitle ?? resolvePlaceHolder(title, categoryName);
+
+      case LayoutConstant.CATEGORY_STATE:
+      case LayoutConstant.CATEGORY_CITY:
+         return resolvePlaceHolder(title, categoryName, '', '', stateName, cityName);
+
+      case LayoutConstant.SUBCATEGORY:
+         return subcategoryTitle ?? resolvePlaceHolder(title, subcategoryName);
+
+      case LayoutConstant.SUBCATEGORY_STATE:
+      case LayoutConstant.SUBCATEGORY_CITY:
+         return resolvePlaceHolder(title, '', subcategoryName, '', stateName, cityName);
+
+      case LayoutConstant.MERCHANT:
+         return merchantTitle ?? resolvePlaceHolder(title, merchantName);
+
+      case LayoutConstant.MERCHANT_STATE:
+      case LayoutConstant.MERCHANT_CITY:
+         return resolvePlaceHolder(title, '', '', merchantName, stateName, cityName);
+
+      default:
+         return 'Festive Treats Offers by HDFC Bank';
+   }
 }
 
 function getDeals(layout: string, deals: DealType[], categorySlug?: string, subcategorySlug?: string, merchantSlug?: string): DealType[] {
@@ -86,7 +114,24 @@ export default function OffersCardsSection({ context, deals, }: Readonly<{ conte
       <section className="px-4 py-6">
          <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(offerStructureData) }}></script>
          <div className="max-w-7xl mx-auto">
-            <h2 className="text-2xl font-semibold mb-6 pb-2 inline-block border-b">{getH1(layout, title, category?.categoryContent?.h1, subcategory?.subcategoryContent?.h1, merchant?.merchantContent?.h1, category?.name, subcategory?.name, merchant?.name, state?.name, city?.name)}</h2>
+            <h2 className="text-2xl font-semibold mb-6 pb-2 inline-block border-b">
+               {getH1(
+                  layout,
+                  {
+                     title,
+                     categoryTitle: category?.categoryContent?.h1,
+                     subcategoryTitle: subcategory?.subcategoryContent?.h1,
+                     merchantTitle: merchant?.merchantContent?.h1,
+                  },
+                  {
+                     categoryName: category?.name,
+                     subcategoryName: subcategory?.name,
+                     merchantName: merchant?.name,
+                     stateName: state?.name,
+                     cityName: city?.name,
+                  }
+               )}
+            </h2>
             <div className={`grid ${visibleCards.length > 1 ? 'grid-cols-1 lg:grid-cols-2 gap-6' : 'grid-cols-1'}`}>
                {visibleCards.map((offer, index) => (
                   offerDeals.length > 1 && (layout === LayoutConstant.MERCHANT || layout === LayoutConstant.MERCHANT_STATE || layout === LayoutConstant.MERCHANT_CITY) ?

@@ -32,7 +32,7 @@ export default function OtherMerchantCard({ layout, deal, component, }: Readonly
                                 <div>
                                     <p className={`text-sm mb-2 font-bold`}>{deal.subcategoryMerchants[0].merchant.name}</p>
                                     <Image
-                                        src={deal.subcategoryMerchants[0]?.merchant?.image?.url || `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/bose_logo.jpg`}
+                                        src={deal.subcategoryMerchants[0]?.merchant?.image?.url ?? `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/bose_logo.jpg`}
                                         alt={deal.name}
                                         width={100}
                                         height={100}
