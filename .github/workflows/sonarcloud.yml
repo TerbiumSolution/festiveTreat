@@ -2,7 +2,7 @@ name: SonarCloud Scan
 
 on:
   push:
-    branches: "error-solved"
+    branches: [ "error-solved" ]
   pull_request:
     types: [opened, reopened]
 
@@ -11,15 +11,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         with:
-          projectKey: ${{ secrets.PROJECT_KEY }}
-          organization: ${{ secrets.ORGANIZATION_NAME }}
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          # Use args to provide scanner properties (project key, org, token, branch, etc.)
+          args: >-
+            -Dsonar.projectKey=${{ secrets.PROJECT_KEY }}
+            -Dsonar.organization=${{ secrets.ORGANIZATION_NAME }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.branch.name="error-solved"
