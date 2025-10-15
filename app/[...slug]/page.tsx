@@ -1,3 +1,4 @@
+import { headers } from 'next/headers';
 import { notFound } from "next/navigation";
 import { BlockRenderer } from "@/lib/dataProvider";
 import { getPageBlocks, getSeoBlock } from "@/lib/dataLayer";
@@ -61,7 +62,8 @@ export default async function Page({ params }: Props) {
    const { slug: slugArray } = await params;
    const slug = slugArray?.[0] || '';
    const subSlug = slugArray?.[1] || '';
-
+   const headersList = await headers();
+   const nonce = headersList.get('x-nonce') || "";
    const { layout, blocks, deals, categories, states, category, subcategory, merchant, state, city } = await getPageBlocks(slug, subSlug);
 
    if (layout === LayoutConstant.PAGE_NOT_FOUND) return notFound();
@@ -69,7 +71,7 @@ export default async function Page({ params }: Props) {
    const heroBannerComponent = blocks?.find((block: any) => block.__component === 'shared.hero-banner-carousal');
    return (
       blocks.map((block: any, index: number) =>
-         <div key={index}>{BlockRenderer(layout, block, heroBannerComponent.items[0]?.title, deals, categories, states, category, subcategory, merchant, state, city)}</div>
+         <div key={index}>{BlockRenderer(layout, nonce, block, heroBannerComponent.items[0]?.title, deals, categories, states, category, subcategory, merchant, state, city)}</div>
       )
    );
 }

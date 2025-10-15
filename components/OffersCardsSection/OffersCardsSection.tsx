@@ -67,7 +67,7 @@ function getDeals(layout: string, deals: DealType[], categorySlug?: string, subc
    }
 }
 
-export default function OffersCardsSection({ context, deals }: { context: ComponentPropsType, deals: DealType[] }) {
+export default function OffersCardsSection({ context, deals, nonce }: { context: ComponentPropsType, deals: DealType[], nonce: string }) {
    const { layout, title, category, subcategory, merchant, state, city } = context;
    const offerDeals = useMemo(
       () => getDeals(layout, deals, category?.slug, subcategory?.slug, merchant?.slug),
@@ -85,7 +85,7 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
    return (
       <section className="px-4 py-6">
          {offerStructureData && (
-            <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(offerStructureData) }}></script>
+            <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(offerStructureData) }} nonce={nonce}></script>
          )}
 
          <div className="max-w-7xl mx-auto">

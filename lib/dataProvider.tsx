@@ -20,6 +20,7 @@ const GeneralInformation = dynamic(() => import("@/components/GeneralInformation
 
 export function BlockRenderer(
    layout: string,
+   nonce: string,
    block: any,
    title: string,
    deals: DealType[],
@@ -37,13 +38,13 @@ export function BlockRenderer(
       case "shared.seo-header":
          return <Header context={contextProps} />
       case "shared.breadcrumb":
-         return <Breadcrumb context={contextProps} />
+         return <Breadcrumb context={contextProps} nonce={nonce}/>
       case "shared.hero-banner-carousal":
          return <HeroBanner context={contextProps} props={block} />
       case "offer.category-tab":
          return <OfferNavSection context={contextProps} />
       case "offer.category-list":
-         return <OffersSection context={contextProps} deals={deals} />
+         return <OffersSection context={contextProps} deals={deals} nonce={nonce}/>
       case "offer.interlink":
          return <AllTabs context={contextProps} props={block} />
       case "payzapp.general-information":

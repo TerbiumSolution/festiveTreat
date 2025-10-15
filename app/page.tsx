@@ -1,3 +1,4 @@
+import { headers } from 'next/headers';
 import { notFound } from "next/navigation";
 import { BlockRenderer } from "@/lib/dataProvider";
 import { getPageBlocks } from "@/lib/dataLayer";
@@ -55,13 +56,15 @@ export async function generateMetadata({ params }: Props) {
 };
 
 export default async function Page({ params }: Props) {
+  const headersList = await headers();
+  const nonce = headersList.get('x-nonce') || "";
   const { layout, blocks, deals, categories, states } = await getPageBlocks();
   if (layout === LayoutConstant.PAGE_NOT_FOUND) return notFound();
 
   const heroBannerComponent = blocks?.find((block: any) => block.__component === 'shared.hero-banner-carousal');
   return (
     blocks.map((block: any, index: number) =>
-      <div key={index}>{BlockRenderer(layout, block, heroBannerComponent?.title, deals, categories, states)}</div>
+      <div key={index}>{BlockRenderer(layout, nonce, block, heroBannerComponent?.title, deals, categories, states)}</div>
     )
   );
 }

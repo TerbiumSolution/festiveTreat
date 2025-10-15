@@ -16,7 +16,7 @@ import { MerchantType } from '@/model/merchantType';
 import { CityType } from '@/model/cityType';
 import { StateType } from '@/model/stateType';
 import { LayoutConstant } from '@/lib/constants/constants';
-import styles from "@/components/Breadcrumb/Breadcrumb.module.css"
+import styles from "@/components/Breadcrumb/Breadcrumb.module.css";
 
 const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: SubcategoryType, merchant?: MerchantType, state?: StateType, city?: CityType): BreadCrumbType[] => {
   const breadCrumbData: BreadCrumbType[] = [];
@@ -153,7 +153,7 @@ const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: Su
   return breadCrumbData;
 }
 
-export default function BreadcrumbWrapper({ context }: { context: ComponentPropsType }) {
+export default function BreadcrumbWrapper({ context, nonce }: { context: ComponentPropsType, nonce: string }) {
   const { layout, category, subcategory, merchant, city, state } = context;
   const breadCrumbData = getBreadcrumb(layout, category, subcategory, merchant, state, city);
   const itemListElement = breadCrumbData.map((data, index) => ({
@@ -173,6 +173,7 @@ export default function BreadcrumbWrapper({ context }: { context: ComponentProps
       <script
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(createBreadCrumbObj) }}
+        nonce={nonce}
       ></script>
       <BreadcrumbList className='max-w-7xl mx-auto md:py-4 py-3'>
         <BreadcrumbItem>
