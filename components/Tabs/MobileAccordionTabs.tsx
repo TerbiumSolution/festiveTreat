@@ -9,7 +9,7 @@ import { InterlinkItemType } from "@/model/interlinkItemType";
 import { LayoutConstant } from "@/lib/constants/constants";
 import { FaqDataType } from "@/model/faqDataType";
 
-export default function MobileAccordionTabs({ layout, stateInterlinks, cityInterlinks, faqs }: { layout: string, stateInterlinks: InterlinkItemType[], cityInterlinks: InterlinkItemType[], faqs: FaqDataType|undefined }) {
+export default function MobileAccordionTabs({ layout, stateInterlinks, cityInterlinks, faqs, }: Readonly<{ layout: string; stateInterlinks: InterlinkItemType[]; cityInterlinks: InterlinkItemType[]; faqs: FaqDataType | undefined; }>) {
 
    const [showAll, setShowAll] = useState(false);
    const displayedStates = showAll ? stateInterlinks : stateInterlinks.slice(0, 10);
@@ -26,7 +26,7 @@ export default function MobileAccordionTabs({ layout, stateInterlinks, cityInter
                   <AccordionContent className="text-[#004C8F] font-[500]">
                      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 relative px-3 mt-4">
                         {displayedStates.map((state, i) => (
-                           <Link key={i} href={state.href} className="font-normal text-[16px] text-[#000]">
+                           <Link key={`${state.href}-${i}`} href={state.href} className="font-normal text-[16px] text-[#000]">
                               {state.name}
                            </Link>
                         ))}
@@ -40,9 +40,9 @@ export default function MobileAccordionTabs({ layout, stateInterlinks, cityInter
                   </AccordionTrigger>
                   <AccordionContent className="text-[#004C8F] font-[500]">
                      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 relative px-3 mt-4">
-                        {displayedCities.map((state, i) => (
-                           <Link key={i} href={state.href} className="font-normal text-[16px] text-[#000]">
-                              {state.name}
+                        {displayedCities.map((city, i) => (
+                           <Link key={`${city.href}-${i}`} href={city.href} className="font-normal text-[16px] text-[#000]">
+                              {city.name}
                            </Link>
                         ))}
                      </div>

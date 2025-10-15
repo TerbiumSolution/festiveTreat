@@ -1,17 +1,12 @@
 import Link from "next/link";
-import Image from "next/image"
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card"
-import { CircleCheck, MapPin } from 'lucide-react';
+import { CircleCheck } from 'lucide-react';
 import { LayoutConstant } from '@/lib/constants/constants';
 import { DealType } from '@/model/dealType';
 import { formattedDate } from "@/lib/utils";
 
-export default function OtherMerchantCard({ layout, deal, component }: { layout: string, deal: DealType, component: "OfferCard" | "" }) {
+export default function OtherMerchantCard({ layout, deal, component, }: Readonly<{ layout: string; deal: DealType; component: "OfferCard" | ""; }>) {
     let isKnowMoreVisible = true;
     if (layout === LayoutConstant.MERCHANT || layout === LayoutConstant.MERCHANT_STATE || layout === LayoutConstant.MERCHANT_CITY)
         isKnowMoreVisible = false
@@ -50,19 +45,17 @@ export default function OtherMerchantCard({ layout, deal, component }: { layout:
                                     </p>
                                 </div>
                             </div>
-                            {deal.details && (
-                                deal.details.map((detail, index) => (
-                                    <div className={'mt-3'} key={`${detail.content}-${index}`}>
-                                        <p className={`text-sm mb-2 font-bold `}>Offer Details</p>
-                                        <ul>
-                                            <li className="flex gap-1">
-                                                <CircleCheck color="#fff" fill="#00bc19" size={20} className={'w-[6%] mt-[-1px]'} />
-                                                <span className={`w-[94%] text-[12px] text-[#6B6B6B] font-semibold`} dangerouslySetInnerHTML={{ __html: detail.content }}></span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                ))
-                            )}
+                            {deal.details?.map((detail, index) => (
+                                <div className={'mt-3'} key={`${detail.content}-${index}`}>
+                                    <p className={`text-sm mb-2 font-bold `}>Offer Details</p>
+                                    <ul>
+                                        <li className="flex gap-1">
+                                            <CircleCheck color="#fff" fill="#00bc19" size={20} className={'w-[6%] mt-[-1px]'} />
+                                            <span className={`w-[94%] text-[12px] text-[#6B6B6B] font-semibold`} dangerouslySetInnerHTML={{ __html: detail.content }}></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            ))}
                         </div>
                         <div className="mt-5">
                             <div className="flex justify-end">

@@ -1,17 +1,12 @@
 import Link from "next/link";
-import Image from "next/image"
-import {
-   Tooltip,
-   TooltipContent,
-   TooltipTrigger,
-} from "@/components/ui/tooltip"
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card"
-import { CircleCheck, MapPin } from 'lucide-react';
+import { CircleCheck } from 'lucide-react';
 import { LayoutConstant } from '@/lib/constants/constants';
 import { DealType } from '@/model/dealType';
 import { formattedDate } from "@/lib/utils";
 
-export default function OffersCard({ layout, deal }: { layout: string, deal: DealType }) {
+export default function OffersCard({ layout, deal, }: Readonly<{ layout: string; deal: DealType; }>) {
    let isKnowMoreVisible = true;
    if (layout === LayoutConstant.MERCHANT || layout === LayoutConstant.MERCHANT_STATE || layout === LayoutConstant.MERCHANT_CITY)
       isKnowMoreVisible = false
@@ -50,8 +45,8 @@ export default function OffersCard({ layout, deal }: { layout: string, deal: Dea
                            </p>
                         </div>
                      </div>
-                     {deal.details && (
-                        deal.details.map((detail, index) => (
+                     
+                        {deal.details?.map((detail, index) => (
                            <div className={isKnowMoreVisible ? 'mt-3' : 'mt-6'} key={`${detail.content}-${index}`}>
                               <p className={`${isKnowMoreVisible ? 'text-sm mb-2' : 'text-lg mb-6'} font-bold `}>Offer Details</p>
                               <ul>
@@ -61,8 +56,8 @@ export default function OffersCard({ layout, deal }: { layout: string, deal: Dea
                                  </li>
                               </ul>
                            </div>
-                        ))
-                     )}
+                        ))}
+                    
                   </div>
                   <div className="mt-5">
                      <div className="flex justify-end">

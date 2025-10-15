@@ -11,7 +11,7 @@ import {
 type LoginProps = {
   className?: string;
 };
-export function Login({ className }: LoginProps) {
+export function Login({ className }: Readonly<LoginProps>) {
   return (
     <Select>
       <SelectTrigger className={`${styles.login_button} py-3 ${className ?? ""}`}>

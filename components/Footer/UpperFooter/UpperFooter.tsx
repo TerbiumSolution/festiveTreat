@@ -5,7 +5,6 @@ import Subscribe from "./Subscribe/Subscribe";
 import { MobileLinksFooter } from "./MobileLinksFooter/MobileLinksFooter";
 export default function UpperFooter() {
   return (
-    <>
     <div>
       <h3 className={`${styles.footer_heading}`}>Here’s how to reach us</h3>
       <div  className={`${styles.phone_button} text-center mt-4`}>
@@ -28,6 +27,5 @@ export default function UpperFooter() {
       <QuickLinks/>
       <Subscribe/>
     </div>
-    </>
   );
 }

@@ -21,7 +21,7 @@ export function UpperSubMenu() {
             <ul className="grid gap-2">
               <li className="row-span-3">
                 <NavigationMenuLink asChild>
-                  <>Hello</>
+
                 </NavigationMenuLink>
               </li>
             </ul>
@@ -31,7 +31,7 @@ export function UpperSubMenu() {
           <NavigationMenuTrigger className={`${styles.navigation_menu}`}>English</NavigationMenuTrigger>
           <NavigationMenuContent className={`${styles.navigation_subMenu}`}>
             <ul className="grid gap-2">
-                 <>Arabic</>
+
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>

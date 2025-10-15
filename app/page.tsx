@@ -2,8 +2,7 @@ import { notFound } from "next/navigation";
 import { BlockRenderer } from "@/lib/dataProvider";
 import { getPageBlocks } from "@/lib/dataLayer";
 import { LayoutConstant } from "@/lib/constants/constants";
-import { resolvePlaceHolder } from "@/lib/resolvePlaceHolder";
-
+import { nanoid } from "nanoid";
 type Props = {
   params: Promise<{ slug?: string[] }>,
   // searchParams: Promise<{ [key: string]: string | string[] | undefined }>
@@ -17,7 +16,7 @@ export async function generateMetadata({ params }: Props) {
   const seoTitle = seoComponent?.metaTitle;
   const seoDescription = seoComponent?.metaDescription;
   const canonicalUrl = process.env.NEXT_PUBLIC_APP_BASE_URL;
-
+  const isIndex = process.env.NEXT_PUBLIC_INDEX === 'true';
   return {
     title: seoTitle,
     description: seoDescription,
@@ -42,15 +41,15 @@ export async function generateMetadata({ params }: Props) {
       ]
     },
     robots: {
-      index: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
-      follow: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
+      index: isIndex,
+      follow: isIndex,
       nocache: false,
       googleBot: {
-        index: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
-        follow: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
-        noimageindex: false,
+         index: isIndex,
+         follow: isIndex,
+         noimageindex: false,
       }
-    },
+      },
   };
 };
 
@@ -60,8 +59,8 @@ export default async function Page({ params }: Props) {
 
   const heroBannerComponent = blocks?.find((block: any) => block.__component === 'shared.hero-banner-carousal');
   return (
-    blocks.map((block: any, index: number) =>
-      <div key={index}>{BlockRenderer(layout, block, heroBannerComponent?.title, deals, categories, states)}</div>
+    blocks.map((block: any) =>
+      <div key={`${block.id || block.documentId || block.__component}-${nanoid()}`}>{BlockRenderer(layout, block, heroBannerComponent?.title, deals, categories, states)}</div>
     )
   );
 }

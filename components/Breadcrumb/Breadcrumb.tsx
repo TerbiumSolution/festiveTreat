@@ -153,7 +153,7 @@ const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: Su
   return breadCrumbData;
 }
 
-export default function BreadcrumbWrapper({ context }: { context: ComponentPropsType }) {
+export default function BreadcrumbWrapper({ context }:Readonly<{ context: ComponentPropsType }>) {
   const { layout, category, subcategory, merchant, city, state } = context;
   const breadCrumbData = getBreadcrumb(layout, category, subcategory, merchant, state, city);
   const itemListElement = breadCrumbData.map((data, index) => ({
@@ -181,8 +181,8 @@ export default function BreadcrumbWrapper({ context }: { context: ComponentProps
           </BreadcrumbLink>
         </BreadcrumbItem>
 
-        {breadCrumbData.slice(1).map((item, index) => (
-          <React.Fragment key={index}>
+        {breadCrumbData.slice(1).map((item) => (
+          <React.Fragment key={item.href || item.text}>
             <BreadcrumbSeparator className={`${styles.seperator} text-[#004c8f]`} />
             <BreadcrumbItem>
               {item.isClickable && item.href ? (

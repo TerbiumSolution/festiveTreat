@@ -1,7 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* sonarignore:start */
 @custom-variant dark (&:is(.dark *));
+/* sonarignore:end */
 
 @theme inline {
   --color-background: var(--background);

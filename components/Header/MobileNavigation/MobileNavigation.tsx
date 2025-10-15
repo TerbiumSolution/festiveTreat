@@ -52,7 +52,7 @@ const HdfcLogo = ({
     </svg>
   )
 }
-export default function MobileNavigation({ categories }: { categories: CategoryType[] }) {
+export default function MobileNavigation({ categories, }: Readonly<{ categories: CategoryType[]; }>) {
   const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
 
   const toggleDropdown = (menu: string) => {

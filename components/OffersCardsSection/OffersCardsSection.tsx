@@ -10,28 +10,28 @@ import OffersCard from './OfferCard';
 import extractOffers from './OfferSchema';
 import OtherMerchantCard from '../OtherMerchantSection/OtherMerchantCard';
 
-function getH1(layout: string, title: string, categoryTitle?: string, subcategoryTitle?: string, merchantTitle?: string, categoryName?: string, subcategoryName?: string, merchantName?: string, stateName?: string, cityName?: string): string {
+function getH1( layout: string, title: string, categoryTitle?: string, subcategoryTitle?: string, merchantTitle?: string, categoryName?: string, subcategoryName?: string, merchantName?: string, stateName?: string, cityName?: string ): string {
    switch (layout) {
-      case LayoutConstant.HOME:
-         return title || 'Festive Treats Offers by HDFC Bank';
-      case LayoutConstant.CATEGORY:
-         return categoryTitle ? categoryTitle : resolvePlaceHolder(title, categoryName);
-      case LayoutConstant.CATEGORY_STATE:
-      case LayoutConstant.CATEGORY_CITY:
-         return resolvePlaceHolder(title, categoryName, '', '', stateName, cityName);
-      case LayoutConstant.SUBCATEGORY:
-         return subcategoryTitle ? subcategoryTitle : resolvePlaceHolder(title, subcategoryName);
-      case LayoutConstant.SUBCATEGORY_STATE:
-      case LayoutConstant.SUBCATEGORY_CITY:
-         return resolvePlaceHolder(title, '', subcategoryName, '', stateName, cityName);
-      case LayoutConstant.MERCHANT:
-         return merchantTitle ? merchantTitle : resolvePlaceHolder(title, merchantName);
-      case LayoutConstant.MERCHANT_STATE:
-      case LayoutConstant.MERCHANT_CITY:
-         return resolvePlaceHolder(title, '', '', merchantName, stateName, cityName);
-      default:
-         return 'Festive Treats Offers by HDFC Bank';
-   }
+    case LayoutConstant.HOME:
+      return title || 'Festive Treats Offers by HDFC Bank';
+    case LayoutConstant.CATEGORY:
+      return categoryTitle ?? resolvePlaceHolder(title, categoryName);
+    case LayoutConstant.CATEGORY_STATE:
+    case LayoutConstant.CATEGORY_CITY:
+      return resolvePlaceHolder(title, categoryName, '', '', stateName, cityName);
+    case LayoutConstant.SUBCATEGORY:
+      return subcategoryTitle ?? resolvePlaceHolder(title, subcategoryName);
+    case LayoutConstant.SUBCATEGORY_STATE:
+    case LayoutConstant.SUBCATEGORY_CITY:
+      return resolvePlaceHolder(title, '', subcategoryName, '', stateName, cityName);
+    case LayoutConstant.MERCHANT:
+      return merchantTitle ?? resolvePlaceHolder(title, merchantName);
+    case LayoutConstant.MERCHANT_STATE:
+    case LayoutConstant.MERCHANT_CITY:
+      return resolvePlaceHolder(title, '', '', merchantName, stateName, cityName);
+    default:
+      return 'Festive Treats Offers by HDFC Bank';
+  }
 }
 
 function getDeals(layout: string, deals: DealType[], categorySlug?: string, subcategorySlug?: string, merchantSlug?: string): DealType[] {
@@ -67,7 +67,7 @@ function getDeals(layout: string, deals: DealType[], categorySlug?: string, subc
    }
 }
 
-export default function OffersCardsSection({ context, deals }: { context: ComponentPropsType, deals: DealType[] }) {
+export default function OffersCardsSection({ context, deals, }: Readonly<{ context: ComponentPropsType; deals: DealType[]; }>) {
    const { layout, title, category, subcategory, merchant, state, city } = context;
    const offerDeals = useMemo(
       () => getDeals(layout, deals, category?.slug, subcategory?.slug, merchant?.slug),
@@ -98,13 +98,13 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
          {
             shouldShowToggle && (
                <div className="text-center">
-                  <div className="group inline-flex items-center justify-center gap-2 bg-[#004c8f] border border-[#004c8f] text-white rounded-lg cursor-pointer px-[12px] py-[13px]  transition-all duration-300 ease-in-out hover:bg-transparent hover:text-[#004c8f] mt-6"
+                  <button className="group inline-flex items-center justify-center gap-2 bg-[#004c8f] border border-[#004c8f] text-white rounded-lg cursor-pointer px-[12px] py-[13px]  transition-all duration-300 ease-in-out hover:bg-transparent hover:text-[#004c8f] mt-6"
                      onClick={() => setShowAll(prev => !prev)}>
-                     <Button
-                        className={`!bg-[transparent] !p-0 !text-inherit !font-inherit !h-auto hover:cursor-pointer hover:!bg-[transparent] hover:!text-inherit !shadow-none font-semibold`}>
+                     <div
+                        className={`flex !bg-[transparent] !p-0 !text-inherit !font-inherit !h-auto hover:cursor-pointer hover:!bg-[transparent] hover:!text-inherit !shadow-none font-semibold`}>
                         {showAll ? 'View Less' : 'View More'} <ChevronRight />
-                     </Button>
-                  </div>
+                     </div>
+                  </button>
                </div>
             )
          }
