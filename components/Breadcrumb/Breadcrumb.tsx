@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-  BreadcrumbPage
-} from '@/components/ui/breadcrumb';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator, BreadcrumbPage } from '@/components/ui/breadcrumb';
 import { Home } from 'lucide-react';
 import { BreadCrumbType } from '@/model/breadCrumbType';
 import { ComponentPropsType } from '@/model/componentPropsType';
@@ -16,33 +9,33 @@ import { MerchantType } from '@/model/merchantType';
 import { CityType } from '@/model/cityType';
 import { StateType } from '@/model/stateType';
 import { LayoutConstant } from '@/lib/constants/constants';
-import styles from "@/components/Breadcrumb/Breadcrumb.module.css"
+import styles from "@/components/Breadcrumb/Breadcrumb.module.css";
 
-const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: SubcategoryType, merchant?: MerchantType, state?: StateType, city?: CityType): BreadCrumbType[] => {
-  // Initialize with the first two items that are always present
+const getBreadcrumb = (layout: string,category?: CategoryType,subcategory?: SubcategoryType,merchant?: MerchantType,state?: StateType,city?: CityType): BreadCrumbType[] => {
   const breadCrumbData: BreadCrumbType[] = [
     { text: "Home", href: 'https://www.hdfcbank.com/', isClickable: true },
-    { text: "Festive Treats Offers", href: process.env.NEXT_PUBLIC_APP_BASE_URL || '', isClickable: true }
+    { text: "Festive Treats Offers", href: process.env.NEXT_PUBLIC_APP_BASE_URL ?? '', isClickable: true }
   ];
 
   switch (layout) {
     case LayoutConstant.CATEGORY:
       breadCrumbData.push({
-        text: category?.name || '',
-        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}`,
+        text: category?.name ?? '',
+        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}`,
         isClickable: false
       });
       break;
+
     case LayoutConstant.CATEGORY_STATE:
       breadCrumbData.push(
         {
-          text: category?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}`,
+          text: category?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}`,
           isClickable: true
         },
         {
-          text: state?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}/${state?.slug}`,
+          text: state?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}/${state?.slug ?? ''}`,
           isClickable: false
         }
       );
@@ -51,13 +44,13 @@ const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: Su
     case LayoutConstant.CATEGORY_CITY:
       breadCrumbData.push(
         {
-          text: category?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}`,
+          text: category?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}`,
           isClickable: true
         },
         {
-          text: city?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}/${city?.slug}`,
+          text: city?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}/${city?.slug ?? ''}`,
           isClickable: false
         }
       );
@@ -66,13 +59,13 @@ const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: Su
     case LayoutConstant.SUBCATEGORY:
       breadCrumbData.push(
         {
-          text: category?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}`,
+          text: category?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}`,
           isClickable: true
         },
         {
-          text: subcategory?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}/${subcategory?.slug}`,
+          text: subcategory?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}/${subcategory?.slug ?? ''}`,
           isClickable: false
         }
       );
@@ -81,18 +74,18 @@ const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: Su
     case LayoutConstant.SUBCATEGORY_STATE:
       breadCrumbData.push(
         {
-          text: category?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}`,
+          text: category?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}`,
           isClickable: true
         },
         {
-          text: subcategory?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}/${subcategory?.slug}`,
+          text: subcategory?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}/${subcategory?.slug ?? ''}`,
           isClickable: true
         },
         {
-          text: state?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${subcategory?.slug}/${state?.slug}`,
+          text: state?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${subcategory?.slug ?? ''}/${state?.slug ?? ''}`,
           isClickable: false
         }
       );
@@ -101,23 +94,23 @@ const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: Su
     case LayoutConstant.SUBCATEGORY_CITY:
       breadCrumbData.push(
         {
-          text: category?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}`,
+          text: category?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}`,
           isClickable: true
         },
         {
-          text: subcategory?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}/${subcategory?.slug}`,
+          text: subcategory?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}/${subcategory?.slug ?? ''}`,
           isClickable: true
         },
         {
-          text: state?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${subcategory?.slug}/${state?.slug}`,
+          text: state?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${subcategory?.slug ?? ''}/${state?.slug ?? ''}`,
           isClickable: true
         },
         {
-          text: city?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${subcategory?.slug}/${city?.slug}`,
+          text: city?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${subcategory?.slug ?? ''}/${city?.slug ?? ''}`,
           isClickable: false
         }
       );
@@ -126,18 +119,18 @@ const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: Su
     case LayoutConstant.MERCHANT:
       breadCrumbData.push(
         {
-          text: category?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}`,
+          text: category?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}`,
           isClickable: true
         },
         {
-          text: subcategory?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${category?.slug}/${subcategory?.slug}`,
+          text: subcategory?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}/${subcategory?.slug ?? ''}`,
           isClickable: true
         },
         {
-          text: merchant?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${subcategory?.slug}/${merchant?.slug}`,
+          text: merchant?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${subcategory?.slug ?? ''}/${merchant?.slug ?? ''}`,
           isClickable: false
         }
       );
@@ -146,13 +139,13 @@ const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: Su
     case LayoutConstant.MERCHANT_STATE:
       breadCrumbData.push(
         {
-          text: merchant?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${merchant?.subcategory?.slug}/${merchant?.slug}`,
+          text: merchant?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${merchant?.subcategory?.slug ?? ''}/${merchant?.slug ?? ''}`,
           isClickable: true
         },
         {
-          text: state?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${merchant?.slug}/${state?.slug}`,
+          text: state?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${merchant?.slug ?? ''}/${state?.slug ?? ''}`,
           isClickable: false
         }
       );
@@ -161,13 +154,13 @@ const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: Su
     case LayoutConstant.MERCHANT_CITY:
       breadCrumbData.push(
         {
-          text: merchant?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${merchant?.subcategory?.slug}/${merchant?.slug}`,
+          text: merchant?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${merchant?.subcategory?.slug ?? ''}/${merchant?.slug ?? ''}`,
           isClickable: true
         },
         {
-          text: city?.name || '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL}${merchant?.slug}/${city?.slug}`,
+          text: city?.name ?? '',
+          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${merchant?.slug ?? ''}/${city?.slug ?? ''}`,
           isClickable: false
         }
       );
@@ -178,17 +171,19 @@ const getBreadcrumb = (layout: string, category?: CategoryType, subcategory?: Su
   }
 
   return breadCrumbData;
-}
+};
 
-export default function BreadcrumbWrapper({ context }:Readonly<{ context: ComponentPropsType }>) {
+export default function BreadcrumbWrapper({ context }: Readonly<{ context: ComponentPropsType }>) {
   const { layout, category, subcategory, merchant, city, state } = context;
   const breadCrumbData = getBreadcrumb(layout, category, subcategory, merchant, state, city);
+
   const itemListElement = breadCrumbData.map((data, index) => ({
     "@type": "ListItem",
     "position": index + 1,
     "name": data.text,
     "item": data.href
   }));
+
   const createBreadCrumbObj = {
     "@context": "https://schema.org/",
     "@type": "BreadcrumbList",
@@ -209,11 +204,14 @@ export default function BreadcrumbWrapper({ context }:Readonly<{ context: Compon
         </BreadcrumbItem>
 
         {breadCrumbData.slice(1).map((item) => (
-          <React.Fragment key={item.href || item.text}>
+          <React.Fragment key={item.href ?? item.text}>
             <BreadcrumbSeparator className={`${styles.seperator} text-[#004c8f]`} />
             <BreadcrumbItem>
               {item.isClickable && item.href ? (
-                <BreadcrumbLink className={`${styles.breadcrumb_text} hover:text-[#004C8F] text-[#004C8F]`} href={item.href}>
+                <BreadcrumbLink
+                  className={`${styles.breadcrumb_text} hover:text-[#004C8F] text-[#004C8F]`}
+                  href={item.href}
+                >
                   {item.text}
                 </BreadcrumbLink>
               ) : (
