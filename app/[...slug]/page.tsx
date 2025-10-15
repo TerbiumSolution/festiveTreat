@@ -14,21 +14,24 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
    const { slug: slugArray } = await params;
-   const slug = slugArray?.[0] || '';
-   const subSlug = slugArray?.[1] || '';
+  const slug = slugArray?.[0] ?? '';
+  const subSlug = slugArray?.[1] ?? '';
 
    const { metaTitle, metaDescription, category, subcategory, merchant, state, city } = await getSeoBlock(slug, subSlug)
    const seoTitle = resolvePlaceHolder(metaTitle, category?.name, subcategory?.name, merchant?.name, state?.name, city?.name);
    const seoDescription = resolvePlaceHolder(metaDescription, category?.name, subcategory?.name, merchant?.name, state?.name, city?.name);
    const canonicalUrl = process.env.NEXT_PUBLIC_APP_BASE_URL + (subSlug ? `${slug}/${subSlug}` : slug)
 
+   const baseUrl = process.env.NEXT_PUBLIC_APP_BASE_URL;
+   if (!baseUrl) throw new Error("NEXT_PUBLIC_APP_BASE_URL is not defined");
    return {
       title: seoTitle,
       description: seoDescription,
       alternates: {
          canonical: canonicalUrl
       },
-      metadataBase: new URL(process.env.NEXT_PUBLIC_APP_BASE_URL!),
+
+      metadataBase: new URL(baseUrl),
       openGraph: {
          title: seoTitle,
          description: seoDescription,
@@ -60,10 +63,8 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function Page({ params }: Props) {
    const { slug: slugArray } = await params;
-   const slug = slugArray?.[0] || '';
-   const subSlug = slugArray?.[1] || '';
-   const headersList = await headers();
-   const nonce = headersList.get('x-nonce') || "";
+   const slug = slugArray?.[0] ?? '';
+   const subSlug = slugArray?.[1] ?? '';
    const { layout, blocks, deals, categories, states, category, subcategory, merchant, state, city } = await getPageBlocks(slug, subSlug);
 
    if (layout === LayoutConstant.PAGE_NOT_FOUND) return notFound();

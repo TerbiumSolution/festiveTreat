@@ -17,13 +17,15 @@ export async function generateMetadata({ params }: Props) {
   const seoDescription = seoComponent?.metaDescription;
   const canonicalUrl = process.env.NEXT_PUBLIC_APP_BASE_URL;
   const isIndex = process.env.NEXT_PUBLIC_INDEX === 'true';
+  const baseUrl = process.env.NEXT_PUBLIC_APP_BASE_URL;
+  if (!baseUrl) throw new Error("NEXT_PUBLIC_APP_BASE_URL is not defined");
   return {
     title: seoTitle,
     description: seoDescription,
     alternates: {
       canonical: canonicalUrl
     },
-    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_BASE_URL!),
+    metadataBase: new URL(baseUrl),
     openGraph: {
       title: seoTitle,
       description: seoDescription,
