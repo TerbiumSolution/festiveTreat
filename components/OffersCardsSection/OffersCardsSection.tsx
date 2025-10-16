@@ -142,7 +142,7 @@ export default function OffersCardsSection({ context, deals, }: Readonly<{ conte
                {visibleCards.map((offer, index) => (
                   offerDeals.length > 1 && (layout === LayoutConstant.MERCHANT || layout === LayoutConstant.MERCHANT_STATE || layout === LayoutConstant.MERCHANT_CITY) ?
                      <OtherMerchantCard key={`${offer.name}-${index}`} deal={offer} layout={layout} component="OfferCard" /> :
-                     <OffersCard key={`${offer.name}-${index}`} deal={offer} layout={layout} />
+                     <OffersCard key={`${offer.name}-${index}`} deal={offer} layout={layout} subcategory={subcategory}/>
                ))}
             </div>
          </div>
