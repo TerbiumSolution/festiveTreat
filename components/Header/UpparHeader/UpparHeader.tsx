@@ -14,16 +14,8 @@ const HdfcLogo = ({
   ...props
 }: HdfcLogoProps) => {
   return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      focusable="false"
-      height={height || size}
-      width={width || size}
-      role="presentation"
-      viewBox="0 0 178 35"
-      {...props}
-    >
+    <svg aria-label="HDFC Bank Logo"  fill="none" focusable="false" height={height || size} width={width || size} viewBox="0 0 178 35"
+      {...props} >
       <g clipPath="url(#clip0_86_1232)">
         <path d="M3 1.5H1.5V3V31.6689V33.1689H3H175H176.5V31.6689V3V1.5H175H3Z" fill="#004C8F" stroke="white" strokeWidth={strokeWidth} />
         <path d="M31.668 3H175V31.6689H31.668V3Z" fill="#004C8F" />
@@ -43,28 +35,8 @@ const HdfcLogo = ({
   )
 }
 
-// const NotificationLogo = ({
-//   size = 21,
-//   width=21,
-//   height=21,
-//   ...props
-// }: HdfcLogoProps) => {
-//   return (
-//     <svg aria-hidden="true"focusable="false" height={height || size} width={width || size} role="presentation" viewBox="0 0 21 21" fill="#fff" stroke="#fff" {...props} >
-//       <g clipPath="url(#clip0_86_1318)">
-//       <path d="M17.9475 14.5942C17.3259 14.0697 16.8264 13.4157 16.4839 12.678C16.1415 11.9403 15.9644 11.1367 15.965 10.3233V7.99999C15.965 5.06749 13.7867 2.63999 10.965 2.23333V1.33333C10.965 1.11231 10.8772 0.90035 10.721 0.74407C10.5647 0.58779 10.3527 0.499992 10.1317 0.499992C9.91069 0.499992 9.69873 0.58779 9.54245 0.74407C9.38617 0.90035 9.29837 1.11231 9.29837 1.33333V2.23333C6.47587 2.63999 4.29837 5.06749 4.29837 7.99999V10.3233C4.29869 11.1383 4.12073 11.9435 3.77697 12.6824C3.4332 13.4213 2.93195 14.0761 2.30837 14.6008C2.083 14.7951 1.92237 15.0536 1.84799 15.3417C1.77361 15.6298 1.78903 15.9337 1.89218 16.2128C1.99533 16.4919 2.18129 16.7328 2.42516 16.9033C2.66903 17.0738 2.95916 17.1657 3.2567 17.1667H17.0067C17.8109 17.1667 18.465 16.5125 18.465 15.7083C18.465 15.2817 18.2792 14.8783 17.9475 14.5942ZM10.1317 20.5C10.8517 20.499 11.5494 20.2498 12.1071 19.7944C12.6648 19.339 13.0484 18.7053 13.1934 18H7.07004C7.21496 18.7053 7.59861 19.339 8.15632 19.7944C8.71403 20.2498 9.41169 20.499 10.1317 20.5Z" fill="white"/>
-//       </g>
-//       <defs>
-//       <clipPath id="clip0_86_1318">
-//       <rect width="20" height="20" fill="white" transform="translate(0.131714 0.5)"/>
-//       </clipPath>
-//       </defs>
-// </svg>
-//   )
-// }
 
-
-export default function UpparHeader({ categories }: { categories: CategoryType[] }) {
+export default function UpparHeader({ categories, }: Readonly<{ categories: CategoryType[]; }>) {
   return (
     <div className="w-full px-6 py-4">
       <div className="max-w-7xl mx-auto flex items-center justify-between grid grid-cols-[auto_1fr] items-center gap-4">

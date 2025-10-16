@@ -1,15 +1,10 @@
 'use client'
 import { useMemo, useState } from 'react';
-import { Button } from "@/components/ui/button"
-import Link from 'next/link';
-import Image from 'next/image';
-import { ChevronRight, CircleCheck } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { ComponentPropsType } from "@/model/componentPropsType";
 import { LayoutConstant } from '@/lib/constants/constants';
 import { resolvePlaceHolder } from '@/lib/resolvePlaceHolder';
 import { DealType } from '@/model/dealType';
-import { Card, CardContent } from "@/components/ui/card"
-import { formattedDate } from '@/lib/utils';
 import OtherMerchantCard from './OtherMerchantCard';
 
 function getH1(layout: string, subcategoryName?: string, merchantName?: string, stateName?: string, cityName?: string): string {
@@ -67,13 +62,13 @@ export default function OffersCardsSection({ context, deals }: { context: Compon
          {
             shouldShowToggle && (
                <div className="text-center">
-                  <div className="group inline-flex items-center justify-center gap-2 bg-[#004c8f] border border-[#004c8f] text-white rounded-lg cursor-pointer px-[12px] py-[13px]  transition-all duration-300 ease-in-out hover:bg-transparent hover:text-[#004c8f] mt-6"
+                  <button className="group inline-flex items-center justify-center gap-2 bg-[#004c8f] border border-[#004c8f] text-white rounded-lg cursor-pointer px-[12px] py-[13px]  transition-all duration-300 ease-in-out hover:bg-transparent hover:text-[#004c8f] mt-6"
                      onClick={() => setShowAll(prev => !prev)}>
-                     <Button
-                        className={`!bg-[transparent] !p-0 !text-inherit !font-inherit !h-auto hover:cursor-pointer hover:!bg-[transparent] hover:!text-inherit !shadow-none font-semibold`}>
+                     <div
+                        className={`flex !bg-[transparent] !p-0 !text-inherit !font-inherit !h-auto hover:cursor-pointer hover:!bg-[transparent] hover:!text-inherit !shadow-none font-semibold`}>
                         {showAll ? 'View Less' : 'View More'} <ChevronRight />
-                     </Button>
-                  </div>
+                     </div>
+                  </button>
                </div>
             )
          }

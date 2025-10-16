@@ -8,10 +8,6 @@
 .navigation_subMenu li button{
     color: #fff !important;
 }
-/* .navigation_subMenu li button:hover,.navigation_subMenu li a:hover,.navigation_subMenu li svg:hover{
-    color: #004C8F;
-    background: transparent;
-} */
 .navigation_subMenu li:hover,.navigation_subMenu:hover{
     background: transparent;
 }

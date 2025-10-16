@@ -86,14 +86,14 @@ export async function getSeoBlock(
 
    const extras = { category, subcategory, state, city, merchant };
 
-   const contentSeo =
-      layout === LayoutConstant.HOME || layout === LayoutConstant.CATEGORY
-         ? getSeoFromContent(category?.categoryContent)
-         : layout === LayoutConstant.SUBCATEGORY
-            ? getSeoFromContent(subcategory?.subcategoryContent)
-            : layout === LayoutConstant.MERCHANT
-               ? getSeoFromContent(merchant?.merchantContent)
-               : null;
+   let contentSeo = null;
+   if (layout === LayoutConstant.HOME || layout === LayoutConstant.CATEGORY) {
+      contentSeo = getSeoFromContent(category?.categoryContent);
+   } else if (layout === LayoutConstant.SUBCATEGORY) {
+      contentSeo = getSeoFromContent(subcategory?.subcategoryContent);
+   } else if (layout === LayoutConstant.MERCHANT) {
+      contentSeo = getSeoFromContent(merchant?.merchantContent);
+   }
 
    return { ...(contentSeo || defaultSeo), ...extras };
 }

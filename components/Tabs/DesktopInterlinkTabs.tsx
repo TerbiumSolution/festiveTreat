@@ -9,7 +9,7 @@ import { InterlinkItemType } from "@/model/interlinkItemType";
 import { LayoutConstant } from "@/lib/constants/constants";
 import { FaqDataType } from "@/model/faqDataType";
 
-export default function DesktopInterlinkTabs({ layout, stateInterlinks, cityInterlinks, faqs}: { layout: string, stateInterlinks: InterlinkItemType[], cityInterlinks: InterlinkItemType[], faqs: FaqDataType|undefined }) {
+export default function DesktopInterlinkTabs({ layout, stateInterlinks, cityInterlinks, faqs, }: Readonly<{ layout: string; stateInterlinks: InterlinkItemType[]; cityInterlinks: InterlinkItemType[]; faqs: FaqDataType | undefined; }>) {
    const [showAll, setShowAll] = useState(false);
 
    const displayedStates = showAll ? stateInterlinks : stateInterlinks.slice(0, 10);
@@ -18,6 +18,12 @@ export default function DesktopInterlinkTabs({ layout, stateInterlinks, cityInte
    return (
       <div className={`w-full md:pt-15 md:pb-15 md:px-16 px-4 py-10 hidden md:block`}>
          {layout !== LayoutConstant.HOME ? (
+            faqs && faqs?.items.length > 0 && (
+            <div className="max-w-5xl mx-auto px-5 py-5 rounded-md border shadow-md relative mt-6">
+               <FAQSection faqs={faqs}/>
+            </div>
+            )
+         ) : (
             <Tabs defaultValue="states" className="max-w-5xl mx-auto">
                <TabsList className={`grid ${faqs && faqs?.items.length > 0 ? 'grid-cols-3' : 'grid-cols-2' } gap-5 bg-transparent`}>
                   <TabsTrigger value="states" className="rounded-[5px] border-[0.2px] border-[#ababab50] bg-white data-[state=active]:bg-[#004B8F] data-[state=active]:text-white data-[state=active]:border-[#ababab50] px-8 text-[20px] text-500 py-4 text-[#007FBA] hover:text-[#007FBA] transition-colors duration-200 font-[600]" >Offers in States</TabsTrigger>
@@ -29,7 +35,7 @@ export default function DesktopInterlinkTabs({ layout, stateInterlinks, cityInte
                <TabsContent value="states" className="px-5 py-5 rounded-md border shadow-md relative mt-12">
                   <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 relative">
                      {displayedStates.map((state, i) => (
-                        <Link key={i} href={state.href} className="font-normal text-[16px] text-[#000]">
+                        <Link key={`${state.href}-${i}`} href={state.href} className="font-normal text-[16px] text-[#000]">
                            {state.name}
                         </Link>
                      ))}
@@ -39,7 +45,7 @@ export default function DesktopInterlinkTabs({ layout, stateInterlinks, cityInte
                <TabsContent value="cities" className="px-5 py-5 rounded-md border shadow-md relative mt-12">
                   <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 relative">
                      {displayedCities.map((city, i) => (
-                        <Link key={i} href={city.href} className="font-normal text-[16px] text-[#000]">
+                        <Link key={`${city.href}-${i}`} href={city.href} className="font-normal text-[16px] text-[#000]">
                            {city.name}
                         </Link>
                      ))}
@@ -52,12 +58,6 @@ export default function DesktopInterlinkTabs({ layout, stateInterlinks, cityInte
                </TabsContent>
                )}
             </Tabs>
-         ) : (
-            faqs && faqs?.items.length > 0 && (
-            <div className="max-w-5xl mx-auto px-5 py-5 rounded-md border shadow-md relative mt-6">
-               <FAQSection faqs={faqs}/>
-            </div>
-            )
          )}
       </div>
    );

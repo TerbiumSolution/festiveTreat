@@ -2,7 +2,7 @@ import styles from "@/components/Footer/UpperFooter/UpperFooter.module.css";
 type Props = {
     className?: string;
 }
-export default function DesktopLinksFooter({ className }: Props) {
+export default function DesktopLinksFooter({ className }: Readonly<Props>) {
   return (
     <div className={`${styles.border_footer} ${className} border-b border-[#e5e7eb66] max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-12 mt-8 pb-8`}>
         <div className={`${styles.footer_interlinks} text-start`}>
