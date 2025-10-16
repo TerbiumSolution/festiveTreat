@@ -114,7 +114,7 @@ export default function OffersCardsSection({ context, deals, }: Readonly<{ conte
       <section className="px-4 py-6">
          <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(offerStructureData) }}></script>
          <div className="max-w-7xl mx-auto">
-            <h2 className="text-2xl font-semibold mb-6 pb-2 inline-block border-b">
+            <h1 className="text-2xl font-semibold mb-6 pb-2 inline-block border-b">
                {getH1(
                   layout,
                   {
@@ -131,7 +131,7 @@ export default function OffersCardsSection({ context, deals, }: Readonly<{ conte
                      cityName: city?.name,
                   }
                )}
-            </h2>
+            </h1>
             <div className={`grid ${visibleCards.length > 1 ? 'grid-cols-1 lg:grid-cols-2 gap-6' : 'grid-cols-1'}`}>
                {visibleCards.map((offer, index) => (
                   offerDeals.length > 1 && (layout === LayoutConstant.MERCHANT || layout === LayoutConstant.MERCHANT_STATE || layout === LayoutConstant.MERCHANT_CITY) ?
