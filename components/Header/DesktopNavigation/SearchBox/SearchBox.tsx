@@ -84,12 +84,12 @@ export default function SearchBox() {
           <div className="absolute z-10 w-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg max-h-96 overflow-y-auto">
             <div className="px-4 py-2 border-b border-gray-100 bg-gray-50">
               <p className="text-sm text-gray-600">
-                {results.length} result{results.length !== 1 ? 's' : ''} found
+                {results.length} result{results.length === 1 ? '' : 's'} found
               </p>
             </div>
             
             {results.map((result) => (
-              <div
+              <button
                 key={result.id}
                 onClick={() => handleResultClick(result)}
                 className="px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors border-b border-gray-100 last:border-b-0"
@@ -101,7 +101,7 @@ export default function SearchBox() {
                     <p className="text-sm text-gray-600 mt-1">{result.description}</p>
                   </div>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         )}

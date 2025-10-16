@@ -64,6 +64,21 @@
     margin-bottom: calc(0.20rem * 6);
 }
 
+.general_wrapper figure {
+    width: 100% !important;
+}
+
+.general_wrapper table {
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.general_wrapper table tr td, .general_wrapper table tr th {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
 @media (max-width: 768px) {
     .general_wrapper h2 {
         font-size: calc(22px * var(--font-scale-multiplier, 1));

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { CategoryType } from "@/model/categoryType"
 
-export function DesktopNavigation({ categories }: { categories: CategoryType[] }) {
+export function DesktopNavigation({ categories, }: Readonly<{ categories: CategoryType[]; }>) {
   return (
     <NavigationMenu viewport={false} className="!max-w-none justify-end">
       <NavigationMenuList className={`${styles.navigation_subMenu}`}>

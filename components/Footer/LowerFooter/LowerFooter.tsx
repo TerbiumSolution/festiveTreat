@@ -16,16 +16,8 @@ const HdfcLogo = ({
   ...props
 }: HdfcLogoProps) => {
   return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      focusable="false"
-      height={height || size}
-      width={width || size}
-      role="presentation"
-      viewBox="0 0 178 35"
-      {...props}
-    >
+    <svg aria-label="HDFC Bank Logo" fill="none" focusable="false" height={height || size} width={width || size} viewBox="0 0 178 35"
+      {...props}>
     <g clipPath="url(#clip0_86_1232)">
         <path d="M3 1.5H1.5V3V31.6689V33.1689H3H175H176.5V31.6689V3V1.5H175H3Z" fill="#004C8F" stroke="white" strokeWidth={strokeWidth}/>
         <path d="M31.668 3H175V31.6689H31.668V3Z" fill="#004C8F"/>
@@ -44,9 +36,9 @@ const HdfcLogo = ({
 </svg>
   )
 }
-export default function LowerFooter({className}:Props) {
+export default function LowerFooter({className}:Readonly<Props>) {
   return (
-    <>
+   
     <section className={`${className} bg-[var(--lower-footer)]`}>
         <div className={`pb-8 flex justify-between max-w-7xl mx-auto text-center border-b border-[#d9d9d9ff] items-center ${styles.lower_footer_wrapper}`}>
             <HdfcLogo className={`${styles.hdfc_logo}`} strokeWidth={2.5}/>
@@ -197,6 +189,6 @@ export default function LowerFooter({className}:Props) {
             </div>
         </div>
     </section>
-    </>
+   
   );
 }

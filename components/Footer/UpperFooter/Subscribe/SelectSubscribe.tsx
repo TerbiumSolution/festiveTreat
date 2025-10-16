@@ -12,7 +12,7 @@ import styles from "@/components/Footer/UpperFooter/Subscribe/Subscribe.module.c
 type Props = {
     text?: string
 }
-export function SelectSubscribe({text}:Props) {
+export function SelectSubscribe({text}:Readonly<Props>) {
   return (
     <Select>
       <SelectTrigger className="w-[250px] border border-white text-white">

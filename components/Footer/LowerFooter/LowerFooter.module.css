@@ -12,10 +12,6 @@
     font-weight: 400;
     color: var(--footer-color);
 }
-/* .image_wrapper{
-    width: 70px;
-    height: 70px;
-} */
 .logo_text{
     color: var(--footer-upper-foreground);
 }

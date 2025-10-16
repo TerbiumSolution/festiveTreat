@@ -80,15 +80,12 @@ export const getHomePageData = async () => {
             "Authorization": `Bearer ${process.env.NEXT_PUBLIC_CMS_TOKEN}`,
          },
          next: {
-            revalidate: parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
+            revalidate: Number.parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
             tags: [CacheConstant.revalidateTag]
          }
       });
       const res = await response.json();
-      if (res && res.data)
-         return res.data;
-      else
-         return undefined;
+      return res?.data;
    } catch (error) {
       console.error(error);
       throw error;
@@ -145,12 +142,12 @@ export const getStateData = async (slug?: string) => {
                "Authorization": `Bearer ${process.env.NEXT_PUBLIC_CMS_TOKEN}`,
             },
             next: {
-               revalidate: parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
+               revalidate: Number.parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
                tags: [CacheConstant.revalidateTag]
             }
          });
          const res = await response.json();
-         if (res && res.data && res.data.length > 0) {
+         if (res?.data?.length) {
             states.push(...res.data);
             page++;
          } else {
@@ -287,12 +284,12 @@ export const getCategoryData = async (slug?: string) => {
                "Authorization": `Bearer ${process.env.NEXT_PUBLIC_CMS_TOKEN}`,
             },
             next: {
-               revalidate: parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
+               revalidate: Number.parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
                tags: [CacheConstant.revalidateTag]
             }
          });
          const res = await response.json();
-         if (res && res.data && res.data.length > 0) {
+         if (res?.data?.length) {
             categories.push(...res.data);
             page++;
          } else {
@@ -333,12 +330,12 @@ export const getMerchantData = async () => {
                "Authorization": `Bearer ${process.env.NEXT_PUBLIC_CMS_TOKEN}`,
             },
             next: {
-               revalidate: parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
+               revalidate: Number.parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
                tags: [CacheConstant.revalidateTag]
             }
          });
          const res = await response.json();
-         if (res && res.data && res.data.length > 0) {
+         if (res?.data?.length) {
             merchants.push(...res.data);
             page++;
          } else {
@@ -419,12 +416,12 @@ export const getSubcategoryMerchantData = async () => {
                "Authorization": `Bearer ${process.env.NEXT_PUBLIC_CMS_TOKEN}`,
             },
             next: {
-               revalidate: parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
+               revalidate: Number.parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
                tags: [CacheConstant.revalidateTag]
             }
          });
          const res = await response.json();
-         if (res && res.data && res.data.length > 0) {
+         if (res?.data?.length) {
             subcategoryMerchants.push(...res.data);
             page++;
          } else {
@@ -493,12 +490,12 @@ export const getDealData = async () => {
                "Authorization": `Bearer ${process.env.NEXT_PUBLIC_CMS_TOKEN}`,
             },
             next: {
-               revalidate: parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
+               revalidate: Number.parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
                tags: [CacheConstant.revalidateTag]
             }
          });
          const res = await response.json();
-         if (res && res.data && res.data.length > 0) {
+         if (res?.data?.length) {
             deals.push(...res.data);
             page++;
          } else {
@@ -594,15 +591,12 @@ export const getPageData = async (slug?: string) => {
             "Authorization": `Bearer ${process.env.NEXT_PUBLIC_CMS_TOKEN}`,
          },
          next: {
-            revalidate: parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
+            revalidate: Number.parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
             tags: [CacheConstant.revalidateTag]
          }
       });
       const res = await response.json();
-      if (res && res.data)
-         return res.data;
-      else
-         return undefined;
+      return res?.data;
    } catch (error) {
       console.error(error);
       throw error;
@@ -632,12 +626,12 @@ export const getRedirectionUrl = async (): Promise<RedirectionDataType[]> => {
                "Authorization": `Bearer ${process.env.NEXT_PUBLIC_CMS_TOKEN}`,
             },
             next: {
-               revalidate: parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
+               revalidate: Number.parseInt(process.env.NEXT_PUBLIC_CACHE_DURATION || "0"),
                tags: [CacheConstant.revalidateTag]
             }
          });
          const res = await response.json();
-         if (res && res.data && res.data.length > 0) {
+         if (res?.data?.length) {
             redirectionUrls.push(...res.data);
             page++;
          } else {
