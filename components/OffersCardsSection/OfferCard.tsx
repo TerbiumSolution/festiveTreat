@@ -6,7 +6,7 @@ import { LayoutConstant } from '@/lib/constants/constants';
 import { DealType } from '@/model/dealType';
 import { formattedDate } from "@/lib/utils";
 
-export default function OffersCard({ layout, deal, }: Readonly<{ layout: string; deal: DealType; }>) {
+export default function OffersCard({ layout, deal, subcategory }: Readonly<{ layout: string; deal: DealType;subcategory: any }>) {
    let isKnowMoreVisible = true;
    if (layout === LayoutConstant.MERCHANT || layout === LayoutConstant.MERCHANT_STATE || layout === LayoutConstant.MERCHANT_CITY)
       isKnowMoreVisible = false
@@ -79,7 +79,9 @@ export default function OffersCard({ layout, deal, }: Readonly<{ layout: string;
                         {isKnowMoreVisible && (
                            <div className="group inline-flex items-center justify-center gap-2 bg-transparent border border-[#004c8f] rounded-lg cursor-pointer px-[12px] py-2 transition-all duration-300 ease-in-out hover:bg-[#004c8f] hover:text-[#fff] relative">
                               <Link
-                                 href={`${process.env.NEXT_PUBLIC_APP_BASE_URL}${deal.subcategoryMerchants[0]?.subcategory?.slug}/${deal.subcategoryMerchants[0]?.merchant?.slug}`}
+                                 href={`${process.env.NEXT_PUBLIC_APP_BASE_URL}${
+    subcategory ? subcategory.slug : deal.subcategoryMerchants[0]?.subcategory?.slug
+  }/${deal.subcategoryMerchants[0]?.merchant?.slug}`}
                                  className={`text-sm whitespace-nowrap !bg-[transparent] !p-0 hover:cursor-pointer font-semibold before:content-[''] before:absolute before:inset-0`}
                               >
                                  Know more
