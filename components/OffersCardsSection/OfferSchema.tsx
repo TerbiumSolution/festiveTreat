@@ -1,8 +1,9 @@
+import { LayoutConstant } from "@/lib/constants/constants";
 import { DealType } from "@/model/dealType";
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_BASE_URL || 'http://localhost:3000/';
-export default function extractOffers(deals: DealType[]) {
-   if (deals && deals.length > 0) {
+export default function extractOffers(deals: DealType[], layout: string) {
+   if (deals && deals.length > 0 && layout == LayoutConstant.MERCHANT) {
       return {
          "@context": "https://schema.org/",
          "@type": "Product",

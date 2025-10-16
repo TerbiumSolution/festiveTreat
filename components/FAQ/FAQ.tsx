@@ -31,8 +31,11 @@ export default function FAQSection({ className, className2, faqs }: Readonly<FAQ
                 {faq.question}
               </div>
             </AccordionTrigger>
-            <AccordionContent className="text-[#004C8F] font-[500]">
-              <div dangerouslySetInnerHTML={{ __html: faq.answer }}></div>
+            <AccordionContent className="text-[#292929] font-[500]" >
+              <div 
+                className="[&_a]:text-[#004c8f] [&_a]:underline" 
+                dangerouslySetInnerHTML={{ __html: faq.answer }}>
+              </div>
             </AccordionContent>
           </AccordionItem>
         ))}
