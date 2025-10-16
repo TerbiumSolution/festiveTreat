@@ -78,6 +78,7 @@ export default async function Page({ params }: Props) {
             {BlockRenderer(
                {
                   layout,
+                  nonce,
                   title: heroBannerComponent.items[0]?.title ?? '',
                   categories,
                   states,
