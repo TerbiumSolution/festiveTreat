@@ -65,6 +65,8 @@ export default async function Page({ params }: Props) {
    const { slug: slugArray } = await params;
    const slug = slugArray?.[0] ?? '';
    const subSlug = slugArray?.[1] ?? '';
+   const headersList = await headers();
+   const nonce = headersList.get('x-nonce') ?? "";
    const { layout, blocks, deals, categories, states, category, subcategory, merchant, state, city } = await getPageBlocks(slug, subSlug);
 
    if (layout === LayoutConstant.PAGE_NOT_FOUND) return notFound();

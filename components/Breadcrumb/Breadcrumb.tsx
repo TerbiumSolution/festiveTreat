@@ -173,7 +173,7 @@ const getBreadcrumb = (layout: string,category?: CategoryType,subcategory?: Subc
   return breadCrumbData;
 };
 
-export default function BreadcrumbWrapper({ context }: Readonly<{ context: ComponentPropsType }>) {
+export default function BreadcrumbWrapper({ context, nonce }: Readonly<{ context: ComponentPropsType, nonce: string }>) {
   const { layout, category, subcategory, merchant, city, state } = context;
   const breadCrumbData = getBreadcrumb(layout, category, subcategory, merchant, state, city);
 
@@ -195,6 +195,7 @@ export default function BreadcrumbWrapper({ context }: Readonly<{ context: Compo
       <script
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(createBreadCrumbObj) }}
+        nonce={nonce ?? ''}
       ></script>
       <BreadcrumbList className='max-w-7xl mx-auto md:py-4 py-3'>
         <BreadcrumbItem>

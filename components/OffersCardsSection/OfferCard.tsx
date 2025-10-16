@@ -22,8 +22,7 @@ export default function OffersCard({ layout, deal, subcategory }: Readonly<{ lay
                      alt={deal.name}
                      width={200}
                      height={200}
-                     className="rounded-xl object-cover w-full h-full"
-                     style={{ border: '1px solid #F5F5F5' }}
+                     className="rounded-xl object-cover w-full h-full border"
                   />
                </div>
                <div className="flex flex-col sm:w-[60%] w-full flex-auto  justify-between">
