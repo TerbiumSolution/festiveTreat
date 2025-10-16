@@ -85,7 +85,7 @@ export default function OffersCardsSection({ context, deals, nonce }: { context:
    return (
       <section className="px-4 py-6">
          {offerStructureData && (
-            <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(offerStructureData) }} nonce={nonce}></script>
+            <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(offerStructureData) }} nonce={nonce ?? ''}></script>
          )}
 
          <div className="max-w-7xl mx-auto">

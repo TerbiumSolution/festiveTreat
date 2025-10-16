@@ -32,9 +32,7 @@ export function middleware(req: NextRequest) {
       `script-src 'self' hb.terbiumsolutions.in hdfcuat.bank.in 'nonce-${nonce}' 'strict-dynamic'`,
       `script-src-elem 'self' hb.terbiumsolutions.in hdfcuat.bank.in 'nonce-${nonce}'`,
       "script-src-attr 'none'",
-      `style-src 'self' hb.terbiumsolutions.in hdfcuat.bank.in 'nonce-${nonce}'`,
-      `style-src-elem 'self' hb.terbiumsolutions.in hdfcuat.bank.in 'nonce-${nonce}'`,
-      "style-src-attr 'none'",
+      `style-src 'self' 'unsafe-inline' hb.terbiumsolutions.in hdfcuat.bank.in`,
       "img-src 'self' hb.terbiumsolutions.in data:",
       "font-src 'self' hb.terbiumsolutions.in",
       "connect-src 'self' hb.terbiumsolutions.in",
@@ -43,15 +41,21 @@ export function middleware(req: NextRequest) {
       "form-action 'self'",
       "frame-ancestors 'self'",
     ].join("; ");
+
     res.headers.set("Content-Security-Policy", csp);
   }
+
+  res.headers.set(
+      'Cache-Control',
+      'public, max-age=3600, s-maxage=86400, immutable'
+   );
 
   return res;
 }
 
 export const config = {
-   matcher: [
-      '/',
-      '/((?!api|_next/static|_next/image|favicon.ico|robots.txt|fonts|images).*)',
-   ],
+  matcher: [
+    '/',
+    '/((?!api|_next/static|_next/image|favicon.ico|robots.txt|fonts|images).*)',
+  ],
 }

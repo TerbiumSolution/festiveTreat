@@ -173,7 +173,7 @@ export default function BreadcrumbWrapper({ context, nonce }: { context: Compone
       <script
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(createBreadCrumbObj) }}
-        nonce={nonce}
+        nonce={nonce ?? ''}
       ></script>
       <BreadcrumbList className='max-w-7xl mx-auto md:py-4 py-3'>
         <BreadcrumbItem>
