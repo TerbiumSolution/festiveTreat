@@ -2,12 +2,15 @@
     text-align: left;
     gap: 5px;
 }
-.list_item:not(:last-child):after {
+.unordered_list li{
+    display: inline-block;
+}
+.unordered_list li:not(:last-child):after {
     content: '|';
     padding: 0 2px 0 5px;
     color: var(--footer-color);
 }
-.list_item a{
+.unordered_list li a{
     font-size: calc(14px * var(--font-scale-multiplier, 1));
     font-weight: 400;
     color: var(--footer-color);

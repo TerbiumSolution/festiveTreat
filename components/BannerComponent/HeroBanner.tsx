@@ -27,87 +27,66 @@ const defaultDesktopImage = { url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}asset
 const defaultMobileImage = { url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}assets/images/mobile_festive_banner.jpg`, alternativeText: '' };
 
 function getBanner(
-	layout: string,
-	props: HeroBannerProps,
-	category?: CategoryType,
-	subcategory?: SubcategoryType,
-	merchant?: MerchantType
+  layout: string,
+  props: HeroBannerProps,
+  category?: CategoryType,
+  subcategory?: SubcategoryType,
+  merchant?: MerchantType
 ): {
-	bannerLink?: string
-	desktopImage: { url: string; alternativeText?: string };
-	mobileImage?: { url: string; alternativeText?: string };
+  bannerLink?: string;
+  desktopImage: { url: string; alternativeText?: string };
+  mobileImage?: { url: string; alternativeText?: string };
 }[] {
+  const defaultBanner = [{
+    desktopImage: defaultDesktopImage,
+    mobileImage: defaultMobileImage,
+    bannerLink: '',
+  }];
 
-	switch (layout) {
-		case LayoutConstant.HOME:{
-			const mappedItems = props.items
-				.map(item => item.media)
-				.filter((item): item is NonNullable<typeof item> => item !== undefined) || [{
-					desktopImage: defaultDesktopImage,
-					mobileImage: defaultMobileImage,
-					bannerLink: ''
-				}];
-			return mappedItems;
-		}
-		case LayoutConstant.CATEGORY:
-		case LayoutConstant.CATEGORY_STATE:
-		case LayoutConstant.CATEGORY_CITY: {
-			const categoryPageBanners = props.items
-				.map(item => item.media)
-				.filter((m): m is NonNullable<typeof m> => !!m?.desktopImage?.url);
+  // Helper function to extract non-empty media banners
+  const extractBanners = () =>
+    props.items
+      .map(item => item.media)
+      .filter((m): m is NonNullable<typeof m> => !!m?.desktopImage?.url);
 
-			if (category?.bannerImage && category.bannerImage.length > 0) return category.bannerImage;
-			if (categoryPageBanners.length > 0) return categoryPageBanners;
+  // Helper function to safely return available banners
+  const resolveBanner = (
+    ...sources: (typeof category | typeof subcategory | typeof merchant | undefined)[]
+  ) => {
+    for (const source of sources) {
+      if (source?.bannerImage?.length) return source.bannerImage;
+    }
+    return [];
+  };
 
-			return [{
-				desktopImage: defaultDesktopImage,
-				mobileImage: defaultMobileImage,
-				bannerLink: ''
-			}];
-		}
+  switch (layout) {
+    case LayoutConstant.HOME:
+      return extractBanners().length ? extractBanners() : defaultBanner;
 
-		case LayoutConstant.SUBCATEGORY:
-		case LayoutConstant.SUBCATEGORY_STATE:
-		case LayoutConstant.SUBCATEGORY_CITY: {
-			const subcategoryPageBanners = props.items
-				.map(item => item.media)
-				.filter((m): m is NonNullable<typeof m> => !!m?.desktopImage?.url);
+    case LayoutConstant.CATEGORY:
+    case LayoutConstant.CATEGORY_STATE:
+    case LayoutConstant.CATEGORY_CITY: {
+      const banners = resolveBanner(category);
+      return banners.length ? banners : extractBanners().length ? extractBanners() : defaultBanner;
+    }
 
-			if (subcategory?.bannerImage && subcategory.bannerImage.length > 0) return subcategory.bannerImage;
-			if (category?.bannerImage && category.bannerImage.length > 0) return category.bannerImage;
-			if (subcategoryPageBanners.length > 0) return subcategoryPageBanners;
+    case LayoutConstant.SUBCATEGORY:
+    case LayoutConstant.SUBCATEGORY_STATE:
+    case LayoutConstant.SUBCATEGORY_CITY: {
+      const banners = resolveBanner(subcategory, category);
+      return banners.length ? banners : extractBanners().length ? extractBanners() : defaultBanner;
+    }
 
-			return [{
-				desktopImage: defaultDesktopImage,
-				mobileImage: defaultMobileImage,
-				bannerLink: ''
-			}];
-		}
+    case LayoutConstant.MERCHANT:
+    case LayoutConstant.MERCHANT_STATE:
+    case LayoutConstant.MERCHANT_CITY: {
+      const banners = resolveBanner(category);
+      return banners.length ? banners : extractBanners().length ? extractBanners() : defaultBanner;
+    }
 
-		case LayoutConstant.MERCHANT:
-		case LayoutConstant.MERCHANT_STATE:
-		case LayoutConstant.MERCHANT_CITY: {
-			const merchantPageBanners = props.items
-				.map(item => item.media)
-				.filter((m): m is NonNullable<typeof m> => !!m?.desktopImage?.url);
-
-			if (category?.bannerImage && category.bannerImage.length > 0) return category.bannerImage;
-			if (merchantPageBanners.length > 0) return merchantPageBanners;
-
-			return [{
-				desktopImage: defaultDesktopImage,
-				mobileImage: defaultMobileImage,
-				bannerLink: ''
-			}];
-		}
-
-		default:
-			return [{
-				desktopImage: defaultDesktopImage,
-				mobileImage: defaultMobileImage,
-				bannerLink: ''
-			}];
-	}
+    default:
+      return defaultBanner;
+  }
 }
 
 // ---------------------- BannerContent Component ----------------------
