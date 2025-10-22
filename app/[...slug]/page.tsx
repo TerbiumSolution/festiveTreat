@@ -1,15 +1,14 @@
-import { headers } from 'next/headers';
 import { notFound } from "next/navigation";
 import { BlockRenderer } from "@/lib/dataProvider";
 import { getPageBlocks, getSeoBlock } from "@/lib/dataLayer";
 import { LayoutConstant } from "@/lib/constants/constants";
 import { resolvePlaceHolder } from "@/lib/resolvePlaceHolder";
+import crypto from 'crypto'
 
 export const revalidate = 3600;
 
 type Props = {
    params: Promise<{ slug?: string[] }>,
-   // searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 };
 
 export async function generateMetadata({ params }: Props) {
@@ -41,7 +40,7 @@ export async function generateMetadata({ params }: Props) {
          locale: 'en',
          images: [
             {
-               url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}favicon.ico`, // Or from SEO block
+               url: `${process.env.NEXT_PUBLIC_APP_BASE_URL}favicon.ico`,
                width: 1200,
                height: 630,
                alt: seoTitle,
@@ -49,12 +48,12 @@ export async function generateMetadata({ params }: Props) {
          ]
       },
       robots: {
-         index: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
-         follow: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
+         index: process.env.NEXT_PUBLIC_INDEX === 'true',
+         follow: process.env.NEXT_PUBLIC_INDEX === 'true',
          nocache: false,
          googleBot: {
-            index: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
-            follow: process.env.NEXT_PUBLIC_INDEX === 'true' ? true : false,
+            index: process.env.NEXT_PUBLIC_INDEX === 'true',
+            follow: process.env.NEXT_PUBLIC_INDEX === 'true',
             noimageindex: false,
          }
       },
@@ -73,8 +72,8 @@ export default async function Page({ params }: Props) {
 
    const heroBannerComponent = blocks?.find((block: any) => block.__component === 'shared.hero-banner-carousal');
    return (
-      blocks.map((block: any, index: number) =>
-         <div key={index}>
+      blocks.map((block: any,) =>
+         <div key={crypto.createHash('md5').update(JSON.stringify(block)).digest('hex')}>
             {BlockRenderer(
                {
                   layout,

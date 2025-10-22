@@ -11,164 +11,88 @@ import { StateType } from '@/model/stateType';
 import { LayoutConstant } from '@/lib/constants/constants';
 import styles from "@/components/Breadcrumb/Breadcrumb.module.css";
 
-const getBreadcrumb = (layout: string,category?: CategoryType,subcategory?: SubcategoryType,merchant?: MerchantType,state?: StateType,city?: CityType): BreadCrumbType[] => {
+const getBreadcrumb = (
+  layout: string,
+  category?: CategoryType,
+  subcategory?: SubcategoryType,
+  merchant?: MerchantType,
+  state?: StateType,
+  city?: CityType
+): BreadCrumbType[] => {
+  const BASE_URL = process.env.NEXT_PUBLIC_APP_BASE_URL ?? '';
+
   const breadCrumbData: BreadCrumbType[] = [
-    { text: "Home", href: 'https://www.hdfcbank.com/', isClickable: true },
-    { text: "Festive Treats Offers", href: process.env.NEXT_PUBLIC_APP_BASE_URL ?? '', isClickable: true }
+    { text: "Home", href: "https://www.hdfcbank.com/", isClickable: true },
+    { text: "Festive Treats Offers", href: BASE_URL, isClickable: true },
   ];
 
-  switch (layout) {
-    case LayoutConstant.CATEGORY:
-      breadCrumbData.push({
-        text: category?.name ?? '',
-        href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}`,
-        isClickable: false
-      });
-      break;
+  // 🧩 Helpers
+  const createItem = (text?: string, href?: string, isClickable = true): BreadCrumbType => ({
+    text: text ?? '',
+    href: href ?? '',
+    isClickable,
+  });
 
-    case LayoutConstant.CATEGORY_STATE:
-      breadCrumbData.push(
-        {
-          text: category?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}`,
-          isClickable: true
-        },
-        {
-          text: state?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}/${state?.slug ?? ''}`,
-          isClickable: false
-        }
-      );
-      break;
+  const url = (...segments: (string | undefined)[]) =>
+    BASE_URL + segments.filter(Boolean).join('/');
 
-    case LayoutConstant.CATEGORY_CITY:
-      breadCrumbData.push(
-        {
-          text: category?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}`,
-          isClickable: true
-        },
-        {
-          text: city?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}/${city?.slug ?? ''}`,
-          isClickable: false
-        }
-      );
-      break;
+  const addCategory = (clickable = true) =>
+    category && breadCrumbData.push(createItem(category.name, url(category.slug), clickable));
 
-    case LayoutConstant.SUBCATEGORY:
-      breadCrumbData.push(
-        {
-          text: category?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}`,
-          isClickable: true
-        },
-        {
-          text: subcategory?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}/${subcategory?.slug ?? ''}`,
-          isClickable: false
-        }
-      );
-      break;
+  const addSubcategory = (clickable = true) =>
+    subcategory && breadCrumbData.push(createItem(subcategory.name, url(category?.slug, subcategory.slug), clickable));
 
-    case LayoutConstant.SUBCATEGORY_STATE:
-      breadCrumbData.push(
-        {
-          text: category?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}`,
-          isClickable: true
-        },
-        {
-          text: subcategory?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}/${subcategory?.slug ?? ''}`,
-          isClickable: true
-        },
-        {
-          text: state?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${subcategory?.slug ?? ''}/${state?.slug ?? ''}`,
-          isClickable: false
-        }
-      );
-      break;
+  const addMerchant = (clickable = true) =>
+    merchant && breadCrumbData.push(createItem(merchant.name, url(subcategory?.slug, merchant.slug), clickable));
 
-    case LayoutConstant.SUBCATEGORY_CITY:
-      breadCrumbData.push(
-        {
-          text: category?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}`,
-          isClickable: true
-        },
-        {
-          text: subcategory?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}/${subcategory?.slug ?? ''}`,
-          isClickable: true
-        },
-        {
-          text: state?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${subcategory?.slug ?? ''}/${state?.slug ?? ''}`,
-          isClickable: true
-        },
-        {
-          text: city?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${subcategory?.slug ?? ''}/${city?.slug ?? ''}`,
-          isClickable: false
-        }
-      );
-      break;
+  const addState = (clickable = true) =>
+    state && breadCrumbData.push(createItem(state.name, url(subcategory?.slug ?? category?.slug ?? merchant?.slug, state.slug), clickable));
 
-    case LayoutConstant.MERCHANT:
-      breadCrumbData.push(
-        {
-          text: category?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}`,
-          isClickable: true
-        },
-        {
-          text: subcategory?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${category?.slug ?? ''}/${subcategory?.slug ?? ''}`,
-          isClickable: true
-        },
-        {
-          text: merchant?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${subcategory?.slug ?? ''}/${merchant?.slug ?? ''}`,
-          isClickable: false
-        }
-      );
-      break;
+  const addCity = (clickable = false) =>
+    city && breadCrumbData.push(createItem(city.name, url(subcategory?.slug ?? category?.slug ?? merchant?.slug, city.slug), clickable));
 
-    case LayoutConstant.MERCHANT_STATE:
-      breadCrumbData.push(
-        {
-          text: merchant?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${merchant?.subcategory?.slug ?? ''}/${merchant?.slug ?? ''}`,
-          isClickable: true
-        },
-        {
-          text: state?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${merchant?.slug ?? ''}/${state?.slug ?? ''}`,
-          isClickable: false
-        }
-      );
-      break;
+  // 🎯 Core mapping logic
+  const layoutMap: Record<string, () => void> = {
+    [LayoutConstant.CATEGORY]: () => addCategory(false),
+    [LayoutConstant.CATEGORY_STATE]: () => {
+      addCategory(true);
+      addState(false);
+    },
+    [LayoutConstant.CATEGORY_CITY]: () => {
+      addCategory(true);
+      addCity(false);
+    },
+    [LayoutConstant.SUBCATEGORY]: () => {
+      addCategory(true);
+      addSubcategory(false);
+    },
+    [LayoutConstant.SUBCATEGORY_STATE]: () => {
+      addCategory(true);
+      addSubcategory(true);
+      addState(false);
+    },
+    [LayoutConstant.SUBCATEGORY_CITY]: () => {
+      addCategory(true);
+      addSubcategory(true);
+      addState(true);
+      addCity(false);
+    },
+    [LayoutConstant.MERCHANT]: () => {
+      addCategory(true);
+      addSubcategory(true);
+      addMerchant(false);
+    },
+    [LayoutConstant.MERCHANT_STATE]: () => {
+      addMerchant(true);
+      addState(false);
+    },
+    [LayoutConstant.MERCHANT_CITY]: () => {
+      addMerchant(true);
+      addCity(false);
+    },
+  };
 
-    case LayoutConstant.MERCHANT_CITY:
-      breadCrumbData.push(
-        {
-          text: merchant?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${merchant?.subcategory?.slug ?? ''}/${merchant?.slug ?? ''}`,
-          isClickable: true
-        },
-        {
-          text: city?.name ?? '',
-          href: `${process.env.NEXT_PUBLIC_APP_BASE_URL ?? ''}${merchant?.slug ?? ''}/${city?.slug ?? ''}`,
-          isClickable: false
-        }
-      );
-      break;
-
-    default:
-      break;
-  }
+  layoutMap[layout]?.(); // Execute mapped layout handler
 
   return breadCrumbData;
 };
