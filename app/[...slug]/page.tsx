@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { BlockRenderer } from "@/lib/dataProvider";
 import { getPageBlocks, getSeoBlock } from "@/lib/dataLayer";
