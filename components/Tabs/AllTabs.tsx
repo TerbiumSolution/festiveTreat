@@ -14,149 +14,141 @@ import MobileAccordionTabs from "./MobileAccordionTabs";
 import { FaqDataType } from "@/model/faqDataType";
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_BASE_URL;
-const getStateInterlinks = (layout: string, states: StateType[], category?: CategoryType, subcategory?: SubcategoryType, merchant?: MerchantType, state?: StateType): InterlinkItemType[] => {
-   const items: InterlinkItemType[] = [];
+const getStateInterlinks = (
+   layout: string,
+   states: StateType[],
+   category?: CategoryType,
+   subcategory?: SubcategoryType,
+   merchant?: MerchantType,
+   state?: StateType
+): InterlinkItemType[] => {
 
-   switch (layout) {
-      case LayoutConstant.CATEGORY:
-         for (const s of states) {
-            if (s?.name && s?.slug) {
-               items.push({ name: s.name, href: `${BASE_URL}${category?.slug}/${s.slug}` });
-            }
-         }
-         break;
-      case LayoutConstant.SUBCATEGORY:
-         for (const s of states) {
-            if (s?.name && s?.slug) {
-               items.push({ name: s.name, href: `${BASE_URL}${subcategory?.slug}/${s.slug}` });
-            }
-         }
-         break;
-      case LayoutConstant.MERCHANT:
-         for (const s of states) {
-            if (s?.name && s?.slug) {
-               items.push({ name: s.name, href: `${BASE_URL}${merchant?.slug}/${s.slug}` });
-            }
-         }
-         break;
-      case LayoutConstant.CATEGORY_STATE:
-      case LayoutConstant.CATEGORY_CITY:
-         for (const s of states.filter(s => s.slug !== state?.slug)) {
-            if (s?.name && s?.slug) {
-               items.push({ name: s.name, href: `${BASE_URL}${category?.slug}/${s.slug}` });
-            }
-         }
-         break;
-      case LayoutConstant.SUBCATEGORY_STATE:
-      case LayoutConstant.SUBCATEGORY_CITY:
-         for (const s of states.filter(s => s.slug !== state?.slug)) {
-            if (s?.name && s?.slug) {
-               items.push({ name: s.name, href: `${BASE_URL}${subcategory?.slug}/${s.slug}` });
-            }
-         }
-         break;
-      case LayoutConstant.MERCHANT_STATE:
-      case LayoutConstant.MERCHANT_CITY:
-         for (const s of states.filter(s => s.slug !== state?.slug)) {
-            if (s?.name && s?.slug) {
-               items.push({ name: s.name, href: `${BASE_URL}${merchant?.slug}/${s.slug}` });
-            }
-         }
-         break;
-      default:
-         break;
-   }
+   const layoutSlugMap: Record<string, string | undefined> = {
+      [LayoutConstant.CATEGORY]: category?.slug,
+      [LayoutConstant.SUBCATEGORY]: subcategory?.slug,
+      [LayoutConstant.MERCHANT]: merchant?.slug,
+      [LayoutConstant.CATEGORY_STATE]: category?.slug,
+      [LayoutConstant.CATEGORY_CITY]: category?.slug,
+      [LayoutConstant.SUBCATEGORY_STATE]: subcategory?.slug,
+      [LayoutConstant.SUBCATEGORY_CITY]: subcategory?.slug,
+      [LayoutConstant.MERCHANT_STATE]: merchant?.slug,
+      [LayoutConstant.MERCHANT_CITY]: merchant?.slug,
+   };
 
-   return items;
+   const slugBase = layoutSlugMap[layout];
+   if (!slugBase) return [];
+
+   // Exclude current state slug for *_STATE and *_CITY layouts
+   const shouldExcludeCurrentState = [
+      LayoutConstant.CATEGORY_STATE,
+      LayoutConstant.CATEGORY_CITY,
+      LayoutConstant.SUBCATEGORY_STATE,
+      LayoutConstant.SUBCATEGORY_CITY,
+      LayoutConstant.MERCHANT_STATE,
+      LayoutConstant.MERCHANT_CITY,
+   ].includes(layout);
+
+   const filteredStates = shouldExcludeCurrentState
+      ? states.filter((s) => s.slug !== state?.slug)
+      : states;
+
+   return filteredStates
+      .filter((s) => s?.name && s?.slug)
+      .map((s) => ({
+         name: s.name,
+         href: `${BASE_URL}${slugBase}/${s.slug}`,
+      }));
 };
 
-const getCityInterlinks = (layout: string, states: StateType[], category?: CategoryType, subcategory?: SubcategoryType, merchant?: MerchantType, state?: StateType, city?: CityType): InterlinkItemType[] => {
-   const items: InterlinkItemType[] = [];
+const getCityInterlinks = (
+   layout: string,
+   states: StateType[],
+   category?: CategoryType,
+   subcategory?: SubcategoryType,
+   merchant?: MerchantType,
+   state?: StateType,
+   city?: CityType
+): InterlinkItemType[] => {
 
-   switch (layout) {
-      case LayoutConstant.CATEGORY:
-         for (const s of states) {
-            if (s?.name && s?.slug) {
-               for (const c of s.cities) {
-                  items.push({ name: c.name, href: `${BASE_URL}${category?.slug}/${c.slug}` });
-               }
-            }
-         }
-         break;
-      case LayoutConstant.SUBCATEGORY:
-         for (const s of states) {
-            if (s?.name && s?.slug) {
-               for (const c of s.cities) {
-                  items.push({ name: c.name, href: `${BASE_URL}${subcategory?.slug}/${c.slug}` });
-               }
-            }
-         }
-         break;
-      case LayoutConstant.MERCHANT:
-         for (const s of states) {
-            if (s?.name && s?.slug) {
-               for (const c of s.cities) {
-                  items.push({ name: c.name, href: `${BASE_URL}${merchant?.slug}/${c.slug}` });
-               }
-            }
-         }
-         break;
-      case LayoutConstant.CATEGORY_STATE:
-      case LayoutConstant.CATEGORY_CITY:
-         for (const c of state?.cities.filter(c => c.slug !== city?.slug) ?? []) {
-            items.push({ name: c.name, href: `${BASE_URL}${category?.slug}/${c.slug}` });
-         }
-         break;
-      case LayoutConstant.SUBCATEGORY_STATE:
-      case LayoutConstant.SUBCATEGORY_CITY:
-         for (const c of state?.cities.filter(c => c.slug !== city?.slug) ?? []) {
-            items.push({ name: c.name, href: `${BASE_URL}${subcategory?.slug}/${c.slug}` });
-         }
-         break;
-      case LayoutConstant.MERCHANT_STATE:
-      case LayoutConstant.MERCHANT_CITY:
-         for (const c of state?.cities.filter(c => c.slug !== city?.slug) ?? []) {
-            items.push({ name: c.name, href: `${BASE_URL}${merchant?.slug}/${c.slug}` });
-         }
-         break;
-      default:
-         break;
-   }
+   const layoutSlugMap: Record<string, string | undefined> = {
+      [LayoutConstant.CATEGORY]: category?.slug,
+      [LayoutConstant.SUBCATEGORY]: subcategory?.slug,
+      [LayoutConstant.MERCHANT]: merchant?.slug,
+      [LayoutConstant.CATEGORY_STATE]: category?.slug,
+      [LayoutConstant.CATEGORY_CITY]: category?.slug,
+      [LayoutConstant.SUBCATEGORY_STATE]: subcategory?.slug,
+      [LayoutConstant.SUBCATEGORY_CITY]: subcategory?.slug,
+      [LayoutConstant.MERCHANT_STATE]: merchant?.slug,
+      [LayoutConstant.MERCHANT_CITY]: merchant?.slug,
+   };
 
-   return items;
+   const slugBase = layoutSlugMap[layout];
+   if (!slugBase) return [];
+
+   const stateCityLayouts = [
+      LayoutConstant.CATEGORY_STATE,
+      LayoutConstant.CATEGORY_CITY,
+      LayoutConstant.SUBCATEGORY_STATE,
+      LayoutConstant.SUBCATEGORY_CITY,
+      LayoutConstant.MERCHANT_STATE,
+      LayoutConstant.MERCHANT_CITY,
+   ];
+
+   const shouldUseSingleState = stateCityLayouts.includes(layout);
+   const targetStates = shouldUseSingleState ? [state].filter(Boolean) as StateType[] : states;
+
+   const filteredCities = (s: StateType) =>
+      (shouldUseSingleState ? s.cities.filter(c => c.slug !== city?.slug) : s.cities);
+
+   return targetStates.flatMap((s) =>
+      s?.cities
+         ? filteredCities(s)
+            .filter((c) => c?.name && c?.slug)
+            .map((c) => ({
+               name: c.name,
+               href: `${BASE_URL}${slugBase}/${c.slug}`,
+            }))
+         : []
+   );
 };
 
-const getFaqData = (layout: string, faqProps: any, category?: CategoryType, subcategory?: SubcategoryType, merchant?: MerchantType): FaqDataType|undefined =>{
+const getFaqData = (
+   layout: string,
+   faqProps: any,
+   category?: CategoryType,
+   subcategory?: SubcategoryType,
+   merchant?: MerchantType
+): FaqDataType | undefined => {
 
-   switch (layout){
-      case LayoutConstant.HOME:
-         return faqProps;
-      case LayoutConstant.CATEGORY:
-         return category?.categoryContent?.faq;
-      case LayoutConstant.SUBCATEGORY:
-         return subcategory?.subcategoryContent?.faq;
-      case LayoutConstant.MERCHANT:
-         return merchant?.merchantContent?.faq;
-      default:
-         break;
-   }
-}
+   const faqMap: Record<string, FaqDataType | undefined> = {
+      [LayoutConstant.HOME]: faqProps,
+      [LayoutConstant.CATEGORY]: category?.categoryContent?.faq,
+      [LayoutConstant.SUBCATEGORY]: subcategory?.subcategoryContent?.faq,
+      [LayoutConstant.MERCHANT]: merchant?.merchantContent?.faq,
+   };
+
+   return faqMap[layout];
+};
 
 export default function AllTabs({ context, props, }: Readonly<{ context: ComponentPropsType; props: any; }>) {
 
    const { layout, states, category, subcategory, merchant, state, city } = context;
    const stateInterlinks = useMemo(
-      () => getStateInterlinks(layout, states, category, subcategory, merchant, state).sort((a, b) => a.name.localeCompare(b.name)),
+      () =>
+         getStateInterlinks(layout, states, category, subcategory, merchant, state)
+            .sort((a, b) => a.name.localeCompare(b.name)),
       [layout, states, category, subcategory, merchant, state]
    );
    const cityInterlinks = useMemo(
-      () => getCityInterlinks(layout, states, category, subcategory, merchant, state, city).sort((a, b) => a.name.localeCompare(b.name)),
+      () =>
+         getCityInterlinks(layout, states, category, subcategory, merchant, state, city)
+            .sort((a, b) => a.name.localeCompare(b.name)),
       [layout, states, category, subcategory, merchant, state, city]
    );
-
    const faqs = useMemo(
-      () => getFaqData(layout, props?.faq, category, subcategory, merchant), [layout, props, category, subcategory, merchant]
-   )
+      () => getFaqData(layout, props?.faq, category, subcategory, merchant),
+      [layout, props, category, subcategory, merchant]
+   );
 
    return (
       <>
